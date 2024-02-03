@@ -6,6 +6,7 @@ import { IoEllipsisVerticalSharp } from "react-icons/io5";
 import Link from 'next/link'
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import { useAppSelector } from "@/lib/hooks";
 
 const links = [
 	{
@@ -30,8 +31,8 @@ const links = [
 ]
 
 export default function Navbar() {
-	const user = false;
 	const pathname = usePathname()
+	const user = useAppSelector(state=> state.authReducer.user);
 
 	const [open, setOpen] = useState(false);
 	const menuModal = (
@@ -63,7 +64,12 @@ export default function Navbar() {
 							user ?
 								<div className="block px-4 py-3 mb-3 text-xs text-center font-semibold leading-none bg-gray-50 hover:bg-gray-100 rounded-xl">Logout</div>
 								:
-								<Link className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-blue-600 hover:bg-blue-700  rounded-xl" href="/login">Login</Link>
+								<Link 
+								onClick={(e)=>{
+								setOpen(false);
+									
+								}}
+								className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-blue-600 hover:bg-blue-700  rounded-xl" href="/login">Login</Link>
 						}
 					</div>
 					<p className="my-4 text-xs text-center text-gray-400">

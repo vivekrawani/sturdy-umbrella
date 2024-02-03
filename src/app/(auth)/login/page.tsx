@@ -1,18 +1,27 @@
 "use client"
+import { gLogin } from '@/lib/features/auth/authSlice';
+import { useAppDispatch } from '@/lib/store';
+import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react'
 import { FcGoogle } from "react-icons/fc";
 
-export default function Login() {
+export default  function Login() {
+    const router = useRouter()
+    const dispatch = useAppDispatch()
     const [user, setUser] = useState({ email: '', password: '' })
     const handleSubmit = (e: any) => {
         e.preventDefault();
 
 
-        console.log(user.email, user.password);
+        console.log(user);
     }
-    const handleGoogleSignIn = () => {
+    const  handleGoogleSignIn = async () => {
 
         console.log("Google sign in");
+        await dispatch(gLogin());
+        router.push('/products')
+        
+        
 
     }
     return (
@@ -35,10 +44,10 @@ export default function Login() {
                         }}>
                         <div>
                             <label className="block text-gray-700">Email Address</label>
-                            <input type="email" name="email" id="" placeholder="Enter Email Address"
+                            <input type="email" name="email" placeholder="Enter Email Address"
                              onChange={(e) => {
                                 setUser(p => {
-                                    return { ...p, password: e.target.value }
+                                    return { ...p, email: e.target.value }
                                 })
                             }}
                             className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
@@ -48,7 +57,7 @@ export default function Login() {
 
                         <div className="mt-4">
                             <label className="block text-gray-700">Password</label>
-                            <input type="password" name="password" id="" placeholder="Enter Password"
+                            <input type="password" name="password" placeholder="Enter Password"
                                 onChange={(e) => {
                                     setUser(p => {
                                         return { ...p, password: e.target.value }

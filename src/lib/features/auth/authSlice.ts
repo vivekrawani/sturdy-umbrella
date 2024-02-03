@@ -1,24 +1,22 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
+import { googleAuth } from "@/db/firebaseAuth";
 const initialState = {
   user: null,
   loading: false,
 };
 
-const gLogin = createAsyncThunk("posts/fetch", async () => {
-    const response = await fetch('https://jsonplaceholder.typicode.com/todos/1');
-    const data = await response.json();
-    return data;
-  });
 
-// const gLogin = createAsyncThunk("/user/login", async () => {
-// //   try {
-// //     const user = await googleSignIn();
-// //     return user;
-// //   } catch (error) {
-// //     throw new Error(error);
-// //   }
-// });
+
+const gLogin = createAsyncThunk("/user/login", async (_, thunkAPI) => {
+  try {
+    const user = await googleAuth();
+    return user;
+  } catch (error : any) {
+    console.log("Errorsss");
+    
+    thunkAPI.rejectWithValue(error);
+  }
+});
 
 export const authSlice = createSlice({
   name: "auth",

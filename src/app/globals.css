@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+ /* width */
+ ::-webkit-scrollbar {
+  width: 2px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px #d0cfcf;
+  border-radius: 1px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(86, 86, 86, 0.82);
+  border-radius: 1px;
+} 
+
+
 /* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -15,9 +33,16 @@
     --background-end-rgb: 0, 0, 0;
   }
 } */
+@layer components {
+  .scroll-bar-thin{
+    scrollbar-color: red orange;
+   scrollbar-width: thin;
+  }
+}
+
 
 body {
-
+@apply bg-indigo-400
   /*     */
 /* 
   min-height: 100vh; */

@@ -15,16 +15,14 @@ export default function RootLayout({
 }>) {
     const pathname = usePathname()
     return (
-        <div className="mx-5 my-2">
+        <div className="mx-5 my-2 w-full">
             <div className='flex gap-1'>
             </div>
             <div>
                 <main className="grid w-full place-items-center">
-                    <div className="grid w-[40rem] grid-cols-3 gap-2 rounded-full bg-gray-200 p-2">
+                    <div className="grid w-full md:w-[40rem] grid-cols-3 gap-2 rounded-full bg-gray-200 p-2">
                         {
                             sub.map((val) => {
-                                console.log(pathname, val.href);
-                                
                                 const isActive = pathname.startsWith(val.href);
                                 return (<div key={val.name}>
                                     <input type="radio" name="option" className="peer hidden" checked={isActive} />

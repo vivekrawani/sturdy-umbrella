@@ -5,9 +5,9 @@ import React from 'react'
 export default async function Cosmetics() {
   const products = await getProductCollection('cosmetics');
   return (
-    <div className='flex flex-wrap'>
+    <div className='grid place-items-center'>
     {
-      products.map((val : any)=> <Card  key={val.productId} details={val}/>)
+      products.map((val : any)=> <Card  key={val.productId} details={val} />)
     }
      
     </div>

@@ -57,12 +57,12 @@ export async function updateDoc(collection: any, docId: any) {
 }
 
 export async function getAllCollections() {
-  await initAdmin();
-  const firestore = getFirestore();
-  const collections = await firestore.listCollections();
-  collections.forEach((collection) => {
-    console.log("Found subcollection with id:", collection.id);
-  });
+await initAdmin();
+const firestore = getFirestore();
+const collections = await firestore.listCollections();
+collections.forEach((collection) => {
+console.log("Found subcollection with id:", collection.id);
+});
 }
 
 export async function getProductCollection(collectionName: string) {
