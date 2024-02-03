@@ -7,7 +7,6 @@ export default function RootLayout({
     
 }: Readonly<{
     children: React.ReactNode;
-    users: React.ReactNode;
 }>) {
     return (
         <div>

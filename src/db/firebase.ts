@@ -23,6 +23,7 @@ export async function getAllUsers() {
 }
 
 export async function addDoc(collectionName: any, data: any) {
+  await initAdmin();
   const firestore = getFirestore();
   const docRef = await firestore.collection(collectionName).add(data);
   return docRef.get();
@@ -42,6 +43,7 @@ export async function addDoc(collectionName: any, data: any) {
 //JfNMQVo0WXEkmr5oWMCc
 
 export async function updateDoc(collection: any, docId: any) {
+  await initAdmin();
   const firestore = getFirestore();
   var ref = firestore.collection(collection).doc(docId);
 

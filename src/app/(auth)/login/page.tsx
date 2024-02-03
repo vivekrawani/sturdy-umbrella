@@ -1,21 +1,19 @@
 "use client"
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { FcGoogle } from "react-icons/fc";
 
 export default function Login() {
-    const formRef = useRef(null);
+    const [user, setUser] = useState({ email: '', password: '' })
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        console.log("Clicked");
-        const formData = new FormData(formRef.current);
-        const email = formData.get('email');
-        const password = formData.get('password')
-        console.log(email, password);
+
+
+        console.log(user.email, user.password);
     }
     const handleGoogleSignIn = () => {
 
         console.log("Google sign in");
-        
+
     }
     return (
         <div className='grid md:grid-cols-2 h-screen w-screen bg-slate-100'>
@@ -31,20 +29,33 @@ export default function Login() {
                     <h1 className="text-xl md:text-2xl font-bold leading-tight mt-12">Log in to your account</h1>
 
                     <form className="mt-6"
-                        ref={formRef}
+
                         onSubmit={(e) => {
                             handleSubmit(e);
                         }}>
                         <div>
                             <label className="block text-gray-700">Email Address</label>
-                            <input type="email" name="email" id="" placeholder="Enter Email Address" className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
+                            <input type="email" name="email" id="" placeholder="Enter Email Address"
+                             onChange={(e) => {
+                                setUser(p => {
+                                    return { ...p, password: e.target.value }
+                                })
+                            }}
+                            className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
                                 required
                             />
                         </div>
 
                         <div className="mt-4">
                             <label className="block text-gray-700">Password</label>
-                            <input type="password" name="password" id="" placeholder="Enter Password" className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500
+                            <input type="password" name="password" id="" placeholder="Enter Password"
+                                onChange={(e) => {
+                                    setUser(p => {
+                                        return { ...p, password: e.target.value }
+                                    })
+                                }}
+
+                                className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500
                 focus:bg-white focus:outline-none" required />
                         </div>
 
@@ -58,10 +69,10 @@ export default function Login() {
 
                     <hr className="my-6 border-gray-300 w-full" />
 
-                    <button type="button"onClick={handleGoogleSignIn} className="w-full block bg-white hover:bg-gray-100 focus:bg-gray-100 text-gray-900 font-semibold rounded-lg px-4 py-3 border border-gray-300">
+                    <button type="button" onClick={handleGoogleSignIn} className="w-full block bg-white hover:bg-gray-100 focus:bg-gray-100 text-gray-900 font-semibold rounded-lg px-4 py-3 border border-gray-300">
                         <div className="flex items-center justify-center">
 
-                            <span className="ml-4 flex gap-2"> <FcGoogle className='text-3xl'/> Log in with Google</span>
+                            <span className="ml-4 flex gap-2"> <FcGoogle className='text-3xl' /> Log in with Google</span>
                         </div>
                     </button>
 
