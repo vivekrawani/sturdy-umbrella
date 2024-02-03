@@ -12,11 +12,12 @@ export async function getCollections_() {
 }
 
 export async function getAllUsers() {
+  await initAdmin();
   const firestore = getFirestore();
   const snapshot = await firestore.collection("users").get();
   const res: any = [];
   snapshot.forEach((doc) => {
-    res.push({ docId: doc.id, data: doc.data() });
+    res.push(doc.data());
   });
   return res;
 }
@@ -54,9 +55,21 @@ export async function updateDoc(collection: any, docId: any) {
 }
 
 export async function getAllCollections() {
+  await initAdmin();
   const firestore = getFirestore();
   const collections = await firestore.listCollections();
   collections.forEach((collection) => {
     console.log("Found subcollection with id:", collection.id);
   });
+}
+
+export async function getProductCollection(collectionName: string) {
+  await initAdmin();
+  const firestore = getFirestore();
+  const snapshot = await firestore.collection(collectionName).get();
+  const res: any = [];
+  snapshot.forEach((doc) => {
+    res.push(doc.data());
+  });
+  return res;
 }

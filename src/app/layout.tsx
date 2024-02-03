@@ -1,9 +1,5 @@
-'use client'
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import Navbar from "@/components/Navbar";
 import "./globals.css";
-import StateProvider from './StroreProvider';
-const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
   children,
@@ -12,9 +8,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body  >
-        <StateProvider> {children}</StateProvider>
-        </body>
+      <body >
+        <Navbar/>
+        {children}
+      </body>
     </html>
   );
 }

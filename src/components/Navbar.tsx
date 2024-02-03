@@ -9,6 +9,10 @@ import { IoIosCloseCircleOutline } from "react-icons/io";
 
 const links = [
 	{
+		name : "Products",
+		href : "/products/grocery"
+	},
+	{
 		name: "Home",
 		href: "/"
 	},
@@ -21,6 +25,7 @@ const links = [
 		name: "Users",
 		href: "/users"
 	},
+	
 
 ]
 
@@ -74,7 +79,7 @@ export default function Navbar() {
 				<Link className="text-3xl font-bold leading-none" href="/">
 					<FcDoughnutChart className="text-4xl" />
 				</Link>
-				<div className="lg:hidden">
+				<div className="md:hidden">
 					<button className="navbar-burger flex items-center text-blue-600 p-3"
 						onClick={(e) => {
 							setOpen(true);
@@ -83,7 +88,7 @@ export default function Navbar() {
 						<GiHamburgerMenu />
 					</button>
 				</div>
-				<div className="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:items-center lg:w-auto lg:space-x-6">
+				<div className="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 md:flex md:mx-auto md:items-center md:w-auto md:space-x-6">
 					{
 						links.map((link, index) => {
 							const isActive = pathname === link.href;
@@ -102,9 +107,9 @@ export default function Navbar() {
 				</div>
 				{
 					user ?
-						<div className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold  rounded-xl transition duration-200" >Logout</div>
+						<div className="hidden md:inline-block md:ml-auto md:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold  rounded-xl transition duration-200" >Logout</div>
 						:
-						<Link className="hidden lg:inline-block py-2 px-6 bg-blue-500 hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200"
+						<Link className="hidden md:inline-block py-2 px-6 bg-blue-500 hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200"
 							href={'/login'} >Login</Link>
 				}
 			</nav>

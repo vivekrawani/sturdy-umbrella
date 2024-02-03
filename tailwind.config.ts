@@ -7,7 +7,14 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    
     extend: {
+      colors : {
+        "red-bull" : "#F62F63",
+        't-b-9' : "rgba(0, 0, 0, 0.9)",
+        't-b-4' : "rgba(0,0,0, 0.4)",
+        't-b-7' : "rgba(0, 0, 0, 0.7)"
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":

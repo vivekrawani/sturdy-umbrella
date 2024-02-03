@@ -1,5 +1,6 @@
 "use client"
 import React, { useRef } from 'react'
+import { FcGoogle } from "react-icons/fc";
 
 export default function Login() {
     const formRef = useRef(null);
@@ -17,7 +18,7 @@ export default function Login() {
         
     }
     return (
-        <div className='grid md:grid-cols-2 h-screen w-screen'>
+        <div className='grid md:grid-cols-2 h-screen w-screen bg-slate-100'>
             <div className='bg-indigo-600 hidden md:block     bg-image-1 bg-no-repeat bg-cover'>
             </div>
 
@@ -59,7 +60,8 @@ export default function Login() {
 
                     <button type="button"onClick={handleGoogleSignIn} className="w-full block bg-white hover:bg-gray-100 focus:bg-gray-100 text-gray-900 font-semibold rounded-lg px-4 py-3 border border-gray-300">
                         <div className="flex items-center justify-center">
-                            <span className="ml-4"> Log in with Google</span>
+
+                            <span className="ml-4 flex gap-2"> <FcGoogle className='text-3xl'/> Log in with Google</span>
                         </div>
                     </button>
 
