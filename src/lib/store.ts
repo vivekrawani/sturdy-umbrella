@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import countReducer from "./features/counter/counterSlice";
 import authReducer from "./features/auth/authSlice";
 import { useDispatch } from "react-redux";
 import {
@@ -34,7 +33,7 @@ const persistedReducer = persistReducer(
 
 export const store = configureStore({
   reducer: {
-    countReducer,
+ 
     authReducer :persistedReducer,
   },
   middleware: (getDefaultMiddleware) =>
