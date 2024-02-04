@@ -19,6 +19,9 @@ const config: Config = {
         't-b-4' : "rgba(0,0,0, 0.4)",
         't-b-7' : "rgba(0, 0, 0, 0.7)"
       },
+      boxShadow: {
+        '3xl': '-16px -6px 15px 0px rgba(0, 0, 0, 0.3)',
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":

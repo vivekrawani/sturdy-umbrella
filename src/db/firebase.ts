@@ -57,12 +57,12 @@ export async function updateDoc(collection: any, docId: any) {
 }
 
 export async function getAllCollections() {
-await initAdmin();
-const firestore = getFirestore();
-const collections = await firestore.listCollections();
-collections.forEach((collection) => {
-console.log("Found subcollection with id:", collection.id);
-});
+  await initAdmin();
+  const firestore = getFirestore();
+  const collections = await firestore.listCollections();
+  collections.forEach((collection) => {
+    console.log("Found subcollection with id:", collection.id);
+  });
 }
 
 export async function getProductCollection(collectionName: string) {
@@ -74,4 +74,22 @@ export async function getProductCollection(collectionName: string) {
     res.push(doc.data());
   });
   return res;
+}
+
+export async function getDocWithId(_id: string) {
+  await initAdmin();
+  const firestore = getFirestore();
+  const collections = ["grocery", "stationary", "cosmetics"];
+  const snapshots = await Promise.all(
+    collections.map((collectionName) =>
+      firestore.collection(collectionName).doc(_id).get()
+    )
+  );
+  const results: any = [];
+  snapshots.forEach((doc) => {
+    if (doc.exists) {
+      results.push(doc.data());
+    }
+  });
+  return results;
 }

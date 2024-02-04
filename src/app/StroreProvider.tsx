@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { store, persistor } from '../lib/store'
 // import { initializeCount } from '../lib/features/counter/counterSlice' 
 import { PersistGate } from 'redux-persist/integration/react'
+import { ChakraProvider } from '@chakra-ui/react'
 export default function StoreProvider({
   children,
 }: {
@@ -13,8 +14,10 @@ export default function StoreProvider({
 
 
   return (
-    <PersistGate persistor={persistor} loading={null}>
-      <Provider store={store}>{children}</Provider>
-    </PersistGate>
+    <ChakraProvider>
+      <PersistGate persistor={persistor} loading={null}>
+        <Provider store={store}>{children}</Provider>
+      </PersistGate>
+    </ChakraProvider>
   )
 }

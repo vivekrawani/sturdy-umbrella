@@ -4,9 +4,9 @@ import { getProductCollection } from '@/db/firebase';
 export default async function Stationary() {
   const products = await getProductCollection('stationary');
   return (
-    <div className='flex flex-wrap'>
+    <div className='grid md:grid-cols-4 place-items-center'>
     {
-      products.map((val : any)=> <Card  key={val.productId} details={val}/>)
+      products.map((val : any)=> <Card  key={val.productId} details={val} category='stationary'/>)
     }
      
     </div>

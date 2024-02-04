@@ -42,9 +42,9 @@
 
 
 body {
-@apply bg-indigo-400
+background-color:  rgba( 129, 140 ,248, 0.82);
   /*     */
-/* 
+/* 129 140 248
   min-height: 100vh; */
 }
 

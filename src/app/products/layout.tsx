@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
     const pathname = usePathname()
     return (
-        <div className="mx-5 my-2 w-full">
+        <div className="my-2 w-svw">
             <div className='flex gap-1'>
             </div>
             <div>

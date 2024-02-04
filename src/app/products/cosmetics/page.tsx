@@ -5,25 +5,12 @@ import React from 'react'
 export default async function Cosmetics() {
   const products = await getProductCollection('cosmetics');
   return (
-    <div className='grid place-items-center'>
+    <div className='grid md:grid-cols-4 place-items-center'>
     {
-      products.map((val : any)=> <Card  key={val.productId} details={val} />)
+      products.map((val : any)=> <Card  key={val.productId} details={val} category='cosmetics' />)
     }
      
     </div>
   )
 }
-/**
- * 
- * 
-productId
-size
-discountedPrice
-price
-imageUrl
-name
-description
-gst
-inStock
-isFeatured
- */
+
