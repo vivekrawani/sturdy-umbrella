@@ -9,6 +9,10 @@ const config: Config = {
   theme: {
     
     extend: {
+      spacing:{
+        '90svh' : '90svh',
+        '80svh' : '80svh'
+      },
       colors : {
         "red-bull" : "#F62F63",
         't-b-9' : "rgba(0, 0, 0, 0.9)",
