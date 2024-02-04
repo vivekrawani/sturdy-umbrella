@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./features/auth/authSlice";
+import productReducer from "./features/products/productSlice"
 import { useDispatch } from "react-redux";
 import {
   persistStore,
@@ -35,6 +36,7 @@ export const store = configureStore({
   reducer: {
  
     authReducer :persistedReducer,
+    productReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
