@@ -6,17 +6,21 @@ import { IoEllipsisVerticalSharp } from "react-icons/io5";
 import Link from 'next/link'
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import { useAppSelector } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import Image from "next/image";
+import { gLogout } from "@/lib/features/auth/authSlice";
+import { useRouter } from 'next/navigation'
 
 const links = [
-	{
-		name : "Products",
-		href : "/products/grocery"
-	},
 	{
 		name: "Home",
 		href: "/"
 	},
+	{
+		name: "Products",
+		href: "/products/grocery"
+	},
+
 	{
 		name: "Dashboard",
 		href: "/dashboard"
@@ -26,14 +30,15 @@ const links = [
 		name: "Users",
 		href: "/users"
 	},
-	
+
 
 ]
 
 export default function Navbar() {
 	const pathname = usePathname()
-	const user = useAppSelector(state=> state.authReducer.user);
-
+	const router = useRouter()
+	const user = useAppSelector(state => state.authReducer.user);
+	const dispatch = useAppDispatch();
 	const [open, setOpen] = useState(false);
 	const menuModal = (
 		<div className="navbar-menu relative z-50">
@@ -51,9 +56,9 @@ export default function Navbar() {
 				</div>
 				<div>
 					{
-						links.map((link) => <Link key={link.name} 
-						className="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded mb-1 " href={link.href}
-						onClick={()=>{setOpen(false)}}
+						links.map((link) => <Link key={link.name}
+							className="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded mb-1 " href={link.href}
+							onClick={() => { setOpen(false) }}
 						>{link.name}</Link>
 						)
 					}
@@ -62,22 +67,27 @@ export default function Navbar() {
 					<div className="pt-6">
 						{
 							user ?
-								<div className="block px-4 py-3 mb-3 text-xs text-center font-semibold leading-none bg-gray-50 hover:bg-gray-100 rounded-xl">Logout</div>
+								<div
+									onClick={e => {
+										dispatch(gLogout())
+										router.push('/')
+									}}
+									className="block px-4 py-3 mb-3 text-xs text-center font-semibold leading-none bg-gray-50 hover:bg-gray-200 rounded-xl" ></div>
 								:
-								<Link 
-								onClick={(e)=>{
-								setOpen(false);
-									
-								}}
-								className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-blue-600 hover:bg-blue-700  rounded-xl" href="/login">Login</Link>
+								<Link
+									onClick={(e) => {
+										setOpen(false);
+
+									}}
+									className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-blue-600 hover:bg-blue-700  rounded-xl" href="/login">Login</Link>
 						}
 					</div>
 					<p className="my-4 text-xs text-center text-gray-400">
 						<span>Copyright © {new Date().getFullYear()}</span>
 					</p>
 				</div>
-			</nav>
-		</div>
+			</nav >
+		</div >
 	)
 	return (
 		<div>
@@ -96,8 +106,8 @@ export default function Navbar() {
 				</div>
 				<div className="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 md:flex md:mx-auto md:items-center md:w-auto md:space-x-6">
 					{
-						links.map((link, index) => {			
-							const isActive =  pathname.includes(link.href)
+						links.map((link, index) => {
+							const isActive = pathname.includes(link.href)
 							const ll = isActive ?
 								<Link className="text-sm text-blue-600 font-bold mr-5" href={link.href}>{link.name}</Link> :
 								<Link className="text-sm text-gray-400 hover:text-gray-500 mr-5" href={link.href}>{link.name}</Link>
@@ -113,7 +123,16 @@ export default function Navbar() {
 				</div>
 				{
 					user ?
-						<div className="hidden md:inline-block md:ml-auto md:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold  rounded-xl transition duration-200" >Logout</div>
+						<div className="hidden md:ml-auto md:mr-3 bg-gray-50 md:flex gap-2 " >
+							<button onClick={e => {
+								dispatch(gLogout())
+								router.push('/')
+							}}
+
+								className="hover:bg-gray-300 py-2 px-6 text-sm text-gray-900 font-bold  rounded-xl transition duration-200">Logout</button>
+
+							<Image src={user.photoURL} width={35} height={30} alt={user.displayName} className="rounded-full" />
+						</div>
 						:
 						<Link className="hidden md:inline-block py-2 px-6 bg-blue-500 hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200"
 							href={'/login'} >Login</Link>

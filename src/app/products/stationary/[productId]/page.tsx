@@ -9,10 +9,10 @@ type Params = {
         productId: string
     }
 }
-import Image from 'next/image'
-import { usePathname } from 'next/navigation'
-import UpdateCard from '@/components/UpdateCard'
 
+
+import UpdateCard from '@/components/UpdateCard'
+import Loading from '@/components/Loading'
 
 
 
@@ -40,7 +40,7 @@ export default function ProductDetails({ params }: Params) {
     return (
         <div className='flex flex-col justify-center items-center w-full'>
           
-                {loadingConditon ? <div className='loader'></div> : <UpdateCard details={data}/> }
+                {loadingConditon ? <Loading/> : <UpdateCard details={data}/> }
            
         </div>
     )

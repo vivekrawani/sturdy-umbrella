@@ -25,7 +25,7 @@ export default function RootLayout({
                             sub.map((val) => {
                                 const isActive = pathname.startsWith(val.href);
                                 return (<div key={val.name}>
-                                    <input type="radio" name="option" className="peer hidden" checked={isActive} />
+                                    <input type="radio" name="option" className="peer hidden" checked={isActive} readOnly />
                                     <label className="block cursor-pointer select-none rounded-full p-2 text-center peer-checked:bg-blue-500 peer-checked:font-bold peer-checked:text-white">
                                         <Link href={val.href} className="w-full h-full">{val.name}</Link>
                                     </label>

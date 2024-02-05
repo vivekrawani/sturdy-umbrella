@@ -6,8 +6,6 @@ const initialState = {
 };
 
 const getProduct = createAsyncThunk("/api/products", async (id:string, thunkAPI:any) => {
-  console.log(id);
-
   try {
     const data = await (await fetch(`/api/products/${id}`)).json();
     return data;

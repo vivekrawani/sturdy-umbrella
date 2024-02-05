@@ -1,28 +1,26 @@
 "use client"
-import { gLogin } from '@/lib/features/auth/authSlice';
+import {  gLogin } from '@/lib/features/auth/authSlice';
+import { useAppSelector } from '@/lib/hooks';
 import { useAppDispatch } from '@/lib/store';
+import { delay } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react'
 import { FcGoogle } from "react-icons/fc";
 
-export default  function Login() {
+
+export default function Login() {
     const router = useRouter()
     const dispatch = useAppDispatch()
+
     const [user, setUser] = useState({ email: '', password: '' })
     const handleSubmit = (e: any) => {
         e.preventDefault();
 
 
-        console.log(user);
     }
-    const  handleGoogleSignIn = async () => {
-
-        console.log("Google sign in");
+    const handleGoogleSignIn = async () => {
         await dispatch(gLogin());
         router.push('/products')
-        
-        
-
     }
     return (
         <div className='grid md:grid-cols-2 h-screen w-screen bg-slate-100'>
@@ -30,7 +28,7 @@ export default  function Login() {
             </div>
 
 
-            <div className="p-8 mx-14" >
+            <div className="p-8 md:mx-14" >
 
                 <div className="w-full h-100">
 
@@ -45,12 +43,12 @@ export default  function Login() {
                         <div>
                             <label className="block text-gray-700">Email Address</label>
                             <input type="email" name="email" placeholder="Enter Email Address"
-                             onChange={(e) => {
-                                setUser(p => {
-                                    return { ...p, email: e.target.value }
-                                })
-                            }}
-                            className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
+                                onChange={(e) => {
+                                    setUser(p => {
+                                        return { ...p, email: e.target.value }
+                                    })
+                                }}
+                                className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
                                 required
                             />
                         </div>

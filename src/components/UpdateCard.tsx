@@ -18,16 +18,12 @@ export default function UpdateCard({ details }: any) {
     const toast = useToast()
     const { isOpen, onOpen, onClose } = useDisclosure()
     function onSubmit(e: any) {
-        console.log("here");
-
         e.preventDefault()
         const formData = new FormData(formRef.current);
-
         const newPrice = formData.get('price')
         const newDp = formData.get('discountedPrice')
         const isS = formData.get('inStock')
         console.log(newPrice, newDp, isS);
-
         toast({
             title: 'Test',
             description: "Ok",
