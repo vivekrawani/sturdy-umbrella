@@ -1,92 +1,124 @@
 import Image from "next/image";
 import { useRef, useState } from "react"
+import { FiFile } from 'react-icons/fi';
+import FileUpload from './FileUpload'
 import {
     Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Button, useDisclosure,
     FormControl,
-    FormLabel,
-    NumberInput,
-    NumberInputField,
-    NumberDecrementStepper,
-    NumberIncrementStepper,
-    NumberInputStepper,
-    Input,
+    FormErrorMessage, Icon, Textarea
 } from '@chakra-ui/react'
-
+import { useForm} from 'react-hook-form'
 import { useToast } from '@chakra-ui/react'
-
+interface IFormInput {
+    name: string
+    description: string
+    file_?: FileList
+    inStock: number
+    price: number
+    discountedPrice: number
+    isFeatured: boolean
+}
+const validateFiles = (value: FileList) => {
+    if (value.length < 1) {
+        return 'Files is required'
+    }
+    for (const file of Array.from(value)) {
+        const fsMb = file.size / (1024 * 1024)
+        const MAX_FILE_SIZE = 10
+        if (fsMb > MAX_FILE_SIZE) {
+            return 'Max file size 10mb'
+        }
+    }
+    return true
+}
 export default function UpdateCard({ details }: any) {
+    const { imageUrl = null, price = 0, discountedPrice = 0, description = '', inStock = 0, name = '', productId = '', isFeatured = false } = details;
     const toast = useToast()
     const { isOpen, onOpen, onClose } = useDisclosure()
-    function onSubmit(e: any) {
-        e.preventDefault()
-        const formData = new FormData(formRef.current);
-        const newPrice = formData.get('price')
-        const newDp = formData.get('discountedPrice')
-        const isS = formData.get('inStock')
-        console.log(newPrice, newDp, isS);
+    const { register, handleSubmit, formState: { errors }, control } = useForm<IFormInput>({
+        defaultValues: {
+            name,
+            description,
+            inStock,
+            price,
+            discountedPrice,
+            isFeatured,
+        }
+    },)
+    const onSubmit = handleSubmit((data) => {
+        console.log("data : ", data)
         toast({
             title: 'Test',
             description: "Ok",
             status: 'success',
             duration: 5000,
             isClosable: true,
-          })
-          onClose();
+        })
+        onClose();
 
-    }
+    })
     const formRef = useRef<HTMLFormElement>() as React.MutableRefObject<HTMLFormElement>;
-    const { imageUrl = null, price = 0, discountedPrice = 0, description = '', inStock = 0, name = '', productId = '' } = details;
-   
-
     const MyModal = () => (
         <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
             <ModalContent>
-                <form ref={formRef} onSubmit={e => onSubmit(e)}>
-
-                    <ModalHeader>Update Details</ModalHeader>
-                    <ModalCloseButton />
+                <ModalHeader>Update Details</ModalHeader>
+                <ModalCloseButton />
+                <form onSubmit={onSubmit} >
                     <ModalBody>
-
-                        <FormControl>
-                            <FormLabel htmlFor="price">Price</FormLabel>
-                            <Input type="number" name="price" id="price" defaultValue={price} min={0} />
-
-                            <FormLabel htmlFor="discountedPrice">discountedPrice</FormLabel>
-                            <Input type="number" name="discountedPrice" id="discountedPrice" defaultValue={discountedPrice} min={0} />
-
-                            <FormLabel htmlFor="inStock">In Stock</FormLabel>
-                            <Input type="number" name="inStock" id="inStock" defaultValue={inStock} min={0} />
-                            {/* <Input type="number" id='price'
-                                {...register("name", {
-                                    required: "This is required",
-                                    minLength: { value: 4, message: "Minimum length should be 4" },
-                                })}
-                                defaultValue={price} min={0} />
-
-                            <FormLabel htmlFor="discounted price">Discounted Price</FormLabel>
-                            <NumberInput id='discounted price' defaultValue={discountedPrice} min={0}>
-                                <NumberInputField />
-                                <NumberInputStepper>
-                                    <NumberIncrementStepper />
-                                    <NumberDecrementStepper />
-                                </NumberInputStepper>
-                            </NumberInput>
-                            <FormLabel htmlFor="stock">Stock</FormLabel>
-                            <NumberInput id='stock' defaultValue={inStock} min={0}>
-                                <NumberInputField />
-                                <NumberInputStepper>
-                                    <NumberIncrementStepper />
-                                    <NumberDecrementStepper />
-                                </NumberInputStepper>
-                            </NumberInput> */}
+                        <FormControl isInvalid={!!errors.file_}>
+                            <div className="grid grid-cols-2">
+                                <label htmlFor="name">Name</label>
+                                <input type="text" id="name"
+                                    className="w-full px-4 py-3 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none "
+                                    {...register("name")}
+                                />
+                                <label htmlFor="price">Price</label>
+                                <input type="number" id="price"
+                                    className="w-full px-4 py-3 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none "
+                                    {...register("price", {min:0})}
+                                />
+                                <label htmlFor="discountedPrice">Discounted Price</label>
+                                <input type="number" id="discountedPrice"
+                                    className="w-full px-4 py-3 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none "
+                                    {...register("discountedPrice", {min:0})}
+                                />
+                                <label htmlFor="inStock">In Stock</label>
+                                <input type="number" id="inStock"
+                                    className="w-full px-4 py-3 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none "
+                                    {...register("inStock", {min:0})}
+                                />
+                            </div>
+                            <div className="flex flex-col gap-5">
+                                <label htmlFor="description">Description</label>
+                                <Textarea
+                                    size={'sm'}
+                                    {...register("description")} />
+                                <label className="flex items-center relative w-max cursor-pointer select-none">
+                                    <span className=" mr-3">Is Featured</span>
+                                    <input type="checkbox"
+                                        {...register("isFeatured")}
+                                        className="appearance-none transition-colors cursor-pointer w-14 h-7 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-blue-500 bg-red-500" />
+                                    <span className="absolute font-medium text-xs uppercase right-1 text-white"> OFF </span>
+                                    <span className="absolute font-medium text-xs uppercase right-8 text-white"> ON </span>
+                                    <span className="w-7 h-7 right-7 absolute rounded-full transform transition-transform bg-gray-200" />
+                                </label>
+                                <FileUpload
+                                    accept={'image/*'}
+                                    register={register('file_')}
+                                >
+                                    <Button leftIcon={<Icon as={FiFile} />}>
+                                        Upload
+                                    </Button>
+                                </FileUpload>
+                            </div>
+                            <FormErrorMessage>
+                                {errors.file_ && errors?.file_.message}
+                            </FormErrorMessage>
                         </FormControl>
-
-
                     </ModalBody>
-
                     <ModalFooter>
-                        <Button colorScheme='blue' mr={3} type='submit' onSubmit={e => onSubmit(e)}>
+                        <Button colorScheme='blue' mr={3} type='submit' >
                             Submit
                         </Button>
                         <Button variant='ghost' onClick={onClose}>Close</Button>

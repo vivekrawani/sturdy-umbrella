@@ -46,22 +46,20 @@ export async function updateDoc(collection: any, docId: any) {
   await initAdmin();
   const firestore = getFirestore();
   var ref = firestore.collection(collection).doc(docId);
-
-  // Set the "capital" field of the city 'DC'
   const res = await ref.update({
     gender: "male",
     age: 92,
   });
-
   return res;
 }
 
 export async function getAllCollections() {
   await initAdmin();
   const firestore = getFirestore();
-  const collections = await firestore.listCollections();
-  collections.forEach((collection) => {
-    console.log("Found subcollection with id:", collection.id);
+  const snapshot = await firestore.listCollections();
+  const collections = [];
+  snapshot.forEach((collection) => {
+    collections.push(collection.id)
   });
 }
 

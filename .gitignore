@@ -6,7 +6,7 @@
 .pnp.js
 .yarn/install-state.gz
 src/app/checkout1
-src/app/checkout2
+src/app/ok
 src/lib/features/counter
 # testing
 /coverage

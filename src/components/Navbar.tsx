@@ -20,6 +20,10 @@ const links = [
 		name: "Products",
 		href: "/products/grocery"
 	},
+	{
+		name : "Orders",
+		href : "/orders"
+	},
 
 	{
 		name: "Dashboard",

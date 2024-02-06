@@ -18,9 +18,13 @@
   background: rgba(86, 86, 86, 0.82);
   border-radius: 1px;
 } 
-
-
-/* :root {
+@layer components {
+  .scroll-bar-thin{
+    scrollbar-color: red orange;
+   scrollbar-width: thin;
+  }
+}
+:root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
@@ -32,13 +36,8 @@
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
   }
-} */
-@layer components {
-  .scroll-bar-thin{
-    scrollbar-color: red orange;
-   scrollbar-width: thin;
-  }
 }
+
 
 
 body {
@@ -85,4 +84,16 @@ background-color:  rgba( 129, 140 ,248, 0.82);
 	100% {
 		transform: rotate(1turn);
 	}
+}
+
+input:checked {
+  background-color: #22c55e; /* bg-green-500 */
+}
+
+input:checked ~ span:last-child {
+  --tw-translate-x: 1.75rem; /* translate-x-7 */
+}
+
+.my-input:focus {
+  border: 0x solid #555;
 }
