@@ -92,10 +92,11 @@ export async function getDocWithId(_id: string) {
 }
 
 type Product = {
-  imageURL: string;
+  imageUrl: string;
   name: string;
   price: number;
   count?: number;
+  discountedPrice : number
 };
 
 interface OrderDetails {
@@ -115,7 +116,6 @@ export const getData = async () => {
   await initAdmin();
   const db = getFirestore();
   const orders: OrderDetails[] = [];
-
   const newOrdersRef = db.collection("orders").doc("newOrders");
   const snap = await newOrdersRef.listCollections();
   for (let i = 0; i < snap.length; i++) {
@@ -124,20 +124,24 @@ export const getData = async () => {
     const subCollections = await subRef.listDocuments();
     const products: Product[] = [];
     const orderId = element.id;
+  
+    
     const len = subCollections.length;
     for (let j = 0; j < len - 1; j++) {
       const inElement = subCollections[j];
       const sub = await inElement.get();
       const product = (await subRef.doc(sub.id).get()).data();
       const name = product!.name
-      const imageURL = product!.imageURL;
+      const imageUrl = product!.imageUrl;
       const price = product!.price;
-      const count = product!.price;
+      const count = product!.nos;
+      const discountedPrice = product!.discountedPrice;
       const finalProduct: Product = {
         name,
-        imageURL,
+        imageUrl,
         price,
         count,
+        discountedPrice,
       };
       products.push(finalProduct);
     }
