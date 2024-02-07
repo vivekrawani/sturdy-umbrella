@@ -17,11 +17,11 @@ export default function Home() {
           <Link href='/users'>
             <Button colorScheme='blue' className='w-32 p-2 '>Users</Button>
           </Link>
-          <Link href='/products'>
+          <Link href='/products/grocery'>
             <Button colorScheme='blue' className='w-32 p-2 '>Products</Button>
           </Link>
          
-          <Link href='/Orders'>
+          <Link href='/orders'>
             <Button colorScheme='blue' className='w-32 p-2 '>Orders</Button>
           </Link>
         </div>
