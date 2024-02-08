@@ -8,6 +8,16 @@ import {
     FormControl,
     FormErrorMessage, Icon, Textarea
 } from '@chakra-ui/react'
+
+import {
+    NumberInput,
+    NumberInputField,
+    NumberInputStepper,
+    NumberIncrementStepper,
+    NumberDecrementStepper,
+} from '@chakra-ui/react'
+
+
 import { useForm } from 'react-hook-form'
 import { useToast } from '@chakra-ui/react'
 interface IFormInput {
@@ -37,6 +47,7 @@ export default function UpdateCard({ details }: any) {
     const toast = useToast()
     const [loading, setLoading] = useState<boolean>(false)
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const [st, setSt] = useState<number>(inStock);
     const { register, handleSubmit, formState: { errors }, control } = useForm<IFormInput>({
         defaultValues: {
             name,
@@ -48,7 +59,7 @@ export default function UpdateCard({ details }: any) {
         }
     },)
     const onSubmit = handleSubmit(async (data) => {
-       
+
 
         setLoading(true)
         const response = await axios.patch(`/api/products/${productId}`, data,
@@ -81,27 +92,34 @@ export default function UpdateCard({ details }: any) {
                 <form onSubmit={onSubmit} >
                     <ModalBody>
                         <FormControl isInvalid={!!errors.file}>
-                            <div className="grid grid-cols-2">
-                                <label htmlFor="name">Name</label>
+                            <div className="grid grid-cols-3">
+                                <label htmlFor="name" className="py-4">Name</label>
                                 <input type="text" id="name"
-                                    className="w-full px-4 py-3 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none "
+                                    className="w-full px-4 py-3 col-span-2 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none "
                                     {...register("name")}
                                 />
-                                <label htmlFor="price">Price</label>
+                                <label htmlFor="price" className="py-4">Price</label>
                                 <input type="number" id="price" min={0}
-                                    className="w-full px-4 py-3 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none "
+                                    className="w-full px-4 py-3 col-span-2 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none "
                                     {...register("price")}
                                 />
-                                <label htmlFor="discountedPrice">Discounted Price</label>
+                                <label htmlFor="discountedPrice" className="py-4">Discounted Price</label>
                                 <input type="number" id="discountedPrice" min={0}
-                                    className="w-full px-4 py-3 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none "
+                                    className="w-full px-4 py-3 col-span-2 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none "
                                     {...register("discountedPrice")}
                                 />
-                                <label htmlFor="inStock">In Stock</label>
+                                <label htmlFor="inStock" className="py-4"  >In Stock</label>
                                 <input type="number" id="inStock" min={0}
-                                    className="w-full px-4 py-3 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none "
+                               
+                                
+                                    className="w-full px-4 py-2 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none "
                                     {...register("inStock")}
                                 />
+                                <div className="flex w-full px-4  mt-2 ">
+                                    <Button>+</Button>
+                                    <Button>-</Button>
+                                </div>
+
                             </div>
                             <div className="flex flex-col gap-5">
                                 <label htmlFor="description">Description</label>

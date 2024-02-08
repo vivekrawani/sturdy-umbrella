@@ -97,3 +97,4 @@ input:checked ~ span:last-child {
 .my-input:focus {
   border: 0x solid #555;
 }
+

@@ -13,6 +13,7 @@ type Params = {
 
 import UpdateCard from '@/components/UpdateCard'
 import Loading from '@/components/Loading'
+import { useRouter } from 'next/navigation'
 
 
 
@@ -36,12 +37,30 @@ export default function ProductDetails({ params }: Params) {
     useEffect(() => {
         dispatch(getProduct(params.productId))
     }, [params.productId, dispatch])
-    const loadingConditon = loading || data===null
+    const loadingConditon = loading || data === null;
+
+    const router = useRouter();
+    const user = useAppSelector(state => state.authReducer.user)
+
+    const isAdmin = user && user!.isAdmin;
+    if (!isAdmin) {
+        setTimeout(() => {
+            router.back()
+        }, 5000)
+        return (
+            <div className='flex flex-row justify-center items-center h-80svh'>
+                <h1 className='text-3xl text-blue-400 '>Hey your are not an admin! You cannot view this page</h1>
+                <p>Redirecting in 5s</p>
+            </div>
+        )
+    }
+
+
     return (
         <div className='flex flex-col justify-center items-center w-full'>
-          
-                {loadingConditon ? <Loading/> : <UpdateCard details={data}/> }
-           
+
+            {loadingConditon ? <Loading /> : <UpdateCard details={data} />}
+
         </div>
     )
 }
