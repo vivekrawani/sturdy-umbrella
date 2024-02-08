@@ -17,7 +17,6 @@ import {
     NumberDecrementStepper,
 } from '@chakra-ui/react'
 
-
 import { useForm } from 'react-hook-form'
 import { useToast } from '@chakra-ui/react'
 interface IFormInput {
@@ -47,7 +46,6 @@ export default function UpdateCard({ details }: any) {
     const toast = useToast()
     const [loading, setLoading] = useState<boolean>(false)
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const [st, setSt] = useState<number>(inStock);
     const { register, handleSubmit, formState: { errors }, control } = useForm<IFormInput>({
         defaultValues: {
             name,
@@ -59,8 +57,6 @@ export default function UpdateCard({ details }: any) {
         }
     },)
     const onSubmit = handleSubmit(async (data) => {
-
-
         setLoading(true)
         const response = await axios.patch(`/api/products/${productId}`, data,
             {
@@ -79,8 +75,6 @@ export default function UpdateCard({ details }: any) {
             duration: 5000,
             isClosable: true,
         })
-
-
     })
     const formRef = useRef<HTMLFormElement>() as React.MutableRefObject<HTMLFormElement>;
     const MyModal = () => (
@@ -108,18 +102,21 @@ export default function UpdateCard({ details }: any) {
                                     className="w-full px-4 py-3 col-span-2 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none "
                                     {...register("discountedPrice")}
                                 />
-                                <label htmlFor="inStock" className="py-4"  >In Stock</label>
-                                <input type="number" id="inStock" min={0}
-                               
-                                
-                                    className="w-full px-4 py-2 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none "
-                                    {...register("inStock")}
-                                />
-                                <div className="flex w-full px-4  mt-2 ">
-                                    <Button>+</Button>
-                                    <Button>-</Button>
-                                </div>
+                                <label htmlFor="inStock" className="py-4">In Stock</label>
+                                {/* <input type="number" id="inStock" min={0}
+                                        className="w-full px-4 py-3 col-span-2 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none "
+                                        {...register("inStock")}
+                                    /> */}
+                                    <div className="w-full px-4 py-1 col-span-2 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none">
 
+                                <NumberInput min={0}>
+                                    <NumberInputField className="focus:bg-white focus:outline-none"  {...register("inStock")}/>
+                                    <NumberInputStepper>
+                                        <NumberIncrementStepper />
+                                        <NumberDecrementStepper />
+                                    </NumberInputStepper>
+                                </NumberInput>
+                                </div>
                             </div>
                             <div className="flex flex-col gap-5">
                                 <label htmlFor="description">Description</label>
@@ -156,17 +153,6 @@ export default function UpdateCard({ details }: any) {
             </ModalContent>
         </Modal>
     )
-
-
-
-
-
-
-
-
-
-
-
     return (
         <div className="flex flex-row justify-around  md:w-1/2  m-4 bg-white rounded-3xl py-4 mx-4">
             <div className=" h-max-32 w-max-32 p-2 rounded-full ">
@@ -176,7 +162,6 @@ export default function UpdateCard({ details }: any) {
                     alt={name} />
             </div>
             <div className="flex flex-col justify-around">
-
                 <div className="p-4">
                     <h2 className="mt-2 mb-2  font-bold">{name}</h2>
 
@@ -189,10 +174,8 @@ export default function UpdateCard({ details }: any) {
                     <div className="mt-3 flex items-center  gap-2">
                         <span className='text-sm font-bold'>In Stock</span>    <span className="text-sm">{inStock}</span>
                     </div>
-
                 </div>
                 <div className="w-full text-center">
-
                     <button className="bg-blue-500 rounded-full p-3"
                         onClick={onOpen}
                     >Update Details</button>
@@ -200,7 +183,5 @@ export default function UpdateCard({ details }: any) {
                 </div>
             </div>
         </div>
-
-
     )
 }
