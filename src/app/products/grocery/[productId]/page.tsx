@@ -27,6 +27,8 @@ type ProductDetails = {
 export default function ProductDetails({ params }: Params) {
     const dispatch = useAppDispatch();
     const { data, loading } = useAppSelector(state => state.productReducer)
+   
+    
     useEffect(() => {
         dispatch(getProduct(params.productId))
     }, [params.productId, dispatch])

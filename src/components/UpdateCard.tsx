@@ -2,17 +2,18 @@ import Image from "next/image";
 import { useRef, useState } from "react"
 import { FiFile } from 'react-icons/fi';
 import FileUpload from './FileUpload'
+import axios from 'axios'
 import {
     Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Button, useDisclosure,
     FormControl,
     FormErrorMessage, Icon, Textarea
 } from '@chakra-ui/react'
-import { useForm} from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { useToast } from '@chakra-ui/react'
 interface IFormInput {
     name: string
     description: string
-    file_?: FileList
+    file?: FileList
     inStock: number
     price: number
     discountedPrice: number
@@ -34,6 +35,7 @@ const validateFiles = (value: FileList) => {
 export default function UpdateCard({ details }: any) {
     const { imageUrl = null, price = 0, discountedPrice = 0, description = '', inStock = 0, name = '', productId = '', isFeatured = false } = details;
     const toast = useToast()
+    const [loading, setLoading] = useState<boolean>(false)
     const { isOpen, onOpen, onClose } = useDisclosure()
     const { register, handleSubmit, formState: { errors }, control } = useForm<IFormInput>({
         defaultValues: {
@@ -45,16 +47,28 @@ export default function UpdateCard({ details }: any) {
             isFeatured,
         }
     },)
-    const onSubmit = handleSubmit((data) => {
-        console.log("data : ", data)
+    const onSubmit = handleSubmit(async (data) => {
+       
+
+        setLoading(true)
+        const response = await axios.patch(`/api/products/${productId}`, data,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+        setLoading(false)
+        onClose();
+        console.log(response);
+
         toast({
-            title: 'Test',
-            description: "Ok",
+            title: 'Update',
+            description: "Update was successful",
             status: 'success',
             duration: 5000,
             isClosable: true,
         })
-        onClose();
+
 
     })
     const formRef = useRef<HTMLFormElement>() as React.MutableRefObject<HTMLFormElement>;
@@ -66,7 +80,7 @@ export default function UpdateCard({ details }: any) {
                 <ModalCloseButton />
                 <form onSubmit={onSubmit} >
                     <ModalBody>
-                        <FormControl isInvalid={!!errors.file_}>
+                        <FormControl isInvalid={!!errors.file}>
                             <div className="grid grid-cols-2">
                                 <label htmlFor="name">Name</label>
                                 <input type="text" id="name"
@@ -74,19 +88,19 @@ export default function UpdateCard({ details }: any) {
                                     {...register("name")}
                                 />
                                 <label htmlFor="price">Price</label>
-                                <input type="number" id="price"
+                                <input type="number" id="price" min={0}
                                     className="w-full px-4 py-3 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none "
-                                    {...register("price", {min:0})}
+                                    {...register("price")}
                                 />
                                 <label htmlFor="discountedPrice">Discounted Price</label>
-                                <input type="number" id="discountedPrice"
+                                <input type="number" id="discountedPrice" min={0}
                                     className="w-full px-4 py-3 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none "
-                                    {...register("discountedPrice", {min:0})}
+                                    {...register("discountedPrice")}
                                 />
                                 <label htmlFor="inStock">In Stock</label>
-                                <input type="number" id="inStock"
+                                <input type="number" id="inStock" min={0}
                                     className="w-full px-4 py-3 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none "
-                                    {...register("inStock", {min:0})}
+                                    {...register("inStock")}
                                 />
                             </div>
                             <div className="flex flex-col gap-5">
@@ -105,20 +119,17 @@ export default function UpdateCard({ details }: any) {
                                 </label>
                                 <FileUpload
                                     accept={'image/*'}
-                                    register={register('file_')}
+                                    register={register('file')}
                                 >
-                                    <Button leftIcon={<Icon as={FiFile} />}>
+                                    <Button leftIcon={<Icon as={FiFile} />} >
                                         Upload
                                     </Button>
                                 </FileUpload>
                             </div>
-                            <FormErrorMessage>
-                                {errors.file_ && errors?.file_.message}
-                            </FormErrorMessage>
                         </FormControl>
                     </ModalBody>
                     <ModalFooter>
-                        <Button colorScheme='blue' mr={3} type='submit' >
+                        <Button colorScheme='blue' mr={3} type='submit' isLoading={loading} >
                             Submit
                         </Button>
                         <Button variant='ghost' onClick={onClose}>Close</Button>

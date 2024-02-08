@@ -10,7 +10,7 @@ export default function Modal1({ setOpen, price, inStock, discountedPrice }: any
     const [details, setDetails] = useState({ price, inStock, discountedPrice })
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        console.log(details);
+    
         setOpen(false)
 
 

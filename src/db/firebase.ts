@@ -1,6 +1,7 @@
 import "server-only";
 import { initAdmin } from "./firebaseAdminSdk";
 import { getFirestore, CollectionReference } from "firebase-admin/firestore";
+import { getStorage } from "firebase-admin/storage";
 
 export async function getCollections_() {
   await initAdmin();
@@ -41,14 +42,42 @@ export async function addDoc(collectionName: any, data: any) {
 }
 //JfNMQVo0WXEkmr5oWMCc
 
-export async function updateDoc(collection: any, docId: any) {
+
+export async function updateDoc(collection: any, docId: any, data: any) {
   await initAdmin();
   const firestore = getFirestore();
-  var ref = firestore.collection(collection).doc(docId);
-  const res = await ref.update({
-    gender: "male",
-    age: 92,
-  });
+  const updateData = {
+    name: data.get("name"),
+    description: data.get("description"),
+    inStock: parseFloat(data.get("inStock")),
+    price: parseFloat(data.get("price")),
+    isFeatured: data.get("isFeatured") === "true",
+    discountedPrice: parseFloat(data.get("discountedPrice")),
+  };
+
+  const dataRef = firestore.collection(collection).doc(docId);
+  const res = await dataRef.update(updateData);
+
+  const file: File | null = data.get("file[]") as unknown as File;
+  if (file) {
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+    const bucket = getStorage().bucket();
+    const filename = file.name;
+
+    const options = {
+      destination: `images/${filename}`,
+      metadata: {
+        contentType: file.type,
+      },
+    };
+    const filRef = await bucket.file(options.destination).save(buffer, options);
+    console.log("fileRef", filRef);
+    await bucket.file(`images/${filename}`).makePublic();
+    const imageUrl = bucket.file(`images/${filename}`).publicUrl();
+    console.log("image", imageUrl);
+    await dataRef.update({ imageUrl });
+  }
   return res;
 }
 
@@ -96,7 +125,7 @@ type Product = {
   name: string;
   price: number;
   count?: number;
-  discountedPrice : number
+  discountedPrice: number;
 };
 
 interface OrderDetails {
@@ -109,7 +138,7 @@ interface OrderDetails {
   userName: string;
   payment: boolean;
   products: Product[];
-  orderId:string;
+  orderId: string;
 }
 
 export const getData = async () => {
@@ -124,14 +153,13 @@ export const getData = async () => {
     const subCollections = await subRef.listDocuments();
     const products: Product[] = [];
     const orderId = element.id;
-  
-    
+
     const len = subCollections.length;
     for (let j = 0; j < len - 1; j++) {
       const inElement = subCollections[j];
       const sub = await inElement.get();
       const product = (await subRef.doc(sub.id).get()).data();
-      const name = product!.name
+      const name = product!.name;
       const imageUrl = product!.imageUrl;
       const price = product!.price;
       const count = product!.nos;
@@ -145,9 +173,9 @@ export const getData = async () => {
       };
       products.push(finalProduct);
     }
-    const ref = await subCollections[len-1].get();
-    const OrderDetails  = (await subRef.doc(ref.id).get()).data();
-    
+    const ref = await subCollections[len - 1].get();
+    const OrderDetails = (await subRef.doc(ref.id).get()).data();
+
     const userName = OrderDetails!.userName;
     const mobileNumber = OrderDetails!.mobileNumber;
     const address = OrderDetails!.address;
@@ -156,10 +184,19 @@ export const getData = async () => {
     const isAccepted = OrderDetails!.isAccepted;
     const isDelivered = OrderDetails!.isDelivered;
     const payment = OrderDetails!.payment;
-    
-    const Order : OrderDetails =  {
-      userName, mobileNumber, address,pincode, amount, isAccepted, isDelivered, payment, products, orderId
-    }
+
+    const Order: OrderDetails = {
+      userName,
+      mobileNumber,
+      address,
+      pincode,
+      amount,
+      isAccepted,
+      isDelivered,
+      payment,
+      products,
+      orderId,
+    };
     orders.push(Order);
   }
   return orders;

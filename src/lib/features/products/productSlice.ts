@@ -23,6 +23,8 @@ export const productSlice = createSlice({
     builder.addCase(getProduct.fulfilled, (state: any, action: any) => {
       state.loading = false;
       state.data = action.payload;
+      console.log(state.data);
+      
     });
     builder.addCase(getProduct.pending, (state: any) => {
       state.loading = true;
