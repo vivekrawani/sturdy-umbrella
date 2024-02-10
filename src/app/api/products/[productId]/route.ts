@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { deleteProduct, getDocWithId } from "@/db/firebase";
 import { NextRequest, NextResponse } from "next/server";
 import { getStringBetween } from "@/lib/utils";

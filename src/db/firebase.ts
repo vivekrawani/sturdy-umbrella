@@ -57,7 +57,7 @@ export async function addProduct(data: any) {
     isFeatured: data.get("isFeatured") === "true",
     discountedPrice: parseFloat(data.get("discountedPrice")),
     imageUrl,
-    gst:0,
+    gst:parseFloat(data.get("gst")) | 0,
     size:data.get('size'),
     productId
   };

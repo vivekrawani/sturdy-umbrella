@@ -5,15 +5,18 @@ const initialState = {
   loading: false,
 };
 
-const getProduct = createAsyncThunk("/api/products", async (id:string, thunkAPI:any) => {
-  try {
-    const data = await (await fetch(`/api/products/${id}`)).json();
-    return data;
-  } catch (error: any) {
-    console.log("Errorsss");
-    thunkAPI.rejectWithValue(error);
+const getProduct = createAsyncThunk(
+  "/api/products",
+  async (id: string, thunkAPI: any) => {
+    try {
+      const data = await (await fetch(`/api/products/${id}`)).json();
+      return data;
+    } catch (error: any) {
+      console.log("Errorsss");
+      thunkAPI.rejectWithValue(error);
+    }
   }
-});
+);
 
 export const productSlice = createSlice({
   name: "products",
@@ -22,9 +25,10 @@ export const productSlice = createSlice({
   extraReducers: (builder: any) => {
     builder.addCase(getProduct.fulfilled, (state: any, action: any) => {
       state.loading = false;
-      state.data = action.payload;
+      if (state.data) {
+        state.data = action.payload;
+      }
       console.log(state.data);
-      
     });
     builder.addCase(getProduct.pending, (state: any) => {
       state.loading = true;

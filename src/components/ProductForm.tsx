@@ -22,15 +22,20 @@ import {
 import { useForm } from 'react-hook-form'
 import { useToast } from '@chakra-ui/react'
 import { capitalizeFirstLetter } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 const categories = [
     "cosmetics", "stationary", "grocery"
 ]
 export default function ProductForm() {
 
-    const { register, handleSubmit, formState: { errors }, control } = useForm();
+    const { register, handleSubmit, formState: { errors }, control, reset } = useForm();
     const toast = useToast()
-
-    const onSubmit = handleSubmit(async (data) => {        
+    const router = useRouter()
+    const [isPosting, setIsPosting] = useState<boolean>(false)
+    const onSubmit = handleSubmit(async (data) => {      
+        setIsPosting(true);
+        console.log(data);
+        
         const res = await axios.post('/api/products', data, {
             headers: {
                 'Content-Type': 'multipart/form-data',
@@ -42,7 +47,9 @@ export default function ProductForm() {
             status: 'success',
             duration: 5000,
             isClosable: true,
-        })
+        }, )
+        setIsPosting(false);
+        router.push('/products/grocery');
         
     });
     const inputs = [
@@ -59,6 +66,11 @@ export default function ProductForm() {
         {
             id: "discountedPrice",
             name: "Discounted Price",
+            type: "number"
+        },
+        {
+            id: "gst",
+            name: "GST",
             type: "number"
         },
         {
@@ -111,7 +123,7 @@ export default function ProductForm() {
                         <textarea
                             className="w-full px-4 py-1 col-span-2 rounded-lg  mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
                             {...register("description")} />
-                        <div className="flex justify-evenly">
+                        <div className="flex justify-evenly items-baseline">
                             <label className="flex items-center relative w-max cursor-pointer select-none">
                                 <span className=" mr-3">Is Featured</span>
                                 <input type="checkbox"
@@ -121,13 +133,16 @@ export default function ProductForm() {
                                 <span className="absolute font-medium text-xs uppercase right-8 text-white"> ON </span>
                                 <span className="w-7 h-7 right-7 absolute rounded-full transform transition-transform bg-gray-100" />
                             </label>
-                            <select {...register('category')}
-                                className="px-3 py-2">
+                           <div className="bg-pink-100 rounded-md p-2 gap-3 flex items-baseline">
+                           <label htmlFor="category" className="font-bold"> Select Category</label>
+                            <select id="category" {...register('category')}
+                                className="px-3 py-2 bg-gray-100 rounded-lg ">
                                 {
                                     categories.map(val => <option key={val} value={val}>{capitalizeFirstLetter(val)}</option>)
                                 }
 
                             </select>
+                           </div>
                         </div>
                         <div className="flex justify-center items-center">
 
@@ -141,7 +156,7 @@ export default function ProductForm() {
                                 </Button>
                             </FileUpload>
 
-                            <Button colorScheme='blue' mr={3} type='submit' >
+                            <Button colorScheme='blue' mr={3} type='submit' isLoading={isPosting} >
                                 Submit
                             </Button>
                         </div>

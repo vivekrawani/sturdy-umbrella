@@ -21,6 +21,7 @@ import { FcHighPriority } from "react-icons/fc";
 
 import { useForm } from 'react-hook-form'
 import { useToast } from '@chakra-ui/react'
+import { useRouter } from "next/navigation";
 interface IFormInput {
     name: string
     description: string
@@ -48,6 +49,7 @@ export default function UpdateCard({ details }: any) {
     const toast = useToast()
     const [loading, setLoading] = useState<boolean>(false)
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const router = useRouter();
     const { register, handleSubmit, formState: { errors }, control } = useForm<IFormInput>({
         defaultValues: {
             name,
@@ -68,7 +70,7 @@ export default function UpdateCard({ details }: any) {
             });
         setLoading(false)
         onClose();
-        console.log(response);
+               console.log(response);
 
         toast({
             title: 'Update',
@@ -157,10 +159,11 @@ export default function UpdateCard({ details }: any) {
     )
 
     const handleDelete = async() => {
+        setDeleteLoading(true)
         const res = await axios.delete(`/api/products/${productId}`)
         console.log(res.data);
-
-        
+       
+        setDeleteLoading(false)
         onCloseD()
         toast({
             title: 'Delete',
@@ -169,9 +172,11 @@ export default function UpdateCard({ details }: any) {
             duration: 5000,
             isClosable: true,
         })
+        router.back();
 
     }
     const { isOpen: isOpenD, onOpen: onOpenD, onClose: onCloseD } = useDisclosure()
+    const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
     const DeleteModal = () => {
         return (
             <Modal isOpen={isOpenD} onClose={onCloseD} isCentered>
@@ -182,7 +187,7 @@ export default function UpdateCard({ details }: any) {
                     <ModalBody>
                         <div className="flex gap-4 text-lg">
                             <FcHighPriority className="text-3xl" />
-                            Do you want to remove this item?
+                            Do you realy want to remove this item?
                         </div>
 
                     </ModalBody>
@@ -191,7 +196,7 @@ export default function UpdateCard({ details }: any) {
                         <Button colorScheme='blue' mr={3} onClick={onCloseD}>
                             Close
                         </Button>
-                        <Button colorScheme="red" onClick={handleDelete}>Delete</Button>
+                        <Button colorScheme="red" onClick={handleDelete} isLoading={deleteLoading}>Delete</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
