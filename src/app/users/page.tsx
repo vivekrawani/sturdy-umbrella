@@ -1,7 +1,7 @@
 import { getAllUsers } from "@/db/firebase"
 
 const TH = [
-  "Name", "Mobile Number", "Address", "Pin Code", 
+  "Name", "Address", "Pin Code", 
 ]
 
 export default async function Users() {
@@ -33,9 +33,9 @@ export default async function Users() {
                         <td className="p-3 border-b border-blue-gray-50 ">
                           {user.firstName}  {user.lastName}
                         </td>
-                        <td className="p-3 border-b border-blue-gray-50">
+                        {/* <td className="p-3 border-b border-blue-gray-50">
                           {user.mobileNumber}
-                        </td>
+                        </td> */}
                         <td className="p-3 border-b border-blue-gray-50">
                           {user.address}
                         </td>
