@@ -18,7 +18,7 @@ export default function Home() {
             <Button colorScheme='blue' className='w-32 p-2 '>Users</Button>
           </Link>
           <Link href='/products'>
-            <Button colorScheme='blue' className='w-32 p-2 '>Add a new product</Button>
+            <Button colorScheme='blue' className='w-32 p-2 '>Add product</Button>
           </Link>
          
           <Link href='/orders'>
