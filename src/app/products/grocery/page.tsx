@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import Card from '@/components/Card'
 import React from 'react'
 import { getProductCollection } from '@/db/firebase';
