@@ -1,7 +1,6 @@
-import { getDocWithId } from "@/db/firebase";
+import { deleteProduct, getDocWithId } from "@/db/firebase";
 import { NextRequest, NextResponse } from "next/server";
 import { getStringBetween } from "@/lib/utils";
-import { writeFile } from "fs/promises";
 type Context = {
   params: {
     productId: string;
@@ -36,9 +35,27 @@ export async function PATCH(request: NextRequest, context: Context) {
     const collection = words[l - 2];
     // console.log("url", collection, context.params.productId);
 
-    const data = await request.formData();  
+    const data = await request.formData();
 
-    const res = await updateDoc(collection, context.params.productId, data)
+    const res = await updateDoc(collection, context.params.productId, data);
+    return Response.json({ message: "ok", res });
+  } catch (error) {
+    console.log(error);
+  }
+
+  return Response.json({ message: "ok" });
+}
+
+export async function DELETE(request: NextRequest, context: Context) {
+  const productId = context.params.productId;
+  try {
+    const headers = request.headers;
+    const originalUrl = headers.get("referer");
+    const words = getStringBetween(originalUrl);
+    const l = words.length;
+    const collection = words[l - 2];
+
+    const res = await deleteProduct(collection, productId)
     return Response.json({ message: "ok", res });
   } catch (error) {
     console.log(error);

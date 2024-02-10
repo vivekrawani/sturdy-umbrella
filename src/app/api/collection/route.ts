@@ -1,4 +1,4 @@
-import { addDoc, getAllCollections, getCollections_, updateDoc } from "@/db/firebase";
+import { getAllCollections, getCollections_, updateDoc } from "@/db/firebase";
 
 export async function GET() {
   

@@ -1,17 +1,27 @@
-import { getDocWithId } from "@/db/firebase";
-import { sendResponse } from "next/dist/server/image-optimizer";
 import { NextRequest, NextResponse } from "next/server";
-import { Context } from "vm";
+import { getStringBetween } from "@/lib/utils";
+import { addProduct } from "@/db/firebase";
 
-export async function GET(
-  request: NextRequest,
-  response: NextResponse,
-  context: Context
-) {
-//   const data = await getDocWithId("");
-//     console.log("here", data);
-console.log(context);
+export async function GET(request: NextRequest, response: NextResponse) {
+  return Response.json({ message: "work in progress" });
+}
+export async function POST(request: NextRequest) {
+  try {
+    const headers = request.headers;
+    const originalUrl = headers.get("referer");
+    const words = getStringBetween(originalUrl);
+    const l = words.length;
+    const collection = words[l - 2];
+   
 
-    
-  return Response.json({ message: "ok" });
+    const data = await request.formData();
+
+    const res = await addProduct(data);
+    return Response.json({ message: "ok", res });
+  } catch (error) {
+    console.log(error);
+    return Response.json({ status: 500, message: error });
+  }
+
+  
 }

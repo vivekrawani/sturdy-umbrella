@@ -94,8 +94,8 @@ export default function Navbar() {
 		</div >
 	)
 	return (
-		<div>
-			<nav className="relative px-4 py-4 flex justify-between items-center bg-white">
+		<div className=" sticky top-0 z-50 bg-black bg-opacity-70 ">
+			<nav className="relative px-4 py-4 flex justify-between items-center bg-transparent backdrop-blur-lg ">
 				<Link className="text-3xl font-bold leading-none" href="/">
 					<FcDoughnutChart className="text-4xl" />
 				</Link>
@@ -127,13 +127,14 @@ export default function Navbar() {
 				</div>
 				{
 					user ?
-						<div className="hidden md:ml-auto md:mr-3 bg-gray-50 md:flex gap-2 " >
-							<button onClick={e => {
+						<div className="hidden md:ml-auto md:mr-3 md:flex gap-2 " >
+							<button
+							 onClick={e => {
 								dispatch(gLogout())
 								router.push('/')
 							}}
 
-								className="hover:bg-gray-300 py-2 px-6 text-sm text-gray-900 font-bold  rounded-xl transition duration-200">Logout</button>
+								className="bg-gray-200 hover:bg-gray-100 py-2 px-6 text-sm text-gray-900 font-bold  rounded-xl transition duration-200">Logout</button>
 
 							<Image src={user.photoURL} width={35} height={30} alt={user.displayName} className="rounded-full" />
 						</div>

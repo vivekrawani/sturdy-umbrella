@@ -1,8 +1,27 @@
 import "server-only";
 import { initAdmin } from "./firebaseAdminSdk";
-import { getFirestore, CollectionReference } from "firebase-admin/firestore";
+import { getFirestore } from "firebase-admin/firestore";
 import { getStorage } from "firebase-admin/storage";
 
+const uploadFile = async (file: File | null) => {
+  if (file) {
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+    const bucket = getStorage().bucket();
+    const filename = Date.now() + file.type;
+
+    const options = {
+      destination: `images/${filename}`,
+      metadata: {
+        contentType: file.type,
+      },
+    };
+    const filRef = await bucket.file(options.destination).save(buffer, options);
+    await bucket.file(`images/${filename}`).makePublic();
+    const imageUrl = bucket.file(`images/${filename}`).publicUrl();
+    return imageUrl;
+  } else return "";
+};
 export async function getCollections_() {
   await initAdmin();
   const firestore = getFirestore();
@@ -22,26 +41,31 @@ export async function getAllUsers() {
   return res;
 }
 
-export async function addDoc(collectionName: any, data: any) {
+export async function addProduct(data: any) {
   await initAdmin();
   const firestore = getFirestore();
-  const docRef = await firestore.collection(collectionName).add(data);
+  const file: File | null = data.get("file[]") as unknown as File;
+  const imageUrl = await uploadFile(file);
+  const collectionName = data.get("category");
+  const docRef =  firestore.collection(collectionName).doc();
+  const productId = docRef.id
+  const updateData = {
+    name: data.get("name"),
+    description: data.get("description"),
+    inStock: parseFloat(data.get("inStock")),
+    price: parseFloat(data.get("price")),
+    isFeatured: data.get("isFeatured") === "true",
+    discountedPrice: parseFloat(data.get("discountedPrice")),
+    imageUrl,
+    gst:0,
+    size:data.get('size'),
+    productId
+  };
+ 
+ 
+  await docRef.set(updateData)
   return docRef.get();
-
-  // await docRef.set({
-  //   first: 'Ada',
-  //   last: 'Lovelace',
-  //   born: 1815
-  // });
-
-  // await docRef.set({
-  //   first: 'Ada',
-  //   last: 'Lovelace',
-  //   born: 1815
-  // });
 }
-//JfNMQVo0WXEkmr5oWMCc
-
 
 export async function updateDoc(collection: any, docId: any, data: any) {
   await initAdmin();
@@ -54,28 +78,11 @@ export async function updateDoc(collection: any, docId: any, data: any) {
     isFeatured: data.get("isFeatured") === "true",
     discountedPrice: parseFloat(data.get("discountedPrice")),
   };
-
   const dataRef = firestore.collection(collection).doc(docId);
   const res = await dataRef.update(updateData);
-
   const file: File | null = data.get("file[]") as unknown as File;
-  if (file) {
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    const bucket = getStorage().bucket();
-    const filename = file.name;
-
-    const options = {
-      destination: `images/${filename}`,
-      metadata: {
-        contentType: file.type,
-      },
-    };
-    const filRef = await bucket.file(options.destination).save(buffer, options);
-    console.log("fileRef", filRef);
-    await bucket.file(`images/${filename}`).makePublic();
-    const imageUrl = bucket.file(`images/${filename}`).publicUrl();
-    console.log("image", imageUrl);
+  const imageUrl = await uploadFile(file);
+  if (imageUrl) {
     await dataRef.update({ imageUrl });
   }
   return res;
@@ -95,7 +102,7 @@ export async function getProductCollection(collectionName: string) {
   await initAdmin();
   const firestore = getFirestore();
   const snapshot = await firestore.collection(collectionName).get();
-  const res: any = [];
+  const res: any[] = [];
   snapshot.forEach((doc) => {
     res.push(doc.data());
   });
@@ -128,7 +135,7 @@ type Product = {
   discountedPrice: number;
 };
 
-interface OrderDetails {
+type OrderDetails = {
   address?: string;
   pincode?: string;
   isAccepted: boolean;
@@ -139,7 +146,7 @@ interface OrderDetails {
   payment: boolean;
   products: Product[];
   orderId: string;
-}
+};
 
 export const getData = async () => {
   await initAdmin();
@@ -200,4 +207,53 @@ export const getData = async () => {
     orders.push(Order);
   }
   return orders;
+};
+
+// export const searchProduct = async (name: string | null) => {
+//   if (!name) {
+//     return [];
+//   }
+//   await initAdmin();
+//   const firestore = getFirestore();
+//   const collections = ["grocery", "stationary", "cosmetics"];
+//   const results: any = [];
+
+//   const collectionRef = firestore.collection("grocery");
+//   const queryRef = collectionRef
+//     .orderBy("name")
+//     .startAt(name)
+//     .endAt(name + "\uf8ff");
+//   const snap = await queryRef.get();
+//   console.log(snap);
+
+//   //  return snap;
+
+//   // const snapshots = await Promise.all(
+//   //   collections.map(async (collectionName) =>
+//   //   {
+//   //     const collectionRef = firestore.collection(collectionName);
+//   //     const queryRef = collectionRef.orderBy('name').startAt(name).endAt(name+'\uf8ff');
+//   //     const snap = await queryRef.get();
+//   //     console.log(snap);
+
+//   //    return snap;
+//   //   }
+//   //     // firestore.collection(collectionName).doc().get()
+//   //   )
+//   // );
+
+//   // snapshots.forEach((doc) => {
+//   //    {
+//   //     results.push(doc.docs);
+//   //   }
+//   // });
+//   return results;
+// };
+
+export const deleteProduct = async (collectionName: string, id_: string) => {
+  await initAdmin();
+  const firestore = getFirestore();
+  const snapshot = firestore.collection(collectionName).doc(id_);
+  const res = await snapshot.delete();
+  return res;
 };

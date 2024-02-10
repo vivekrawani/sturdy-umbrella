@@ -6,14 +6,28 @@ import { ReactNode, useRef } from 'react'
 import { Button, FormControl, FormErrorMessage, FormLabel, Icon, InputGroup } from '@chakra-ui/react'
 import { useForm, UseFormRegisterReturn } from 'react-hook-form'
 import { FiFile } from 'react-icons/fi'
+import axios from 'axios'
 
 type FormValues = {
-  file_: FileList
+  search: string
 }
 
 export default function Ok() {
   const { register, handleSubmit, formState: { errors } } = useForm<FormValues>()
-  const onSubmit = handleSubmit((data) => console.log('On Submit: ', data))
+  const onSubmit = handleSubmit(async (data) => {
+
+    console.log('On Submit: ', data)
+    const { search } = data;
+    const res = await axios.get('/api/search', {
+      headers: {
+        data: search
+      }
+    })
+
+    console.log(res.data);
+
+
+  })
 
   const validateFiles = (value: FileList) => {
     if (value.length < 1) {
@@ -28,30 +42,18 @@ export default function Ok() {
     }
     return true
   }
-    
+
   return (
     <div>
-         <form onSubmit={onSubmit}>
-        <FormControl isInvalid={!!errors.file_} isRequired>
-          <FormLabel>{'File input'}</FormLabel>
-
-          <FileUpload
-            accept={'image/*'}
-            register={register('file_', { validate: validateFiles })}
-          >
-            <Button leftIcon={<Icon as={FiFile} />}>
-              Upload
-            </Button>
-          </FileUpload>
-
-          <FormErrorMessage>
-            {errors.file_ && errors?.file_.message}
-          </FormErrorMessage>
+      <form onSubmit={onSubmit}>
+        <FormControl>
+          <FormLabel>{'Search'}</FormLabel>
+          <input type='text' {...register('search')} />
         </FormControl>
 
         <button>Submit</button>
-        </form>
-     
+      </form>
+
     </div>
   )
 }

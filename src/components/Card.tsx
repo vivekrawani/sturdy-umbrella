@@ -16,7 +16,7 @@ export default function Card({ details, category }: any) {
 
     const { imageUrl = null, price = 0, discountedPrice = 0, description = '', inStock = 0, name = '', productId = '' } = details;
     return (
-        <Link href={`/products/${category}/${productId}`} className="c-card m-4 block bg-white shadow-md hover:shadow-xl rounded-lg p-2 h-96 w-64 overflow-auto">
+        <Link href={`/products/${category}/${productId}`} className="c-card m-4 block bg-white shadow-md hover:shadow-xl rounded-lg p-2 h-96 w-64 overflow-auto ">
             <div className=" h-max-12 flex justify-center">
                 <Image
                     src={imageUrl}

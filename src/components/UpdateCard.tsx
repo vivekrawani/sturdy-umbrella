@@ -17,6 +17,8 @@ import {
     NumberDecrementStepper,
 } from '@chakra-ui/react'
 
+import { FcHighPriority } from "react-icons/fc";
+
 import { useForm } from 'react-hook-form'
 import { useToast } from '@chakra-ui/react'
 interface IFormInput {
@@ -107,15 +109,15 @@ export default function UpdateCard({ details }: any) {
                                         className="w-full px-4 py-3 col-span-2 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none "
                                         {...register("inStock")}
                                     /> */}
-                                    <div className="w-full px-4 py-1 col-span-2 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none">
+                                <div className="w-full px-4 py-1 col-span-2 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none">
 
-                                <NumberInput min={0}>
-                                    <NumberInputField className="focus:bg-white focus:outline-none"  {...register("inStock")}/>
-                                    <NumberInputStepper>
-                                        <NumberIncrementStepper />
-                                        <NumberDecrementStepper />
-                                    </NumberInputStepper>
-                                </NumberInput>
+                                    <NumberInput min={0}>
+                                        <NumberInputField className="focus:bg-white focus:outline-none"  {...register("inStock")} />
+                                        <NumberInputStepper>
+                                            <NumberIncrementStepper />
+                                            <NumberDecrementStepper />
+                                        </NumberInputStepper>
+                                    </NumberInput>
                                 </div>
                             </div>
                             <div className="flex flex-col gap-5">
@@ -153,8 +155,50 @@ export default function UpdateCard({ details }: any) {
             </ModalContent>
         </Modal>
     )
+
+    const handleDelete = async() => {
+        const res = await axios.delete(`/api/products/${productId}`)
+        console.log(res.data);
+
+        
+        onCloseD()
+        toast({
+            title: 'Delete',
+            description: "Item was deleted",
+            status: 'success',
+            duration: 5000,
+            isClosable: true,
+        })
+
+    }
+    const { isOpen: isOpenD, onOpen: onOpenD, onClose: onCloseD } = useDisclosure()
+    const DeleteModal = () => {
+        return (
+            <Modal isOpen={isOpenD} onClose={onCloseD} isCentered>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Confirm Delete</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <div className="flex gap-4 text-lg">
+                            <FcHighPriority className="text-3xl" />
+                            Do you want to remove this item?
+                        </div>
+
+                    </ModalBody>
+
+                    <ModalFooter>
+                        <Button colorScheme='blue' mr={3} onClick={onCloseD}>
+                            Close
+                        </Button>
+                        <Button colorScheme="red" onClick={handleDelete}>Delete</Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+        )
+    }
     return (
-        <div className="flex flex-row justify-around  md:w-1/2  m-4 bg-white rounded-3xl py-4 mx-4">
+        <div className="grid grid-cols-2 justify-around  md:w-1/2  m-4 bg-white rounded-3xl py-4 mx-4">
             <div className=" h-max-32 w-max-32 p-2 rounded-full ">
                 <Image src={imageUrl}
                     width={250}
@@ -175,12 +219,20 @@ export default function UpdateCard({ details }: any) {
                         <span className='text-sm font-bold'>In Stock</span>    <span className="text-sm">{inStock}</span>
                     </div>
                 </div>
-                <div className="w-full text-center">
-                    <button className="bg-blue-500 rounded-full p-3"
+            </div>
+            <div className="col-span-2">
+                <div className="w-full flex flex-row gap-2">
+                    <button className="bg-blue-500 rounded-full p-3 text-emerald-50 w-1/2 "
                         onClick={onOpen}
                     >Update Details</button>
-                    {isOpen && <MyModal />}
+                    <button className="bg-red-500 rounded-full p-3 text-emerald-50 w-1/2 "
+                        onClick={onOpenD}
+                    >Delete</button>
+
+
                 </div>
+                {isOpen && <MyModal />}
+                {isOpenD && <DeleteModal />}
             </div>
         </div>
     )

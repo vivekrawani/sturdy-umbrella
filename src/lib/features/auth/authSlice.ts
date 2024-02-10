@@ -25,7 +25,7 @@ const gLogin = createAsyncThunk("/user/login", async (_, thunkAPI) => {
     const data = {...user, isAdmin};
     return data;
   } catch (error: any) {
-    console.log("Errorsss");
+    ("Errorsss");
 
     thunkAPI.rejectWithValue(error);
   }

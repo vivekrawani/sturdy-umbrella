@@ -1,7 +1,7 @@
 import { ReactNode, useRef } from 'react'
 import { Button, FormControl, FormErrorMessage, FormLabel, Icon, InputGroup } from '@chakra-ui/react'
 import { useForm, UseFormRegisterReturn } from 'react-hook-form'
-import { FiFile } from 'react-icons/fi'
+import { FcUpload } from "react-icons/fc";
 
 type FileUploadProps = {
   register: UseFormRegisterReturn
@@ -69,7 +69,7 @@ const App = () => {
             accept={'image/*'}
             register={register('file_', { validate: validateFiles })}
           >
-            <Button leftIcon={<Icon as={FiFile} />}>
+            <Button leftIcon={<FcUpload />}>
               Upload
             </Button>
           </FileUpload>
