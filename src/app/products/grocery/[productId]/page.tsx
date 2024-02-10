@@ -42,7 +42,7 @@ export default function ProductDetails({ params }: Params) {
                 router.back()
             }, 5000)
             return (
-                <div className='flex flex-row justify-center items-center h-80svh'>
+                <div className='flex flex-col justify-center items-center h-80svh'>
                     <h1 className='text-3xl text-blue-400 '>Hey your are not an admin! You cannot view this page</h1>
                     <p>Redirecting in 5s</p>
                 </div>
