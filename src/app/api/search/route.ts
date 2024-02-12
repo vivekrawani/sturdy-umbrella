@@ -6,11 +6,6 @@ import { NextRequest } from "next/server";
 export async function GET(request: NextRequest) {
   const headers = request.headers;
   const name = headers.get("data") as string;
-  console.log(name);
-  
-  // const res = await searchProduct(name);
   const res = await getAllProduct();
-
-
   return Response.json({ message: "ok", res });
 }

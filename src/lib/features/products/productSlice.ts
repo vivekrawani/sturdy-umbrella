@@ -47,7 +47,7 @@ export const productSlice = createSlice({
       if (action.payload) {
         state.data = action.payload;
       }
-      console.log(state.data);
+
     });
     builder.addCase(getProduct.pending, (state: any) => {
       state.loading = true;
@@ -61,7 +61,7 @@ export const productSlice = createSlice({
       if (action.payload) {
         state.all = action.payload;
       }
-      console.log(state.all);
+
     });
     builder.addCase(fetchAllProducts.pending, (state: any) => {
       state.loading = true;

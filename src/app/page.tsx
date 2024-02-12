@@ -1,7 +1,13 @@
-"use client";
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Johar Basket',
+  description: 'Buy groceries, cosmetics, stationaries.',
+}
+
+
 import Image from 'next/image';
-import React, { useState } from 'react'
-import { Button, ButtonGroup } from '@chakra-ui/react'
+import { Button } from '@chakra-ui/react'
 import Link from 'next/link';
 export default function Home() {
   return (
@@ -11,7 +17,7 @@ export default function Home() {
       <div className='w-full flex flex-col gap-5 justify-center items-center mt-10 md:mt-0 '>
         <h1 className='font-bold text-3xl'>Welcome Let &apos;s Go</h1>
         <div className='flex flex-col gap-3'>
-        <Link href='/login'>
+          <Link href='/login'>
             <Button colorScheme='blue' className='w-32 p-2 '>Login</Button>
           </Link>
           <Link href='/users'>
@@ -20,7 +26,7 @@ export default function Home() {
           <Link href='/products'>
             <Button colorScheme='blue' className='w-32 p-2 '>Add product</Button>
           </Link>
-         
+
           <Link href='/orders'>
             <Button colorScheme='blue' className='w-32 p-2 '>Orders</Button>
           </Link>

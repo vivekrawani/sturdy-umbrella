@@ -161,8 +161,6 @@ export default function UpdateCard({ details }: any) {
     const handleDelete = async() => {
         setDeleteLoading(true)
         const res = await axios.delete(`/api/products/${productId}`)
-        console.log(res.data);
-       
         setDeleteLoading(false)
         onCloseD()
         toast({

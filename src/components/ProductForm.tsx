@@ -34,14 +34,11 @@ export default function ProductForm() {
     const [isPosting, setIsPosting] = useState<boolean>(false)
     const onSubmit = handleSubmit(async (data) => {      
         setIsPosting(true);
-        console.log(data);
-        
         const res = await axios.post('/api/products', data, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
         })
-        console.log(res);
         toast({
             title: 'Added New Product',
             status: 'success',

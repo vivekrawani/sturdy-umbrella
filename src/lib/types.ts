@@ -9,4 +9,6 @@ export type Product = {
   price: number;
   description: string;
   inStock: number;
+  nos?:number;
 };
+

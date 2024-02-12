@@ -17,8 +17,6 @@ export default function Orders() {
       <h1 className='text-3xl font-black text-blue-600'> Orders </h1>
       <div className='grid md:grid-cols-3 gap-4 '>
         {
-
-
           data!.length > 0 ? (data!.reduce((acc: any[], v) => {
             if (v?.isAccepted === true && v.isDelivered === false) {
               acc.push(<OrdersCard details={v} />)

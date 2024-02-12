@@ -138,11 +138,10 @@ export async function getAllProduct() {
   const results: any[] = [];
   snapshots.map((snap) => {
     const currRef = snap.docs;
-    currRef.forEach(d=>{
+    currRef.forEach((d) => {
       results.push(d.data());
-    })
+    });
   });
-  console.log(results);
   return results;
 }
 
@@ -201,7 +200,6 @@ export const getData = async () => {
     // }
     const ref = await subCollections[len - 1].get();
     const data = (await subRef.doc(ref.id).get()).data();
-    console.log(data);
 
     const userName = data!.userName;
     const mobileNumber = data!.mobileNumber;
@@ -229,8 +227,29 @@ export const getData = async () => {
     };
     orders.push(Order);
   }
+
   return orders;
 };
+
+export async function getOrderWithId(id: string) {
+  await initAdmin();
+  const db = getFirestore();
+  const ordersRef = await db
+    .collection("orders")
+    .doc("newOrders")
+    .collection(id)
+    .get();
+  const subCollections = ordersRef.docs;
+  const products: any[] = [];
+  for (let index = 0; index < subCollections.length - 1; index++) {
+    products.push(subCollections[index].data());
+  }
+  const res = {
+    products,
+    orderDetails: subCollections[subCollections.length - 1].data(),
+  };
+  return res;
+}
 
 export const searchByName = async (searchWord: string) => {
   await initAdmin();
@@ -244,18 +263,13 @@ export const searchByName = async (searchWord: string) => {
 
   try {
     const snapshot = await query.get();
-    console.log(snapshot);
     const re = snapshot.docs;
-    console.log(re);
-
     const results = snapshot.docs.map((doc) => {
       return {
         id: doc.id,
         ...doc.data(),
       };
     });
-    console.log(results);
-
     return results;
   } catch (error) {
     console.error("Error searching for documents:", error);
@@ -272,16 +286,11 @@ export const searchProduct = async (q: string) => {
   const collectionRef = firestore
     .collection("grocery")
     .where("name", ">=", q)
-    .where("name", "<=", q + "\uf8ff"); // >= to include partial matches
-  // .where("name", "<", q );
-  // const queryRef = collectionRef
-  //   .orderBy("name").sta
-
+    .where("name", "<=", q + "\uf8ff");
   const snap = await collectionRef.get();
   console.log(snap.docs);
   snap.docs.map((doc) => {
     results.push(doc.data());
-    console.log(doc.data);
   });
 
   //  return snap;
@@ -314,4 +323,49 @@ export const deleteProduct = async (collectionName: string, id_: string) => {
   const snapshot = firestore.collection(collectionName).doc(id_);
   const res = await snapshot.delete();
   return res;
+};
+
+export const getPastOrders = async () => {
+  await initAdmin();
+  const db = getFirestore();
+  const orders: OrderDetails[] = [];
+  const newOrdersRef = db.collection("orders").doc("pastOrders");
+  const snap = await newOrdersRef.listCollections();
+  for (let i = 0; i < snap.length; i++) {
+    const element = snap[i];
+    const subRef = newOrdersRef.collection(element.id);
+    const subCollections = await subRef.listDocuments();
+    const orderId = element.id;
+
+    const len = subCollections.length;
+    const ref = await subCollections[len - 1].get();
+    const data = (await subRef.doc(ref.id).get()).data();
+    const userName = data!.userName;
+    const mobileNumber = data!.mobileNumber;
+    const address = data!.address;
+    const pincode = data!.pincode;
+    const amount = data!.amount;
+    const isAccepted = data!.isAccepted;
+    const isDelivered = data!.isDelivered;
+    const payment = data!.payment;
+    const gst = data!.gst;
+    const time = data!.time;
+
+    const Order: OrderDetails = {
+      userName,
+      mobileNumber,
+      address,
+      pincode,
+      amount,
+      isAccepted,
+      isDelivered,
+      payment,
+      orderId,
+      gst,
+      time,
+    };
+    orders.push(Order);
+  }
+
+  return orders;
 };
