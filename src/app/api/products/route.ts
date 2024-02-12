@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getStringBetween } from "@/lib/utils";
-import { addProduct } from "@/db/firebase";
+import { addProduct, getAllProduct } from "@/db/firebase";
 
 export async function GET(request: NextRequest, response: NextResponse) {
-  return Response.json({ message: "work in progress" });
+  const res = await getAllProduct()
+
+  return Response.json({ res });
 }
 export async function POST(request: NextRequest) {
   try {

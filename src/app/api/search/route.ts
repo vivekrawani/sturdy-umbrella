@@ -1,11 +1,16 @@
-// import { searchProduct } from "@/db/firebase";
+import { getAllProduct, searchProduct } from "@/db/firebase";
+import { searchByName } from "@/db/firebase";
 import { NextRequest } from "next/server";
+// export const maxDuration = 10;
 
-export async function GET(request : NextRequest) {   
-  const headers = request.headers
-  const name = headers.get('data')
-  // const res = await searchProduct(name);
-
+export async function GET(request: NextRequest) {
+  const headers = request.headers;
+  const name = headers.get("data") as string;
+  console.log(name);
   
-  return Response.json({message : "ok"});
+  // const res = await searchProduct(name);
+  const res = await getAllProduct();
+
+
+  return Response.json({ message: "ok", res });
 }

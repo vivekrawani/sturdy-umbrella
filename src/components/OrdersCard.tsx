@@ -98,10 +98,6 @@ export default function OrdersCard({ details }:any) {
   }
   return (
     <div className='bg-gray-50 px-5 my-4 rounded-lg '>
-
-      <div className='w-full'>
-        {products.map((val :any) => <Card key={val.name} details={val} />)}
-      </div>
       <div className='grid grid-cols-2 bg-blue-50 rounded-lg p-2'>
         <div className='text-semibold'>Order Id</div> <div className='text-sm  '>{orderId}</div>
         <div className='text-semibold'>Total Amount</div> <div className='text-sm text-red text-end'> &#x20B9;{amount}</div>

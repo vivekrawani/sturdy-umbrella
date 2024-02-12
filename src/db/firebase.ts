@@ -47,8 +47,8 @@ export async function addProduct(data: any) {
   const file: File | null = data.get("file[]") as unknown as File;
   const imageUrl = await uploadFile(file);
   const collectionName = data.get("category");
-  const docRef =  firestore.collection(collectionName).doc();
-  const productId = docRef.id
+  const docRef = firestore.collection(collectionName).doc();
+  const productId = docRef.id;
   const updateData = {
     name: data.get("name"),
     description: data.get("description"),
@@ -57,13 +57,12 @@ export async function addProduct(data: any) {
     isFeatured: data.get("isFeatured") === "true",
     discountedPrice: parseFloat(data.get("discountedPrice")),
     imageUrl,
-    gst:parseFloat(data.get("gst")) | 0,
-    size:data.get('size'),
-    productId
+    gst: parseFloat(data.get("gst")) | 0,
+    size: data.get("size"),
+    productId,
   };
- 
- 
-  await docRef.set(updateData)
+
+  await docRef.set(updateData);
   return docRef.get();
 }
 
@@ -94,7 +93,7 @@ export async function getAllCollections() {
   const snapshot = await firestore.listCollections();
   const collections = [];
   snapshot.forEach((collection) => {
-    collections.push(collection.id);
+    collections.push(collection.doc);
   });
 }
 
@@ -127,6 +126,26 @@ export async function getDocWithId(_id: string) {
   return results;
 }
 
+export async function getAllProduct() {
+  await initAdmin();
+  const firestore = getFirestore();
+  const collections = ["grocery", "stationary", "cosmetics"];
+  const snapshots = await Promise.all(
+    collections.map((collectionName) =>
+      firestore.collection(collectionName).get()
+    )
+  );
+  const results: any[] = [];
+  snapshots.map((snap) => {
+    const currRef = snap.docs;
+    currRef.forEach(d=>{
+      results.push(d.data());
+    })
+  });
+  console.log(results);
+  return results;
+}
+
 type Product = {
   imageUrl: string;
   name: string;
@@ -144,8 +163,9 @@ type OrderDetails = {
   mobileNumber: string;
   userName: string;
   payment: boolean;
-  products: Product[];
   orderId: string;
+  gst: string;
+  time: string;
 };
 
 export const getData = async () => {
@@ -158,39 +178,41 @@ export const getData = async () => {
     const element = snap[i];
     const subRef = newOrdersRef.collection(element.id);
     const subCollections = await subRef.listDocuments();
-    const products: Product[] = [];
     const orderId = element.id;
 
     const len = subCollections.length;
-    for (let j = 0; j < len - 1; j++) {
-      const inElement = subCollections[j];
-      const sub = await inElement.get();
-      const product = (await subRef.doc(sub.id).get()).data();
-      const name = product!.name;
-      const imageUrl = product!.imageUrl;
-      const price = product!.price;
-      const count = product!.nos;
-      const discountedPrice = product!.discountedPrice;
-      const finalProduct: Product = {
-        name,
-        imageUrl,
-        price,
-        count,
-        discountedPrice,
-      };
-      products.push(finalProduct);
-    }
+    // for (let j = 0; j < len - 1; j++) {
+    //   const inElement = subCollections[j];
+    //   const sub = await inElement.get();
+    //   const product = (await subRef.doc(sub.id).get()).data();
+    //   const name = product!.name;
+    //   const imageUrl = product!.imageUrl;
+    //   const price = product!.price;
+    //   const count = product!.nos;
+    //   const discountedPrice = product!.discountedPrice;
+    //   const finalProduct: Product = {
+    //     name,
+    //     imageUrl,
+    //     price,
+    //     count,
+    //     discountedPrice,
+    //   };
+    //   products.push(finalProduct);
+    // }
     const ref = await subCollections[len - 1].get();
-    const OrderDetails = (await subRef.doc(ref.id).get()).data();
+    const data = (await subRef.doc(ref.id).get()).data();
+    console.log(data);
 
-    const userName = OrderDetails!.userName;
-    const mobileNumber = OrderDetails!.mobileNumber;
-    const address = OrderDetails!.address;
-    const pincode = OrderDetails!.pincode;
-    const amount = OrderDetails!.amount;
-    const isAccepted = OrderDetails!.isAccepted;
-    const isDelivered = OrderDetails!.isDelivered;
-    const payment = OrderDetails!.payment;
+    const userName = data!.userName;
+    const mobileNumber = data!.mobileNumber;
+    const address = data!.address;
+    const pincode = data!.pincode;
+    const amount = data!.amount;
+    const isAccepted = data!.isAccepted;
+    const isDelivered = data!.isDelivered;
+    const payment = data!.payment;
+    const gst = data!.gst;
+    const time = data!.time;
 
     const Order: OrderDetails = {
       userName,
@@ -201,54 +223,90 @@ export const getData = async () => {
       isAccepted,
       isDelivered,
       payment,
-      products,
       orderId,
+      gst,
+      time,
     };
     orders.push(Order);
   }
   return orders;
 };
 
-// export const searchProduct = async (name: string | null) => {
-//   if (!name) {
-//     return [];
-//   }
-//   await initAdmin();
-//   const firestore = getFirestore();
-//   const collections = ["grocery", "stationary", "cosmetics"];
-//   const results: any = [];
+export const searchByName = async (searchWord: string) => {
+  await initAdmin();
+  const db = getFirestore();
+  const collectionName = "grocery";
 
-//   const collectionRef = firestore.collection("grocery");
-//   const queryRef = collectionRef
-//     .orderBy("name")
-//     .startAt(name)
-//     .endAt(name + "\uf8ff");
-//   const snap = await queryRef.get();
-//   console.log(snap);
+  const query = db
+    .collection(collectionName)
+    .where("name", ">=", searchWord) // >= to include partial matches
+    .where("name", "<", searchWord); // < to exclude exact matches and beyond
 
-//   //  return snap;
+  try {
+    const snapshot = await query.get();
+    console.log(snapshot);
+    const re = snapshot.docs;
+    console.log(re);
 
-//   // const snapshots = await Promise.all(
-//   //   collections.map(async (collectionName) =>
-//   //   {
-//   //     const collectionRef = firestore.collection(collectionName);
-//   //     const queryRef = collectionRef.orderBy('name').startAt(name).endAt(name+'\uf8ff');
-//   //     const snap = await queryRef.get();
-//   //     console.log(snap);
+    const results = snapshot.docs.map((doc) => {
+      return {
+        id: doc.id,
+        ...doc.data(),
+      };
+    });
+    console.log(results);
 
-//   //    return snap;
-//   //   }
-//   //     // firestore.collection(collectionName).doc().get()
-//   //   )
-//   // );
+    return results;
+  } catch (error) {
+    console.error("Error searching for documents:", error);
+    return [];
+  }
+};
 
-//   // snapshots.forEach((doc) => {
-//   //    {
-//   //     results.push(doc.docs);
-//   //   }
-//   // });
-//   return results;
-// };
+export const searchProduct = async (q: string) => {
+  await initAdmin();
+  const firestore = getFirestore();
+  const collections = ["grocery", "stationary", "cosmetics"];
+  const results: any = [];
+
+  const collectionRef = firestore
+    .collection("grocery")
+    .where("name", ">=", q)
+    .where("name", "<=", q + "\uf8ff"); // >= to include partial matches
+  // .where("name", "<", q );
+  // const queryRef = collectionRef
+  //   .orderBy("name").sta
+
+  const snap = await collectionRef.get();
+  console.log(snap.docs);
+  snap.docs.map((doc) => {
+    results.push(doc.data());
+    console.log(doc.data);
+  });
+
+  //  return snap;
+
+  // const snapshots = await Promise.all(
+  //   collections.map(async (collectionName) =>
+  //   {
+  //     const collectionRef = firestore.collection(collectionName);
+  //     const queryRef = collectionRef.orderBy('name').startAt(name).endAt(name+'\uf8ff');
+  //     const snap = await queryRef.get();
+  //     console.log(snap);
+
+  //    return snap;
+  //   }
+  //     // firestore.collection(collectionName).doc().get()
+  //   )
+  // );
+
+  // snapshots.forEach((doc) => {
+  //    {
+  //     results.push(doc.docs);
+  //   }
+  // });
+  return results;
+};
 
 export const deleteProduct = async (collectionName: string, id_: string) => {
   await initAdmin();

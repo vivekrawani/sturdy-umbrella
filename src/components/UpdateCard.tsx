@@ -172,7 +172,7 @@ export default function UpdateCard({ details }: any) {
             duration: 5000,
             isClosable: true,
         })
-        router.back();
+        router.push('/products/grocery');
 
     }
     const { isOpen: isOpenD, onOpen: onOpenD, onClose: onCloseD } = useDisclosure()

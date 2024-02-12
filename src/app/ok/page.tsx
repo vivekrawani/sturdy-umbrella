@@ -18,11 +18,7 @@ export default function Ok() {
 
     console.log('On Submit: ', data)
     const { search } = data;
-    const res = await axios.get('/api/search', {
-      headers: {
-        data: search
-      }
-    })
+    const res = await axios.get('/api/search')
 
     console.log(res.data);
 
