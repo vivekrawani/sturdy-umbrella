@@ -15,6 +15,7 @@ import {
 } from 'redux-persist'
 
 import storage from 'redux-persist/lib/storage'
+import session from "redux-persist/lib/storage/session";
 
 const persistConfigAuth = {
   key: 'auth', 
@@ -25,13 +26,19 @@ const persistedReducer = persistReducer(
   persistConfigAuth,
   authReducer
 );
-
+const persistedOrder = persistReducer(
+  {
+    key : 'order',
+    storage,
+  },
+  orderReducers
+)
 export const store = configureStore({
   reducer: {
  
     authReducer :persistedReducer,
     productReducer,
-    orderReducers,
+    orderReducers : persistedOrder,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -42,8 +49,6 @@ export const store = configureStore({
 });
 
 export const persistor = persistStore(store)
-
-
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
 export const useAppDispatch: () => AppDispatch = useDispatch 
