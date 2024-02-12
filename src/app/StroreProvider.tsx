@@ -15,7 +15,7 @@ export default function StoreProvider({
 
 
   return (
-    <ChakraProvider theme={theme}>
+    <ChakraProvider>
       <PersistGate persistor={persistor} loading={null}>
         <Provider store={store}>{children}</Provider>
       </PersistGate>

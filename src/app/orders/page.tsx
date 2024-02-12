@@ -11,7 +11,6 @@ export default function Orders() {
   useEffect(() => {
     dispatch(getOrders())
   }, [dispatch])
-console.log(data);
 
   return (
     <div className='flex flex-col mt-6 justify-center items-center bg-slate-300 '>

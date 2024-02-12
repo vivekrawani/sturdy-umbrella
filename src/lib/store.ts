@@ -16,22 +16,15 @@ import {
 
 import storage from 'redux-persist/lib/storage'
 
-
-
 const persistConfigAuth = {
   key: 'auth', 
   storage,
 };
 
-
-
 const persistedReducer = persistReducer(
   persistConfigAuth,
   authReducer
 );
-
-
-
 
 export const store = configureStore({
   reducer: {

@@ -26,11 +26,6 @@ type Order = {
     loading : boolean,
   }
 
-
-
-
-
-
 const initialState  : InitialState = {
   data: [],
   loading: false,
@@ -54,13 +49,15 @@ export const orderSlice = createSlice({
     builder.addCase(getOrders.fulfilled, (state: any, action: any) => {
       state.loading = false;
       if(action.payload) state.data = action.payload;
+      console.log(state.data);
+      
     });
     builder.addCase(getOrders.pending, (state: any) => {
       state.loading = true;
     });
     builder.addCase(getOrders.rejected, (state: any, action: any) => {
       state.loading = false;
-      console.log(action.error.message);
+      console.log("messge", action.error.message);
     });
   },
 });
