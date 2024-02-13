@@ -41,6 +41,7 @@
 
 
 body {
+  overflow-x: hidden; 
 background-color:  rgba( 129, 140 ,248, 0.82);
   /*     */
 /* 129 140 248

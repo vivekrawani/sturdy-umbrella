@@ -8,12 +8,17 @@ import { useForm, UseFormRegisterReturn } from 'react-hook-form'
 import { FiFile } from 'react-icons/fi'
 import axios from 'axios'
 
+
+
+import "react-datepicker/dist/react-datepicker.css";
+
 type FormValues = {
   search: string
 }
 
 export default function Ok() {
   const { register, handleSubmit, formState: { errors } } = useForm<FormValues>()
+ 
   const onSubmit = handleSubmit(async (data) => {
 
     console.log('On Submit: ', data)
@@ -38,17 +43,10 @@ export default function Ok() {
     }
     return true
   }
-
+ 
   return (
     <div>
-      <form onSubmit={onSubmit}>
-        <FormControl>
-          <FormLabel>{'Search'}</FormLabel>
-          <input type='text' {...register('search')} />
-        </FormControl>
-
-        <button>Submit</button>
-      </form>
+      
 
     </div>
   )

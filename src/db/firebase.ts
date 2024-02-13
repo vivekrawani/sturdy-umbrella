@@ -2,6 +2,7 @@ import "server-only";
 import { initAdmin } from "./firebaseAdminSdk";
 import { getFirestore } from "firebase-admin/firestore";
 import { getStorage } from "firebase-admin/storage";
+import { error } from "console";
 
 const uploadFile = async (file: File | null) => {
   if (file) {
@@ -251,7 +252,11 @@ export async function getOrderWithId(id: string) {
   return res;
 }
 
-export const updateOrder = async (id: string, updateType: string) => {
+export const updateOrder = async (
+  id: string,
+  updateType: string,
+  additionalInfo: string
+) => {
   await initAdmin();
   const db = getFirestore();
   const ordersRef = await db
@@ -261,13 +266,28 @@ export const updateOrder = async (id: string, updateType: string) => {
     .get();
   const subCollections = ordersRef.docs;
   const orderDetailsRef = subCollections[subCollections.length - 1].ref;
-  if (updateType === "Accept") {
-    const res = orderDetailsRef.update({
+  if (updateType === "Accept Order") {
+    const res = await orderDetailsRef.update({
       isAccepted: true,
+      deliveryDate: additionalInfo,
     });
     return res;
-  } else {
-    return "";
+  } else if (updateType === "Confirm Order") {
+    const details = (await orderDetailsRef.get()).data();
+    const res = {
+      message: "",
+      error:false
+    };
+    if (details?.otp === additionalInfo) {
+      res.message = "Order Delivered";
+      await orderDetailsRef.update({
+        isDelivered : true,
+      })
+    } else{
+      res.message = "OTP did not match";
+      res.error = true;
+    }
+    return res;
   }
 };
 
@@ -388,4 +408,8 @@ export const getPastOrders = async () => {
   }
 
   return orders;
+};
+
+export const acceptOrConfirmOrder = async () => {
+  await initAdmin();
 };

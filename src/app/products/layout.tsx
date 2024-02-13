@@ -1,5 +1,5 @@
 "use client";
-import Navbar from "@/components/Navbar";
+import Head from 'next/head'
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FcAddDatabase } from "react-icons/fc";
@@ -8,6 +8,7 @@ const sub = [
     { name: "Grocery", href: '/products/grocery' },
     { name: "Stationary", href: '/products/stationary' }
 ]
+
 export default function RootLayout({
     children,
 }: Readonly<{
@@ -17,6 +18,9 @@ export default function RootLayout({
     const pathname = usePathname()
     return (
         <div className="my-2 w-svw">
+            <Head>
+                <title>My page title</title>
+            </Head>
 
             <div>
                 <main className="grid w-full place-items-center">
@@ -37,10 +41,10 @@ export default function RootLayout({
                     </div>
 
                 </main>
-                <div className="flex w-full justify-center items-center gap-5 mt-5">  
-                <FcAddDatabase className="text-3xl"/>
-                <Link className="hidden md:inline-block py-2 px-6 bg-blue-500 hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200"
-							href={'/products'} >Add New</Link>
+                <div className="flex w-full justify-center items-center gap-5 mt-5">
+                    <FcAddDatabase className="text-3xl" />
+                    <Link className="hidden md:inline-block py-2 px-6 bg-blue-500 hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200"
+                        href={'/products'} >Add New</Link>
                 </div>
             </div>
 

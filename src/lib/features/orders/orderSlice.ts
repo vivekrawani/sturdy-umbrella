@@ -58,6 +58,7 @@ const getOrder = createAsyncThunk(
   "/api/orders/id",
   async (orderId: string, _thunkAPI: any) => {
     try {
+      console.log("in");
       const data = (await axios.get(`/api/orders/${orderId}`)).data;
       return data;
     } catch (error: any) {

@@ -13,9 +13,8 @@ export default function Orders() {
   }, [dispatch])
 
   return (
-    <div className='flex flex-col mt-6 justify-center items-center bg-slate-300 '>
-      <h1 className='text-3xl font-black text-blue-600'> Orders </h1>
-      <div className='grid md:grid-cols-3 gap-4 '>
+    <div className='flex flex-col mt-6 justify-center items-center '>
+     
         {
           data!.length > 0 ? (data!.reduce((acc: any[], v) => {
             if (v?.isAccepted === true && v.isDelivered === false) {
@@ -26,7 +25,7 @@ export default function Orders() {
           )) : <div className='w-full h-screen'><Loading /></div>
         }
 
-      </div>
+     
     </div>
   )
 }

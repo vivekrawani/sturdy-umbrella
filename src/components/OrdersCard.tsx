@@ -4,6 +4,8 @@ import Link from 'next/link';
 
 const Card = ({ details }: any) => {
   const { name, imageUrl, price, count, discountedPrice } = details;
+
+  
   return (
     <div className='flex bg-white px-4 py-2 rounded-md'>
       <Image src={imageUrl} alt={name} boxSize='150px'
@@ -22,21 +24,24 @@ const Card = ({ details }: any) => {
 }
 
 export default function OrdersCard({ details }: any) {
-  const { userName, mobileNumber, address, pincode, amount, isAccepted, isDelivered, payment, products, orderId } = details;
+  const { userName, mobileNumber, address, pincode, amount, isAccepted, isDelivered, payment, products, orderId, time} = details;
+  
   return (
-    <div className='bg-gray-50 px-5 my-4 rounded-lg '>
+    
       <Link href={`/orders/${orderId}`}>
-        <div className='grid grid-cols-2 bg-blue-50 rounded-lg p-2'>
+        <div className='grid grid-cols-2 bg-blue-200 rounded-lg p-3 m-3'>
           <div className='text-semibold'>Order Id</div> <div className='text-sm  '>{orderId}</div>
           <div className='text-semibold'>Total Amount</div> <div className='text-sm text-red text-end'> &#x20B9;{amount}</div>
           <div className='text-semibold'>Ordered By</div> <div className='text-sm font-semibold text-end'>{userName}</div>
           <div className='text-semibold'>Mobile Number</div> <div className='text-sm text-end'>{mobileNumber}</div>
           <div className='text-semibold'>Address</div> <div className='text-sm text-end '>{address}</div>
           <div className='text-semibold'>Pincode</div> <div className='text-sm text-end'>{pincode}</div>
+          <div className='text-semibold'>Order Date, Time</div> <div className='text-sm text-end'>{time}</div>
+         
 
         </div>
       </Link>
-    </div>
+   
   )
 }
 /**

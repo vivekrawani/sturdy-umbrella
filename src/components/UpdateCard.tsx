@@ -70,8 +70,6 @@ export default function UpdateCard({ details }: any) {
             });
         setLoading(false)
         onClose();
-               console.log(response);
-
         toast({
             title: 'Update',
             description: "Update was successful",
@@ -158,7 +156,7 @@ export default function UpdateCard({ details }: any) {
         </Modal>
     )
 
-    const handleDelete = async() => {
+    const handleDelete = async () => {
         setDeleteLoading(true)
         const res = await axios.delete(`/api/products/${productId}`)
         setDeleteLoading(false)

@@ -1,8 +1,12 @@
 import Navbar from "@/components/Navbar";
 import "./globals.css";
 import StoreProvider from "./StroreProvider";
-import theme from './theme'
-import { ColorModeScript } from '@chakra-ui/react'
+import { Metadata } from 'next';
+ 
+export const metadata: Metadata = {
+  title: 'Johar Basket',
+  description: 'Buy groceries, cosmetics, stationaries.',
+};
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -12,7 +16,7 @@ export default function RootLayout({
     <html lang="en">
       <body >
         <StoreProvider>
-        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+        
           <Navbar />
           {children}
         </StoreProvider>
