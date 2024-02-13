@@ -24,7 +24,7 @@ export default function Order({ params }: Params) {
         <div>{JSON.stringify(params.orderId)}
             <div>
                 {
-                    order.products!.map(product => <Card details={product} key={product.productId} />)
+                   order.products.length > 0 &&  order!.products!.map(product => <Card details={product} key={product.productId} />)
                 }
             </div>
             <div>

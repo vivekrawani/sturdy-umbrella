@@ -12,3 +12,16 @@ export type Product = {
   nos?:number;
 };
 
+export type OrderDetails = {
+  address?: string;
+  pincode?: string;
+  isAccepted: boolean;
+  isDelivered: boolean;
+  amount: string;
+  mobileNumber: string;
+  userName: string;
+  payment: boolean;
+  orderId: string;
+  gst: string;
+  time: string;
+};

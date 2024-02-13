@@ -251,6 +251,26 @@ export async function getOrderWithId(id: string) {
   return res;
 }
 
+export const updateOrder = async (id: string, updateType: string) => {
+  await initAdmin();
+  const db = getFirestore();
+  const ordersRef = await db
+    .collection("orders")
+    .doc("newOrders")
+    .collection(id)
+    .get();
+  const subCollections = ordersRef.docs;
+  const orderDetailsRef = subCollections[subCollections.length - 1].ref;
+  if (updateType === "Accept") {
+    const res = orderDetailsRef.update({
+      isAccepted: true,
+    });
+    return res;
+  } else {
+    return "";
+  }
+};
+
 export const searchByName = async (searchWord: string) => {
   await initAdmin();
   const db = getFirestore();
