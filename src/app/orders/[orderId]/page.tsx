@@ -33,7 +33,7 @@ export default function Order({ params }: Params) {
                 }
             </div>
             <div>
-                <OrdersCard details={order.orderDetails} />
+               {order?.orderDetails &&  <OrdersCard details={order.orderDetails} />}
             </div>
             <div className='flex w-full justify-center gap-5'>
             
