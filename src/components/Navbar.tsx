@@ -134,15 +134,6 @@ export default function Navbar() {
 							)
 						})
 					}
-					<div className="">
-						<button className="navbar-burger flex items-center text-blue-600 p-3"
-								onClick={e=> setOpenSearch(p=>!p)}
-						>
-							<CiSearch className="h-8 w-8" />
-						
-						</button>
-						{ openSearch && <SearchBox />}
-					</div>
 
 				</div>
 

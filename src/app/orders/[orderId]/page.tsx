@@ -17,7 +17,6 @@ export default function Order({ params }: Params) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const order = useAppSelector(state => state.orderReducers.single)
     const dispatch = useAppDispatch()
-    console.log(order);
     useEffect(() => {
         dispatch(getOrder(params.orderId))
     }, [params.orderId])

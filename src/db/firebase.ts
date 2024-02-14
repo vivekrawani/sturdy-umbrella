@@ -100,9 +100,7 @@ export async function getAllCollections() {
 
 export async function getAllDocsFrom(collectionName: string) {
   await initAdmin();
-  const firestore = getFirestore();
-  console.log(collectionName);
-  
+  const firestore = getFirestore(); 
   const snapshot = await firestore.collection(collectionName).get();
   const res: any[] = [];
   snapshot.forEach((doc) => {

@@ -1,8 +1,12 @@
 "use client";
+import { getStringBetween } from '@/lib/utils';
 import Head from 'next/head'
 import Link from "next/link";
+import { FcSearch } from "react-icons/fc";
 import { usePathname } from "next/navigation";
 import { FcAddDatabase } from "react-icons/fc";
+import { useDisclosure } from '@chakra-ui/react';
+import SearchBox from '@/components/SearchBox';
 const sub = [
     { name: "Cosmetics", href: '/products/cosmetics' },
     { name: "Grocery", href: '/products/grocery' },
@@ -16,6 +20,7 @@ export default function RootLayout({
 
 }>) {
     const pathname = usePathname()
+    const {onOpen, onClose, isOpen} = useDisclosure()
     return (
         <div className="my-2 w-svw">
             <Head>
@@ -41,10 +46,11 @@ export default function RootLayout({
                     </div>
 
                 </main>
-                <div className="flex w-full justify-center items-center gap-5 mt-5">
-                    <FcAddDatabase className="text-3xl" />
+                <div className="flex w-full justify-around items-center gap-5 mt-5">
                     <Link className="hidden md:inline-block py-2 px-6 bg-blue-500 hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200"
                         href={'/products'} >Add New</Link>
+                    <button onClick={onOpen} > <FcSearch className='text-3xl' /></button>
+                        <SearchBox onClose={onClose} onOpen={onOpen} isOpen={isOpen}/>
                 </div>
             </div>
 

@@ -4,35 +4,65 @@ import type { Product } from '@/lib/types';
 import { useState } from 'react';
 import { searchRegEx } from '@/lib/utils';
 import SmallProductCard from './SmallProductCard';
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+} from '@chakra-ui/react'
 
-export default function SearchBox() {
-  const all = useAppSelector(state => state.productReducer.all)
+export default function SearchBox({ isOpen, onClose, onOpen }: { isOpen: boolean, onClose: () => void, onOpen: () => void }) {
+  const sub = useAppSelector(state => state.productReducer.sub)
   const [inputVal, setInputVal] = useState<string>('');
   const [filteredProduct, setFilteredProduct] = useState<Product[]>([]);
   const handleChange = (e: any) => {
     setInputVal(e.target.value)
-    if (inputVal.length >= 1) {
-      const filteredProduct = searchRegEx(inputVal, all)
+    if (inputVal.length >= 3) {
+      const filteredProduct = searchRegEx(inputVal, sub)
       setFilteredProduct(filteredProduct)
     }
   }
 
   return (
-    <div className='absolute top-15 z-50 border-2 border-red-100 transition-colors ease-in-out w-full h-max bg left-1/2 p-2 rounded-lg  bg-black backdrop-blur backdrop-brightness-10 backdrop-opacity-10'>
-      <input className='p-2 rounded-full outline-none w-full my-2'
-      placeholder='enter atleast 3 letters'
-        value={inputVal}
-        onChange={e => handleChange(e)}
-      />
-      <hr />
-      {
-        filteredProduct.length>0 &&  <div className='flex flex-col h-max-screen overflow-scroll'>
-        {
-          filteredProduct.map(product=><SmallProductCard key={product.productId} details={product}/>)
-        }
-      </div>
-      }
-     
-    </div>
+
+    <>
+      <Modal isOpen={isOpen} onClose={onClose} size={'xl'} scrollBehavior='inside' >
+        <ModalOverlay
+          bg='blackAlpha.100'
+          brightness={100}
+          backdropFilter='blur(10px)' />
+        <ModalContent>
+          <ModalHeader>
+            <input className='p-2 rounded-full outline-none w-full my-2'
+              placeholder='enter atleast 3 letters'
+              value={inputVal}
+              onChange={e => handleChange(e)}
+            />
+          </ModalHeader>
+
+          <ModalCloseButton />
+          <ModalBody>
+            <div className=''>
+
+              <hr />
+              {
+                filteredProduct.length > 0 && <div className='flex flex-col h-max-screen overflow-scroll'>
+                  {
+                    filteredProduct.map(product => <SmallProductCard key={product.productId} details={product} />)
+                  }
+                </div>
+              }
+
+            </div>
+          </ModalBody>
+
+
+        </ModalContent>
+      </Modal>
+
+    </>
   )
 }

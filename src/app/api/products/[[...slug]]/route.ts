@@ -5,24 +5,18 @@ import {
   getProductCollection,
   updateDoc,
 } from "@/db/firebase";
-import { NextApiRequest, NextApiResponse } from "next";
+
 import { NextRequest, NextResponse } from "next/server";
 type Context = {
   params: {
     slug: string[];
   };
 };
-export async function GET(req: NextApiRequest, { params }: Context) {
+export async function GET(req: NextRequest, { params }: Context) {
   const { slug } = params;
   let res = NextResponse;  
   if (slug?.length === 1) {   
-    console.log(slug[0]);
-    
-    const res = await getAllDocsFrom(slug[0]);
-
-    console.log(res);
-       
-    
+    const res = await getAllDocsFrom(slug[0]);    
     return NextResponse.json({ res }, { status: 200 });
   } else if (slug?.length === 2) {   
     const res = await getDocWithIdFromCollection(slug[1], slug[0]);
