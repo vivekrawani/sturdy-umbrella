@@ -5,21 +5,35 @@ const initialState: {
   data: Product | null;
   loading: boolean;
   all: Product[];
+  grocery: Product[];
+  cosmetics: Product[];
+  stationary: Product[];
+  single: Product | null;
+  sub: Product[];
 } = {
   data: null,
   loading: false,
   all: [],
+  grocery: [],
+  cosmetics: [],
+  stationary: [],
+  single: null,
+  sub: [],
 };
 
 const getProduct = createAsyncThunk(
   "/api/products",
-  async (id: string, thunkAPI: any) => {
+  async (arg: { id: string; collection: string }, _thunkAPI: any) => {
     try {
-      const data = await (await fetch(`/api/products/${id}`)).json();
-      return data;
+      const data = (
+        await axios.get(`/api/products/${arg.collection}/${arg.id}`)
+      ).data;
+      console.log(data?.res);
+
+      return data?.res;
     } catch (error: any) {
       console.log("Errorsss");
-      thunkAPI.rejectWithValue(error);
+      _thunkAPI.rejectWithValue(error);
     }
   }
 );
@@ -37,6 +51,22 @@ const fetchAllProducts = createAsyncThunk(
   }
 );
 
+const fetchProductsFrom = createAsyncThunk(
+  "/api/products/sub",
+  async (sub : string, _thunkAPI) => {
+    
+    try {
+      const data = (await axios.get(`/api/products/${sub}`)).data;
+      console.log(data);
+      return data?.res;
+      
+    } catch (error: any) {
+      console.log("Errorsss");
+      _thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const productSlice = createSlice({
   name: "products",
   initialState,
@@ -46,8 +76,8 @@ export const productSlice = createSlice({
       state.loading = false;
       if (action.payload) {
         state.data = action.payload;
+        state.single = action.payload;
       }
-
     });
     builder.addCase(getProduct.pending, (state: any) => {
       state.loading = true;
@@ -61,7 +91,6 @@ export const productSlice = createSlice({
       if (action.payload) {
         state.all = action.payload;
       }
-
     });
     builder.addCase(fetchAllProducts.pending, (state: any) => {
       state.loading = true;
@@ -70,7 +99,20 @@ export const productSlice = createSlice({
       state.loading = false;
       console.log(action.error.message);
     });
+    builder.addCase(fetchProductsFrom.fulfilled, (state: any, action: any) => {
+      state.loading = false;
+      if (action.payload) {
+        state.sub = action.payload;
+      }
+    });
+    builder.addCase(fetchProductsFrom.pending, (state: any) => {
+      state.loading = true;
+    });
+    builder.addCase(fetchProductsFrom.rejected, (state: any, action: any) => {
+      state.loading = false;
+      console.log(action.error.message);
+    });
   },
 });
-export { getProduct, fetchAllProducts };
+export { getProduct, fetchAllProducts, fetchProductsFrom };
 export default productSlice.reducer;

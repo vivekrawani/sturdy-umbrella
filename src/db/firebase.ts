@@ -67,7 +67,7 @@ export async function addProduct(data: any) {
   return docRef.get();
 }
 
-export async function updateDoc(collection: any, docId: any, data: any) {
+export async function updateDoc(collection: string, docId: string, data: any) {
   await initAdmin();
   const firestore = getFirestore();
   const updateData = {
@@ -98,6 +98,19 @@ export async function getAllCollections() {
   });
 }
 
+export async function getAllDocsFrom(collectionName: string) {
+  await initAdmin();
+  const firestore = getFirestore();
+  console.log(collectionName);
+  
+  const snapshot = await firestore.collection(collectionName).get();
+  const res: any[] = [];
+  snapshot.forEach((doc) => {
+    res.push(doc.data());    
+  });
+  return res;
+}
+
 export async function getProductCollection(collectionName: string) {
   await initAdmin();
   const firestore = getFirestore();
@@ -107,6 +120,17 @@ export async function getProductCollection(collectionName: string) {
     res.push(doc.data());
   });
   return res;
+}
+export async function getDocWithIdFromCollection(
+  _id: string,
+  collectionName: string
+) {
+  await initAdmin();
+  const firestore = getFirestore();
+  const data = (
+    await firestore.collection(collectionName).doc(_id).get()
+  ).data();
+  return data;
 }
 
 export async function getDocWithId(_id: string) {
@@ -276,14 +300,14 @@ export const updateOrder = async (
     const details = (await orderDetailsRef.get()).data();
     const res = {
       message: "",
-      error:false
+      error: false,
     };
     if (details?.otp === additionalInfo) {
       res.message = "Order Delivered";
       await orderDetailsRef.update({
-        isDelivered : true,
-      })
-    } else{
+        isDelivered: true,
+      });
+    } else {
       res.message = "OTP did not match";
       res.error = true;
     }
