@@ -23,7 +23,8 @@ const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId }: { isOpen: bool
 
         if (actionType === 'Accept Order')
             return (
-                <div>
+                <div className='flex flex-col gap-2 justify-center items-center'>
+                    <div className=''>Select Expected Delivery Date</div>
                     <DateTimePicker date={date} setDate={setDate} />
                 </div>
             )
@@ -48,7 +49,7 @@ const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId }: { isOpen: bool
                 additionalInfo: actionType === 'Confirm Order' ? otp : date,
             })
             const res = response.data.res;
-           
+
 
             const status = res.error ? 'error' : 'success';
             if (res.error) {
