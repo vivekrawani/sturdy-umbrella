@@ -48,9 +48,7 @@ export default function Navbar() {
 	const dispatch = useAppDispatch();
 	const [open, setOpen] = useState(false);
 	const [openSearch, setOpenSearch] = useState(false);
-	useEffect(()=>{
-		dispatch(fetchAllProducts())
-	}, [dispatch])
+
 
 	const menuModal = (
 		<div className="navbar-menu relative z-50">

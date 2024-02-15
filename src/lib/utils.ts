@@ -12,7 +12,7 @@ export function capitalizeFirstLetter(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export const searchRegEx =  (word : string, arr :Product[]) => {
+export const searchRegEx = (word: string, arr: Product[]) => {
   const regex = new RegExp(word, "gi");
   const filteredArr = arr.filter((item) => regex.test(item.name));
   return filteredArr;
@@ -26,45 +26,47 @@ const createHeaders = (keys: any) => {
       prompt: keys[i],
       width: 65,
       align: "center",
-      padding: 0
+      padding: 0,
     });
   }
   return result;
-}
+};
 
-
-const generateData = (products: any[], total : string) => {
+const generateData = (products: any[], total: string) => {
   let result = [];
-  const rupee: string = '\u20B9';
+  const rupee: string = "\u20B9";
   for (var i = 0; i < products.length; i += 1) {
     const x = products[i];
 
     let data = {
       "Sl No.": (i + 1).toString(),
-      "Particular": x.name,
-      "Rate    ": (x.discountedPrice).toString(),
-      "Quantity": (x.count).toString(),
-      "Amount": (x.discountedPrice * x.count).toString()
+      Particular: x.name,
+      "Rate    ": x.discountedPrice.toString(),
+      Quantity: x.count.toString(),
+      Amount: (x.discountedPrice * x.count).toString(),
     };
     result.push(data);
   }
- let data = {
-    "Sl No.":"",
-    "Particular":"",
+  let data = {
+    "Sl No.": "",
+    Particular: "",
     "Rate    ": "",
-    "Quantity": "Total",
-    "Amount": total
-  }
-  result.push(data)
+    Quantity: "Total",
+    Amount: total,
+  };
+  result.push(data);
   return result;
 };
 
-
-export function generateReceipt(products:any[], amount :string, orderId:string) {
-  const appName = "Johar Basket"
-  const ShopAddress = "Near Chhat Talab Phulsarai"
-  const shopAddress = "Ramgarh - 829101(Jharkhand)"
-  const shopMob = "+91 9431728628"
+export function generateReceipt(
+  products: any[],
+  amount: string,
+  orderId: string
+) {
+  const appName = "Johar Basket";
+  const ShopAddress = "Near Chhat Talab Phulsarai";
+  const shopAddress = "Ramgarh - 829101(Jharkhand)";
+  const shopMob = "+91 9431728628";
   const doc = new jsPDF({ putOnlyUsedFonts: true });
 
   const headers: any[] = createHeaders([
@@ -72,15 +74,35 @@ export function generateReceipt(products:any[], amount :string, orderId:string) 
     "Particular",
     "Rate    ",
     "Quantity",
-    "Amount"
+    "Amount",
   ]);
   doc.text(appName, 10, 10);
-  const ds = doc.getFontSize()
-  doc.setFontSize(10)
-  doc.text(ShopAddress, 10, 20)
-  doc.text(shopAddress, 10, 25)
-  doc.text(shopMob, 10, 30)
-  doc.table(10, 35, generateData(products, amount), headers, { autoSize: true });
-  doc.save(orderId)
-
+  const ds = doc.getFontSize();
+  doc.setFontSize(10);
+  doc.text(ShopAddress, 10, 20);
+  doc.text(shopAddress, 10, 25);
+  doc.text(shopMob, 10, 30);
+  doc.table(10, 35, generateData(products, amount), headers, {
+    autoSize: true,
+  });
+  doc.save(orderId);
 }
+
+export const getMonthName = (month: number) => {
+  const monthName = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  return monthName[month]
+};

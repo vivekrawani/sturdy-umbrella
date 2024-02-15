@@ -1,7 +1,7 @@
 "use client";
 
 import Loading from '@/components/Loading';
-import OrdersCard from '@/components/OrdersCard'
+import OrdersCard from '@/components/OrderCard'
 import { getOrders } from '@/lib/features/orders/orderSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { useEffect } from 'react';
@@ -12,9 +12,9 @@ export default function Orders() {
     dispatch(getOrders())
   }, [dispatch])
 
-  return (
-    <div className='flex flex-col mt-6 justify-center items-center '>
 
+  return (
+    <div className='flex flex-col mt-6 mx-4 gap-5 justify-center items-center '>
       {
         data!.length > 0 ? (data!.reduce((acc: any[], v) => {
           if (v?.isAccepted === false && v.isDelivered === false) {

@@ -1,18 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import type { Product } from "@/lib/types";
-type Order = {
-  address?: string;
-  pincode?: string;
-  isAccepted: boolean;
-  isDelivered: boolean;
-  amount: string;
-  mobileNumber: string;
-  userName: string;
-  payment: boolean;
-  products?: Product[];
-  orderId: string;
-} | null;
+import type { Product, OrderDetails } from "@/lib/types";
+type Order = OrderDetails | null;
 
 interface InitialState {
   data: Order[];

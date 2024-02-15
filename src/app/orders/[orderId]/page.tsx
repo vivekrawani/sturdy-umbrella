@@ -25,7 +25,7 @@ export default function Order({ params }: Params) {
     const orderStatus = (order.orderDetails?.isAccepted === false) ? 'Accept Order' : 'Confirm Order'
 
     return (
-        <div>{JSON.stringify(params.orderId)}
+        <div>
             <div>
                 {
                     order?.products?.length > 0 && order!.products!.map(product => <Card details={product} key={product.productId} />)

@@ -176,19 +176,8 @@ type Product = {
   discountedPrice: number;
 };
 
-type OrderDetails = {
-  address?: string;
-  pincode?: string;
-  isAccepted: boolean;
-  isDelivered: boolean;
-  amount: string;
-  mobileNumber: string;
-  userName: string;
-  payment: boolean;
-  orderId: string;
-  gst: string;
-  time: string;
-};
+import type { OrderDetails } from "@/lib/types";
+
 
 export const getData = async () => {
   await initAdmin();
@@ -224,6 +213,9 @@ export const getData = async () => {
     const ref = await subCollections[len - 1].get();
     const data = (await subRef.doc(ref.id).get()).data();
 
+    
+   
+
     const userName = data!.userName;
     const mobileNumber = data!.mobileNumber;
     const address = data!.address;
@@ -234,6 +226,10 @@ export const getData = async () => {
     const payment = data!.payment;
     const gst = data!.gst;
     const time = data!.time;
+    const orderTime = data!.orderTime?.toDate();;
+    const userId = data!.userId;
+  
+    
 
     const Order: OrderDetails = {
       userName,
@@ -247,7 +243,10 @@ export const getData = async () => {
       orderId,
       gst,
       time,
-    };
+      orderTime,
+      userId
+    };  
+    
     orders.push(Order);
   }
 
@@ -271,6 +270,8 @@ export async function getOrderWithId(id: string) {
     products,
     orderDetails: subCollections[subCollections.length - 1].data(),
   };
+  res.orderDetails.orderId = id;
+  res.orderDetails.orderTime = res.orderDetails.orderTime.toDate();
   return res;
 }
 

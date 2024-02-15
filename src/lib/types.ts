@@ -13,8 +13,8 @@ export type Product = {
 };
 
 export type OrderDetails = {
-  address?: string;
-  pincode?: string;
+  address: string;
+  pincode: string;
   isAccepted: boolean;
   isDelivered: boolean;
   amount: string;
@@ -24,4 +24,7 @@ export type OrderDetails = {
   orderId: string;
   gst: string;
   time: string;
+  userId : string;
+  orderTime? : Date;
+  products?: Product[];
 };

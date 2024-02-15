@@ -18,7 +18,7 @@ export default function Orders() {
         {
 
 
-          data!.length > 0 ? (data!.map(v => {
+          data!.length > 0 ? (data?.map(v => {
             return (
               <OrdersCard key={v!.orderId} details={v} />
             )
