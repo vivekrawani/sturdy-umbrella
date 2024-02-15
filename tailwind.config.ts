@@ -17,6 +17,8 @@ const config: Config = {
         "t-b-9": "rgba(0, 0, 0, 0.9)",
         "t-b-4": "rgba(0,0,0, 0.4)",
         "t-b-7": "rgba(0, 0, 0, 0.7)",
+        "johar-orange" : "#F2880C",
+        "johar-secondary" : "#814F47"
       },
       boxShadow: {
         "3xl": "-16px -6px 15px 0px rgba(0, 0, 0, 0.3)",

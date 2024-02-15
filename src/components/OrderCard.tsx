@@ -4,9 +4,9 @@ import Link from 'next/link';
 import { IoIosArrowDropdown } from "react-icons/io";
 import { OrderDetails } from '@/lib/types';
 import Tooltip from './Tooltip';
-export default function OrderCard({ details }: { details: OrderDetails }) {
-    const { userName, mobileNumber, address, pincode, amount, isAccepted, isDelivered, payment, products, orderId, time } = details ?? {};
-    const time_ = details.orderTime as Date;
+export default function OrderCard({ details }: { details: OrderDetails | null }) {
+    const { userName, mobileNumber, address, pincode, amount, isAccepted, isDelivered, payment, products, orderId, time } = details ?? {userName:'', address:''};
+    const time_ = details?.orderTime as Date;
     const date = new Date(time_);
     const month = date.toLocaleString('default', { month: 'long' });
     const stringDate = `${date.getDate()} ${month} ${date.getFullYear()}`

@@ -104,7 +104,7 @@ export default function Navbar() {
 
 			<nav className="relative px-4 py-2 flex justify-between items-center bg-transparent backdrop-blur-lg ">
 				<Link className="text-3xl font-bold leading-none" href="/">
-				<Image src={'/johar-basket.png'} width={60} height={60} alt=''/>
+				<Image src={'/jb-t.png'} width={150} height={150} alt=''/>
 				</Link>
 				<div className="md:hidden">
 					<button className="navbar-burger flex items-center text-blue-600 p-3"
