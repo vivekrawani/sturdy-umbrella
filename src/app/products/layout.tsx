@@ -35,7 +35,7 @@ export default function RootLayout({
                                 const isActive = pathname.startsWith(val.href);
                                 return (<div key={val.name}>
                                     <input type="radio" name="option" className="peer hidden" checked={isActive} readOnly />
-                                    <label className="block cursor-pointer select-none rounded-full p-2 text-center peer-checked:bg-blue-500 peer-checked:font-bold peer-checked:text-white">
+                                    <label className="block cursor-pointer select-none rounded-full p-2 text-center peer-checked:bg-johar-orange peer-checked:font-bold peer-checked:text-white">
                                         <Link href={val.href} className="w-full h-full">{val.name}</Link>
                                     </label>
                                 </div>
@@ -47,9 +47,11 @@ export default function RootLayout({
 
                 </main>
                 <div className="flex w-full justify-around items-center gap-5 mt-5">
-                    <Link className="hidden md:inline-block py-2 px-6 bg-blue-500 hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200"
+                    <Link className="hidden md:inline-block py-2 px-6 bg-johar-orange/85 hover:bg-johar-orange text-sm text-white font-bold rounded-xl transition duration-200"
                         href={'/products'} >Add New</Link>
-                    <button onClick={onOpen} > <FcSearch className='text-3xl' /></button>
+                    <button onClick={onOpen}
+                    className=' bg-white px-6 py-2 rounded-lg' 
+                    > <FcSearch className='text-3xl' /></button>
                         <SearchBox onClose={onClose} onOpen={onOpen} isOpen={isOpen}/>
                 </div>
             </div>

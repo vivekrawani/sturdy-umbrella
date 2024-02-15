@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-[#814f4f]">
+      <body className=" bg-johar-secondary/50">
         <StoreProvider>
           <Navbar />
           {children}
