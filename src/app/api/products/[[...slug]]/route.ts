@@ -4,6 +4,7 @@ import {
   getDocWithIdFromCollection,
   getProductCollection,
   updateDoc,
+  deleteProduct,
 } from "@/db/firebase";
 
 import { NextRequest, NextResponse } from "next/server";
@@ -14,11 +15,11 @@ type Context = {
 };
 export async function GET(req: NextRequest, { params }: Context) {
   const { slug } = params;
-  let res = NextResponse;  
-  if (slug?.length === 1) {   
-    const res = await getAllDocsFrom(slug[0]);    
+  let res = NextResponse;
+  if (slug?.length === 1) {
+    const res = await getAllDocsFrom(slug[0]);
     return NextResponse.json({ res }, { status: 200 });
-  } else if (slug?.length === 2) {   
+  } else if (slug?.length === 2) {
     const res = await getDocWithIdFromCollection(slug[1], slug[0]);
     return NextResponse.json({ res }, { status: 200 });
   } else {
@@ -28,51 +29,50 @@ export async function GET(req: NextRequest, { params }: Context) {
 
 export async function POST(req: NextRequest, { params }: Context) {
   const { slug } = params;
-  if (slug?.length === 1) {
-    return NextResponse.json("emmaed");
+
+  if (!slug) {
+    try {
+      const data = await req.formData();
+      const res = await addProduct(data);
+      return NextResponse.json({ data: res }, { status: 201 });
+    } catch (error) {
+      console.log(error);
+      return NextResponse.json({ message: "Failed" }, { status: 500 });
+    }
   }
-  try {
-    const data = await req.formData();
-    const res = await addProduct(data);
-  } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error }, { status: 500 });
-  }
+  return NextResponse.json({ message: "message" }, { status: 201 });
 }
 
 export async function PATCH(request: NextRequest, { params }: Context) {
   const { slug } = params;
-  try {
-    const collection = slug[0];
-    const productId = slug[1];
-    const data = await request.formData();
-
-    // const res = await updateDoc(collection, productId, data);
-    return Response.json({ message: "ok", data });
-  } catch (error) {
-    console.log(error);
+  if (slug?.length === 2) {
+    try {
+      const collection = slug[0];
+      const productId = slug[1];
+      const data = await request.formData();
+      const res = await updateDoc(collection, productId, data);
+      return Response.json({ message: "ok", res });
+    } catch (error) {
+      console.log(error);
+    }
   }
-
   return Response.json({ message: "ok" });
 }
 
-// export async function DELETE(request: NextRequest, context: Context) {
-//   const productId = context.params.productId;
-//   try {
-//     const headers = request.headers;
-//     const originalUrl = headers.get("referer");
-//     const words = getStringBetween(originalUrl);
-//     const l = words.length;
-//     const collection = words[l - 2];
+export async function DELETE(request: NextRequest, { params }: Context) {
+  const slug = params.slug;
+  console.log(slug);
 
-//     const res = await deleteProduct(collection, productId);
-//     return Response.json({ message: "ok", res });
-//   } catch (error) {
-//     console.log(error);
-//   }
-
-//   return Response.json({ message: "ok" });
-// }
+  if (slug?.length === 2) {
+    const collection = slug[0];
+    const productId = slug[1];
+    try {
+      const res = await deleteProduct(collection, productId);
+      return Response.json({ message: "ok", res });
+    } catch (error) {}
+  }
+  return Response.json({ message: "ok" });
+}
 
 // import { NextRequest, NextResponse } from "next/server";
 // import { getStringBetween } from "@/lib/utils";

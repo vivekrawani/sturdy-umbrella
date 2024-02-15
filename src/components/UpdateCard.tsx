@@ -21,7 +21,8 @@ import { FcHighPriority } from "react-icons/fc";
 
 import { useForm } from 'react-hook-form'
 import { useToast } from '@chakra-ui/react'
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { getStringBetween } from "@/lib/utils";
 interface IFormInput {
     name: string
     description: string
@@ -50,6 +51,7 @@ export default function UpdateCard({ details }: any) {
     const [loading, setLoading] = useState<boolean>(false)
     const { isOpen, onOpen, onClose } = useDisclosure()
     const router = useRouter();
+    const pathname = usePathname();
     const { register, handleSubmit, formState: { errors }, control } = useForm<IFormInput>({
         defaultValues: {
             name,
@@ -62,7 +64,10 @@ export default function UpdateCard({ details }: any) {
     },)
     const onSubmit = handleSubmit(async (data) => {
         setLoading(true)
-        const response = await axios.patch(`/api/products/${productId}`, data,
+        const paths = getStringBetween(pathname)
+        const sub = paths[2];
+        const _id = paths[3];
+        const response = await axios.patch(`/api/products/${sub}/${_id}`, data,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -77,6 +82,7 @@ export default function UpdateCard({ details }: any) {
             duration: 5000,
             isClosable: true,
         })
+        router.push('/products/grocery');
     })
     const formRef = useRef<HTMLFormElement>() as React.MutableRefObject<HTMLFormElement>;
     const MyModal = () => (
@@ -158,7 +164,10 @@ export default function UpdateCard({ details }: any) {
 
     const handleDelete = async () => {
         setDeleteLoading(true)
-        const res = await axios.delete(`/api/products/${productId}`)
+        const paths = getStringBetween(pathname)
+        const sub = paths[2];
+        const _id = paths[3];
+        const res = await axios.delete(`/api/products/${sub}/${_id}`)
         setDeleteLoading(false)
         onCloseD()
         toast({

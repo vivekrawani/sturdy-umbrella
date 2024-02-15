@@ -34,7 +34,7 @@ export default function ProductForm() {
     const [isPosting, setIsPosting] = useState<boolean>(false)
     const onSubmit = handleSubmit(async (data) => {      
         setIsPosting(true);
-        const res = await axios.post('/api/products', data, {
+        const res = await axios.post(`/api/products`, data, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },

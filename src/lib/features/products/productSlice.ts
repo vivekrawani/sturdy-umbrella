@@ -28,8 +28,6 @@ const getProduct = createAsyncThunk(
       const data = (
         await axios.get(`/api/products/${arg.collection}/${arg.id}`)
       ).data;
-      console.log(data?.res);
-
       return data?.res;
     } catch (error: any) {
       console.log("Errorsss");
@@ -57,7 +55,6 @@ const fetchProductsFrom = createAsyncThunk(
     
     try {
       const data = (await axios.get(`/api/products/${sub}`)).data;
-      console.log(data);
       return data?.res;
       
     } catch (error: any) {
