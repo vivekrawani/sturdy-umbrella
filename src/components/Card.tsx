@@ -1,5 +1,5 @@
 
-import Image from 'next/image';
+import { Image } from '@chakra-ui/react';
 import Link from 'next/link'
 import React from 'react'
 
@@ -17,17 +17,13 @@ export default function Card({ details, category }: any) {
     const { imageUrl = null, price = 0, discountedPrice = 0, description = '', inStock = 0, name = '', productId = '' } = details;
     return (
         <Link href={`/products/${category}/${productId}`} className="c-card m-4 block bg-white shadow-md hover:shadow-xl rounded-lg p-2 h-96 w-64 overflow-auto ">
-            <div className=" h-max-12 flex justify-center">
-                <Image
-                    src={imageUrl}
-                    alt={name}
-                    width={100}
-                    height={100}
-                />
+            <div className='min-h-22 max-h-22 min-w-22 max-w-22 flex flex-row justify-center items-center p-1'>
+                <Image src={details.imageUrl} alt={details.name} boxSize={20} fit={'scale-down'} />
+
             </div>
             <div className="p-4">
                 <h2 className="mt-2 mb-2  font-bold">{name}</h2>
-               
+
                 <div className="mt-3 flex items-center gap-2">
                     <span className='text-sm font-bold'>Original Price</span>  <span className=" text-sm">₹{price}</span>
                 </div>

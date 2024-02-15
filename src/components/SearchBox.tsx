@@ -19,10 +19,16 @@ export default function SearchBox({ isOpen, onClose, onOpen }: { isOpen: boolean
   const [inputVal, setInputVal] = useState<string>('');
   const [filteredProduct, setFilteredProduct] = useState<Product[]>([]);
   const handleChange = (e: any) => {
-    setInputVal(e.target.value)
-    if (inputVal.length >= 3) {
-      const filteredProduct = searchRegEx(inputVal, sub)
+    console.log(e.target.value);
+    const query = e.target.value;
+    
+    setInputVal(query)
+    if (inputVal.length >= 2) {
+      const filteredProduct = searchRegEx(query, sub)
       setFilteredProduct(filteredProduct)
+    }
+    if(!e.target.value){
+      setFilteredProduct([])
     }
   }
 
@@ -45,11 +51,11 @@ export default function SearchBox({ isOpen, onClose, onOpen }: { isOpen: boolean
 
           <ModalCloseButton />
           <ModalBody>
-            <div className=''>
+            <div className='' onClick={onClose}>
 
               <hr />
               {
-                filteredProduct.length > 0 && <div className='flex flex-col h-max-screen overflow-scroll'>
+                filteredProduct.length > 0 && <div className='flex flex-col h-max-screen overflow-scroll gap-1'>
                   {
                     filteredProduct.map(product => <SmallProductCard key={product.productId} details={product} />)
                   }

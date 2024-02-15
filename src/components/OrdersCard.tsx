@@ -25,7 +25,6 @@ const Card = ({ details }: any) => {
 
 export default function OrdersCard({ details }: any) {
   const { userName, mobileNumber, address, pincode, amount, isAccepted, isDelivered, payment, products, orderId, time} = details;
-  
   return (
     
       <Link href={`/orders/${orderId}`}>
