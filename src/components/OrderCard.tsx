@@ -12,9 +12,6 @@ export default function OrderCard({ details }: { details: OrderDetails | null })
     const month = date.toLocaleString('default', { month: 'long' });
     const stringDate = `${date.getDate()} ${month} ${date.getFullYear()}`
     const localTime = format(date, "p")
-   
-    
-  
 
     return (
         <div className='grid gap-2 md:grid-cols-5  w-full bg-blue-100 rounded-lg px-2 py-1 text-gray-600'>
