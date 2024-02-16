@@ -15,6 +15,7 @@ import { useDisclosure } from '@chakra-ui/react'
 import Dialog from '@/components/Dialog'
 export default function Order({ params }: Params) {
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const { isOpen:isOpenD, onOpen:onOpenD, onClose: onCloseD } = useDisclosure()
     const order = useAppSelector(state => state.orderReducers.single)
     const dispatch = useAppDispatch()
     useEffect(() => {
@@ -38,10 +39,11 @@ export default function Order({ params }: Params) {
             
                 <button onClick={onOpen}
                  className='bg-green-600 text-white rounded-lg p-2'>{orderStatus}</button>
-                <button onClick={onOpen}
+                <button onClick={onOpenD}
                  className='bg-red-600 text-white rounded-lg p-2'>Cancel Order</button>
             </div>
            {isOpen && <Dialog isOpen={isOpen} onOpen={onOpen} onClose={onClose} actionType={orderStatus} orderId={params.orderId}/>}
+           {isOpenD && <Dialog isOpen={isOpenD} onOpen={onOpenD} onClose={onCloseD} actionType={'Delete'} orderId={params.orderId}/>}
         </div>
     )
 }
