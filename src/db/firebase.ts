@@ -414,7 +414,7 @@ export const getPastOrders = async () => {
     const gst = data!.gst;
     const time = data!.time;
     const userId  = data!.userId;
-
+    
     const Order: OrderDetails = {
       userName,
       mobileNumber,

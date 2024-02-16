@@ -28,6 +28,13 @@ const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId }: { isOpen: bool
                     <DateTimePicker date={date} setDate={setDate} />
                 </div>
             )
+        else if(actionType==='Delete') {
+            return (
+                <div>
+                    Delete
+                </div>
+            )
+        }
         return (
             <div className='flex flex-col gap-2 justify-center items-center'>
                 <label htmlFor='otp'
@@ -41,6 +48,7 @@ const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId }: { isOpen: bool
     const handleAction = async () => {
         setIsLoading(true);
         const otp = InputRef.current?.value;
+        
         let title = 'Confirm Order' ? 'Order Confirmed' : 'Order Accepted';
         try {
             const response = await axios.patch(`/api/orders/update`, {
@@ -66,21 +74,17 @@ const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId }: { isOpen: bool
         } catch (error) {
             console.log(error);
         }
-
         setIsLoading(false)
-
         onClose()
 
     }
 
     return (
         <>
-
-
             <Modal isOpen={isOpen} onClose={onClose} isCentered>
                 <ModalOverlay
                     bg='blackAlpha.100'
-                    backdropFilter='blur(10px) hue-rotate(90deg)' />
+                    backdropFilter='blur(10px)' />
                 <ModalContent>
                     <ModalHeader>
                         <h2 className='text-xl text-center font-bold'>{actionType}</h2>

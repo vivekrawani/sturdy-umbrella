@@ -103,7 +103,7 @@ export default function Navbar() {
 		<div className=" sticky top-0 z-50 bg-black bg-opacity-70 ">
 
 			<nav className="relative px-4 py-2 flex justify-between items-center bg-transparent backdrop-blur-lg ">
-				<Link className="text-3xl font-bold leading-none" href="/">
+				<Link className="text-3xl font-bold leading-none bg-white rounded-lg pb-1 pl-1" href="/">
 				<Image src={'/jb-t.png'} width={150} height={150} alt=''/>
 				</Link>
 				<div className="md:hidden">

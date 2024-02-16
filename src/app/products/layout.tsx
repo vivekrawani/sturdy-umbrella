@@ -20,7 +20,9 @@ export default function RootLayout({
 
 }>) {
     const pathname = usePathname()
-    const {onOpen, onClose, isOpen} = useDisclosure()
+    const len = getStringBetween(pathname).length
+
+    const { onOpen, onClose, isOpen } = useDisclosure()
     return (
         <div className="my-2 w-svw">
             <Head>
@@ -28,7 +30,7 @@ export default function RootLayout({
             </Head>
 
             <div>
-                <main className="grid w-full place-items-center">
+                {len === 3 && <main className="grid w-full place-items-center">
                     <div className="grid w-full md:w-[40rem] grid-cols-3 gap-2 rounded-full bg-gray-200 p-2">
                         {
                             sub.map((val) => {
@@ -45,15 +47,19 @@ export default function RootLayout({
                         }
                     </div>
 
-                </main>
-                <div className="flex w-full justify-around items-center gap-5 mt-5">
-                    <Link className="hidden md:inline-block py-2 px-6 bg-johar-orange/85 hover:bg-johar-orange text-sm text-white font-bold rounded-xl transition duration-200"
-                        href={'/products'} >Add New</Link>
-                    <button onClick={onOpen}
-                    className=' bg-white px-6 py-2 rounded-lg' 
-                    > <FcSearch className='text-3xl' /></button>
-                        <SearchBox onClose={onClose} onOpen={onOpen} isOpen={isOpen}/>
-                </div>
+                </main>}
+                {
+                    len === 3 && <div className="flex w-full justify-around items-center gap-5 mt-5">
+                        <Link className="hidden md:inline-block py-2 px-6 bg-johar-orange/85 hover:bg-johar-orange text-sm text-white font-bold rounded-xl transition duration-200"
+                            href={'/products'} >Add New</Link>
+                        <button onClick={onOpen}
+                            className=' bg-white px-6 py-2 rounded-lg'
+                        > <FcSearch className='text-3xl' /></button>
+                        <SearchBox onClose={onClose} onOpen={onOpen} isOpen={isOpen} />
+                    </div>
+                }
+
+
             </div>
 
             {children}
