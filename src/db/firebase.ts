@@ -413,7 +413,8 @@ export const getPastOrders = async () => {
     const payment = data!.payment;
     const gst = data!.gst;
     const time = data!.time;
-    const userId = data!.userId;
+    const userId  = data!.userId;
+    
     const Order: OrderDetails = {
       userName,
       mobileNumber,
