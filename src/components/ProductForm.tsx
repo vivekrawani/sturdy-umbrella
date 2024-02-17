@@ -38,6 +38,7 @@ export default function ProductForm() {
     const [stock, setStock] = useState<number>(0);
     const onSubmit = async (e: any) => {
         e.preventDefault()
+        setIsPosting(true);
         if (formRef.current) {
             const formData = new FormData(formRef.current)
             const isFeatured = (formData.get("isFeatured") === 'on') ? 'true' : 'false'
