@@ -13,7 +13,9 @@ import {
 import axios from 'axios';
 import { useRef, useState } from 'react'
 import DateTimePicker from './DateTimePicker';
-const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId }: { isOpen: boolean, onOpen: () => void, onClose: () => void, actionType: string, orderId: string }) => {
+import { generateOTP } from '@/lib/utils';
+import { format, getDate } from 'date-fns';
+const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId, userId }: { isOpen: boolean, onOpen: () => void, onClose: () => void, actionType: string, orderId: string, userId : string }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [date, setDate] = useState<Date>(new Date())
 
@@ -28,7 +30,7 @@ const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId }: { isOpen: bool
                     <DateTimePicker date={date} setDate={setDate} />
                 </div>
             )
-        else if(actionType==='Delete') {
+        else if (actionType === 'Delete') {
             return (
                 <div>
                     Delete
@@ -48,31 +50,64 @@ const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId }: { isOpen: bool
     const handleAction = async () => {
         setIsLoading(true);
         const otp = InputRef.current?.value;
-        
-        let title = 'Confirm Order' ? 'Order Confirmed' : 'Order Accepted';
+
+        let title = actionType === 'Confirm Order' ? 'Order Confirmed' : 'Order Accepted';
+        let toastDescription = '';
+
         try {
-            const response = await axios.patch(`/api/orders/update`, {
-                updateType: actionType,
-                orderId,
-                additionalInfo: actionType === 'Confirm Order' ? otp : date,
-            })
-            const res = response.data.res;
 
-
-            const status = res.error ? 'error' : 'success';
-            if (res.error) {
-                title = res.message;
+            if (actionType === 'Confirm Order') {
+                const response = await axios.patch(`/api/orders/${orderId}`, {
+                    updateType: actionType,
+                    otp,
+                })
+                const res = response.data.res;
+                const status = res.error ? 'error' : 'success';
+                if (res.error) {
+                    title = 'Failed'
+                    toastDescription = res.error;
+                }
+                toast({
+                    title,
+                    status,
+                    description: toastDescription,
+                    duration: 5000,
+                    isClosable: true,
+                },)
             }
-
-            toast({
-                title,
-                status,
-                duration: 5000,
-                isClosable: true,
-            },)
+            if (actionType === 'Accept Order') {
+                const otp = generateOTP(6);
+                const date_ = format(date, 'PPp')
+                const response = await axios.patch(`/api/orders/${orderId}`, {
+                    updateType: actionType,
+                    otp,
+                    date : date_,
+                    userId 
+                })
+                const res = response.data.res;
+                const status = res.error ? 'error' : 'success';
+                if (res.error) {
+                    title = 'Failed'
+                    toastDescription = res.error;
+                }
+                toast({
+                    title,
+                    status,
+                    description: toastDescription,
+                    duration: 5000,
+                    isClosable: true,
+                },)
+            }
 
         } catch (error) {
             console.log(error);
+            toast({
+                title: 'Failed',
+                status: 'error',
+                description: toastDescription,
+                duration: 5000,
+                isClosable: true,
+            },)
         }
         setIsLoading(false)
         onClose()

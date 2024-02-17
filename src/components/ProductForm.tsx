@@ -41,26 +41,24 @@ export default function ProductForm() {
         if (formRef.current) {
             const formData = new FormData(formRef.current)
             const isFeatured = (formData.get("isFeatured") === 'on') ? 'true' : 'false'
-            formData.set("isFeatured", isFeatured)
-            console.log(formData.get('inStock'))
-
-        }
-        // setIsPosting(true);
-
-
-        // const res = await axios.post(`/api/products`, data, {
-        //     headers: {
-        //         'Content-Type': 'multipart/form-data',
-        //     },
-        // })
-        toast({
-            title: 'Added New Product',
-            status: 'success',
-            duration: 5000,
-            isClosable: true,
-        },)
-        setIsPosting(false);
-        // router.push('/products/grocery');
+            const res = await axios.post(`/api/products`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            })
+            toast({
+                title: 'Added New Product',
+                status: 'success',
+                duration: 5000,
+                isClosable: true,
+            },)
+            setIsPosting(false);
+            const category = formData.get('category')
+            router.push(`/products/${category}`);
+                
+              
+        }   
+        
 
     };
     const inputs = [
@@ -118,7 +116,8 @@ export default function ProductForm() {
                             className="w-full px-4 py-1 col-span-4 rounded-lg   mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none "
 
                         />
-                        <div className="absolute right-1 top-1"><button className="p-1 text-xl font-bold cursor-pointer" onClick={e => setStock(p => p + 1)}>+</button> <button className="p-1 text-xl font-bold cursor-pointer" onClick={e => setStock(p => p - 1)}>-</button></div>
+                        <div className="absolute  flex right-1 top-1"><div className="p-1 text-xl font-bold cursor-pointer" 
+                        onClick={e => setStock(p => p + 1)}>+</div> <div className="p-1 text-xl font-bold cursor-pointer" onClick={e => setStock(p => p - 1)}>-</div></div>
                     </div>
                 </div>
                 <div className="mt-5">
@@ -139,7 +138,7 @@ export default function ProductForm() {
                             <label htmlFor="category" className="font-bold"> Select Category</label>
                             <select id="category"
 
-                                name="catergory"
+                                name="category"
                                 className="px-3 py-2 bg-gray-100 rounded-lg ">
                                 {
                                     categories.map(val => <option key={val} value={val}>{capitalizeFirstLetter(val)}</option>)
@@ -159,7 +158,7 @@ export default function ProductForm() {
                             <input type="file" accept="image/*"
                                 id="file"
                                 hidden
-                                name="image"
+                                name="file"
                                 className="bg-red"
                                 onChange={e => {
                                     const files: any = e?.target?.files;
@@ -177,15 +176,15 @@ export default function ProductForm() {
                             </label>
 
                             <div className="relative">
-                             
-                            {file ? <Image src={URL.createObjectURL(file)} height={'auto'} width={250} alt="" /> : <Image src={'/image-placeholder.jpg'} height={'auto'} width={150} alt="" />}
-                            {file && <div className=" cursor-pointer absolute top-[-1rem] right-[-2rem] text-3xl"
-                                onClick={e => setFile(null)}> <TiDelete /> </div>
-}
+
+                                {file ? <Image src={URL.createObjectURL(file)} height={'auto'} width={250} alt="" /> : <Image src={'/image-placeholder.jpg'} height={'auto'} width={150} alt="" />}
+                                {file && <div className=" cursor-pointer absolute top-[-1rem] right-[-2rem] text-3xl"
+                                    onClick={e => setFile(null)}> <TiDelete /> </div>
+                                }
+                            </div>
                         </div>
-                        </div>
-                           
-                       
+
+
 
                         {/* <FileUpload
                                 accept={'image/*'}

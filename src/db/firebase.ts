@@ -2,6 +2,7 @@ import "server-only";
 import { initAdmin } from "./firebaseAdminSdk";
 import { getFirestore } from "firebase-admin/firestore";
 import { getStorage } from "firebase-admin/storage";
+import { getMessaging } from "firebase-admin/messaging";
 import { error } from "console";
 
 const uploadFile = async (file: File | null) => {
@@ -45,7 +46,8 @@ export async function getAllUsers() {
 export async function addProduct(data: any) {
   await initAdmin();
   const firestore = getFirestore();
-  const file: File | null = data.get("file[]") as unknown as File;
+  const file: File | null = data.get("file") as unknown as File;
+
   const imageUrl = await uploadFile(file);
   const collectionName = data.get("category");
   const docRef = firestore.collection(collectionName).doc();
@@ -62,8 +64,13 @@ export async function addProduct(data: any) {
     size: data.get("size"),
     productId,
   };
+  try {
+    await docRef.set(updateData);
+   
+  } catch (error) {
+    console.log(error);
+  }
 
-  await docRef.set(updateData);
   return docRef.get();
 }
 
@@ -100,11 +107,11 @@ export async function getAllCollections() {
 
 export async function getAllDocsFrom(collectionName: string) {
   await initAdmin();
-  const firestore = getFirestore(); 
+  const firestore = getFirestore();
   const snapshot = await firestore.collection(collectionName).get();
   const res: any[] = [];
   snapshot.forEach((doc) => {
-    res.push(doc.data());    
+    res.push(doc.data());
   });
   return res;
 }
@@ -178,7 +185,6 @@ type Product = {
 
 import type { OrderDetails } from "@/lib/types";
 
-
 export const getData = async () => {
   await initAdmin();
   const db = getFirestore();
@@ -213,9 +219,6 @@ export const getData = async () => {
     const ref = await subCollections[len - 1].get();
     const data = (await subRef.doc(ref.id).get()).data();
 
-    
-   
-
     const userName = data!.userName;
     const mobileNumber = data!.mobileNumber;
     const address = data!.address;
@@ -226,10 +229,8 @@ export const getData = async () => {
     const payment = data!.payment;
     const gst = data!.gst;
     const time = data!.time;
-    const orderTime = data!.orderTime?.toDate();;
+    const orderTime = data!.orderTime?.toDate();
     const userId = data!.userId;
-  
-    
 
     const Order: OrderDetails = {
       userName,
@@ -244,9 +245,9 @@ export const getData = async () => {
       gst,
       time,
       orderTime,
-      userId
-    };  
-    
+      userId,
+    };
+
     orders.push(Order);
   }
 
@@ -275,10 +276,73 @@ export async function getOrderWithId(id: string) {
   return res;
 }
 
+export const sendPushMessage = async (
+  token: string,
+  title: string,
+  body: string
+) => {
+  const message = {
+    notification: {
+      title,
+      body,
+    },
+    token,
+  };
+  const messaging = getMessaging();
+  await messaging.send(message);
+};
+
+export const acceptOrder = async (
+  orderId: string,
+  otp: string,
+  deliveryTime: string,
+  userId: string
+) => {
+  await initAdmin();
+  const db = getFirestore();
+  const userOrderRef = db
+    .collection("users")
+    .doc(userId)
+    .collection("order")
+    .doc("myOrders")
+    .collection(orderId);
+  const globalOrderRef = db
+    .collection("orders")
+    .doc("newOrders")
+    .collection(orderId);
+  const userOrder = await userOrderRef.doc("orderDetails").get();
+  const globalOrder = await globalOrderRef.doc("orderDetails").get();
+  if (userOrder.exists) {
+    userOrderRef.doc("orderDetails").update({
+      isAccepted: true,
+      time: deliveryTime,
+      otp,
+    });
+  }
+  if (globalOrder.exists) {
+    globalOrderRef.doc("orderDetails").update({
+      isAccepted: true,
+      time: deliveryTime,
+      otp,
+    });
+  }
+  // FCM
+  const fcmSnap = await db.collection("users").doc(userId).get();
+  const fcmToken =fcmSnap.get('fcm');
+  await sendPushMessage(
+    fcmToken,
+    "Order Accepted",
+    "Your Order has been accepted"
+  );
+
+  return { message: "success" };
+};
+
 export const updateOrder = async (
   id: string,
   updateType: string,
-  additionalInfo: string
+  otp: string,
+  date: string
 ) => {
   await initAdmin();
   const db = getFirestore();
@@ -292,7 +356,8 @@ export const updateOrder = async (
   if (updateType === "Accept Order") {
     const res = await orderDetailsRef.update({
       isAccepted: true,
-      deliveryDate: additionalInfo,
+      time: date,
+      otp,
     });
     return res;
   } else if (updateType === "Confirm Order") {
@@ -301,7 +366,7 @@ export const updateOrder = async (
       message: "",
       error: false,
     };
-    if (details?.otp === additionalInfo) {
+    if (details?.otp === otp) {
       res.message = "Order Delivered";
       await orderDetailsRef.update({
         isDelivered: true,
@@ -413,8 +478,8 @@ export const getPastOrders = async () => {
     const payment = data!.payment;
     const gst = data!.gst;
     const time = data!.time;
-    const userId  = data!.userId;
-    
+    const userId = data!.userId;
+
     const Order: OrderDetails = {
       userName,
       mobileNumber,
@@ -427,7 +492,7 @@ export const getPastOrders = async () => {
       orderId,
       gst,
       time,
-      userId
+      userId,
     };
     orders.push(Order);
   }

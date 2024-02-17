@@ -14,7 +14,7 @@ export default function DateTimePicker({ date, setDate }: { date: Date, setDate:
             dateFormat="dd/MM/yyyy hh:mm:ss"
 
             onChange={(date: Date) => {
-                setDate(date); console.log(date);
+                setDate(date);
             }} />
     )
 }

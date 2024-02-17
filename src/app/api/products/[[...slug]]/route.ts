@@ -18,6 +18,7 @@ export async function GET(req: NextRequest, { params }: Context) {
   let res = NextResponse;
   if (slug?.length === 1) {
     const res = await getAllDocsFrom(slug[0]);
+    res.sort((a, b)=> a.inStock - b.inStock)
     return NextResponse.json({ res }, { status: 200 });
   } else if (slug?.length === 2) {
     const res = await getDocWithIdFromCollection(slug[1], slug[0]);
@@ -33,8 +34,10 @@ export async function POST(req: NextRequest, { params }: Context) {
   if (!slug) {
     try {
       const data = await req.formData();
+      console.log(data)
       const res = await addProduct(data);
-      return NextResponse.json({ data: res }, { status: 201 });
+      
+      return NextResponse.json({ data : res }, { status: 201 });
     } catch (error) {
       console.log(error);
       return NextResponse.json({ message: "Failed" }, { status: 500 });

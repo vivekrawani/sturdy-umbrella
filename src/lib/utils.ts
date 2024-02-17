@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import type { Product } from "./types";
 import jsPDF from "jspdf";
 export function getStringBetween(str: string | null): string[] {
@@ -104,5 +105,13 @@ export const getMonthName = (month: number) => {
     "December",
   ];
 
-  return monthName[month]
+  return monthName[month];
+};
+export const generateOTP = (length: number) => {
+  var digits = "0123456789";
+  let OTP = "";
+  for (let i = 0; i < length; i++) {
+    OTP += digits[Math.floor(Math.random() * 10)];
+  }
+  return OTP;
 };

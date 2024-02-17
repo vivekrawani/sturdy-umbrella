@@ -11,8 +11,6 @@ export default function Orders() {
   useEffect(() => {
     dispatch(getPastOrders())
   }, [dispatch])
-console.log(data);
-
   return (
     <div className='flex flex-col mt-6 mx-4 gap-5 justify-center items-center'>
      

@@ -230,8 +230,8 @@ export default function UpdateCard({ details }: any) {
                     </div>
                 </div>
             </div>
-            <div className="col-span-2">
-                <div className="w-full flex flex-row gap-2">
+            <div className="col-span-2 ">
+                <div className="w-full flex flex-row gap-2 px-3 py-1">
                     <button className="bg-blue-500 rounded-full p-3 text-emerald-50 w-1/2 "
                         onClick={onOpen}
                     >Update Details</button>

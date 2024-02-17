@@ -9,6 +9,6 @@ export async function PATCH(req: Request) {
   console.log(id, updateType, additionalInfo);
 
 
-  const res = await updateOrder(id, updateType, additionalInfo);
-  return Response.json({ res });
+  // const res = await updateOrder(id, updateType, additionalInfo);
+  return Response.json({ res:"" });
 }

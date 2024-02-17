@@ -22,6 +22,7 @@ export default function Order({ params }: Params) {
         dispatch(getOrder(params.orderId))
     }, [params.orderId])
 
+    const userId = order.orderDetails?.userId as string
 
     const orderStatus = (order.orderDetails?.isAccepted === false) ? 'Accept Order' : 'Confirm Order'
 
@@ -42,8 +43,8 @@ export default function Order({ params }: Params) {
                 <button onClick={onOpenD}
                  className='bg-red-600 text-white rounded-lg p-2'>Cancel Order</button>
             </div>
-           {isOpen && <Dialog isOpen={isOpen} onOpen={onOpen} onClose={onClose} actionType={orderStatus} orderId={params.orderId}/>}
-           {isOpenD && <Dialog isOpen={isOpenD} onOpen={onOpenD} onClose={onCloseD} actionType={'Delete'} orderId={params.orderId}/>}
+           {isOpen && <Dialog isOpen={isOpen} onOpen={onOpen} onClose={onClose} actionType={orderStatus} orderId={params.orderId} userId={userId}/>}
+           {isOpenD && <Dialog isOpen={isOpenD} onOpen={onOpenD} onClose={onCloseD} actionType={'Delete'} orderId={params.orderId} userId={userId}/>}
         </div>
     )
 }
