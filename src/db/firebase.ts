@@ -3,7 +3,6 @@ import { initAdmin } from "./firebaseAdminSdk";
 import { getFirestore } from "firebase-admin/firestore";
 import { getStorage } from "firebase-admin/storage";
 import { getMessaging } from "firebase-admin/messaging";
-import { error } from "console";
 
 const uploadFile = async (file: File | null) => {
   if (file) {
@@ -66,7 +65,6 @@ export async function addProduct(data: any) {
   };
   try {
     await docRef.set(updateData);
-   
   } catch (error) {
     console.log(error);
   }
@@ -328,7 +326,7 @@ export const acceptOrder = async (
   }
   // FCM
   const fcmSnap = await db.collection("users").doc(userId).get();
-  const fcmToken =fcmSnap.get('fcm');
+  const fcmToken = fcmSnap.get("fcm");
   await sendPushMessage(
     fcmToken,
     "Order Accepted",
@@ -336,6 +334,65 @@ export const acceptOrder = async (
   );
 
   return { message: "success" };
+};
+
+export const confirmOrder = async (
+  userId: string,
+  orderId: string,
+  otp: string
+) => {
+  await initAdmin();
+  const db = getFirestore();
+  const userOrderRef = db
+    .collection("users")
+    .doc(userId)
+    .collection("order")
+    .doc("myOrders")
+    .collection(orderId);
+  const globalOrderRef = db
+    .collection("orders")
+    .doc("newOrders")
+    .collection(orderId);
+
+  const orderRef = await userOrderRef.doc("orderDetails").get();
+  const gOrderRef = await globalOrderRef.doc("orderDetails").get();
+
+  const details = (await globalOrderRef.doc("orderDetails").get()).data();
+  const res = {
+    message: "",
+    error: false,
+  };
+  if (details?.otp === otp) {
+    res.message = "Order Delivered";
+    if (orderRef.exists) {
+      userOrderRef.doc("orderDetails").update({
+        isDelivered: true,
+        payment: true,
+      });
+    }
+    if (gOrderRef.exists) {
+      globalOrderRef.doc("orderDetails").update({
+        isDelivered: true,
+        payment: true,
+      });
+    }
+
+    moveOrderToPastOrderUser(orderId, userId);
+    moveOrderToPastOrderGlobal(orderId);
+
+    const fcmSnap = await db.collection("users").doc(userId).get();
+    const fcmToken = fcmSnap.get("fcm");
+    await sendPushMessage(
+      fcmToken,
+      "Order Delivered",
+      "Your order has been delivered"
+    );
+    return { message: "success" };
+  } else {
+    res.message = "OTP did not match";
+    res.error = true;
+    return res;
+  }
 };
 
 export const updateOrder = async (
@@ -503,3 +560,126 @@ export const getPastOrders = async () => {
 export const acceptOrConfirmOrder = async () => {
   await initAdmin();
 };
+export async function moveOrderToPastOrderUser(
+  orderId: string,
+  userId: string,
+) {
+const db = getFirestore()
+  const userOrderRef = db
+  .collection("users")
+  .doc(userId)
+  .collection("order")
+  .doc("myOrders")
+  .collection(orderId);
+
+  const targetCollection =  db.collection('users').doc(userId).collection('order').doc("pastOrder").collection(orderId);
+
+userOrderRef.get().then((qs)=>{
+  qs.forEach((doc)=>{
+    let data = doc.data();
+     targetCollection.doc(doc.id).set(data).then(()=>{
+      console.log("Document copied")
+      userOrderRef.doc(doc.id).delete().then(()=>{
+        console.log("Deleted")
+      })
+     }).catch((er)=>{
+      console.log("Cant copy", er)
+     })
+  })
+}).catch((err)=>{
+  console.log(err)
+})
+
+
+
+}
+export async function moveOrderToPastOrderGlobal(orderId: string) {
+const db = getFirestore();
+const globalOrderRef = db
+.collection("orders")
+.doc("newOrders")
+.collection(orderId);
+
+const targetCollection = db.collection("orders").doc("pastOrders").collection(orderId);
+globalOrderRef.get().then((qs)=>{
+  qs.forEach((doc)=>{
+    let data = doc.data();
+     targetCollection.doc(doc.id).set(data).then(()=>{
+      console.log("Document copied")
+      globalOrderRef.doc(doc.id).delete().then(()=>{
+        console.log("Deleted")
+      })
+     }).catch((er)=>{
+      console.log("Cant copy", er)
+     })
+  })
+}).catch((err)=>{
+  console.log(err)
+})
+
+}
+
+// export const copyDoc = async (
+//   collectionFrom: string,
+//   docId: string,
+//   collectionTo: string,
+//   addData: any = {},
+//   recursive = false,
+// ): Promise<boolean> => {
+//   // document reference
+//   const docRef = admin.firestore().collection(collectionFrom).doc(docId);
+
+//   // copy the document
+//   const docData = await docRef
+//     .get()
+//     .then((doc) => doc.exists && doc.data())
+//     .catch((error) => {
+//       console.error('Error reading document', `${collectionFrom}/${docId}`, JSON.stringify(error));
+//       throw new functions.https.HttpsError('not-found', 'Copying document was not read');
+//     });
+
+//   if (docData) {
+//     // document exists, create the new item
+//     await admin
+//       .firestore()
+//       .collection(collectionTo)
+//       .doc(docId)
+//       .set({ ...docData, ...addData })
+//       .catch((error) => {
+//         console.error('Error creating document', `${collectionTo}/${docId}`, JSON.stringify(error));
+//         throw new functions.https.HttpsError(
+//           'data-loss',
+//           'Data was not copied properly to the target collection, please try again.',
+//         );
+//       });
+
+//     // if copying of the subcollections is needed
+//     if (recursive) {
+//       // subcollections
+//       const subcollections = await docRef.listCollections();
+//       for await (const subcollectionRef of subcollections) {
+//         const subcollectionPath = `${collectionFrom}/${docId}/${subcollectionRef.id}`;
+
+//         // get all the documents in the collection
+//         return await subcollectionRef
+//           .get()
+//           .then(async (snapshot) => {
+//             const docs = snapshot.docs;
+//             for await (const doc of docs) {
+//               await copyDoc(subcollectionPath, doc.id, `${collectionTo}/${docId}/${subcollectionRef.id}`, true);
+//             }
+//             return true;
+//           })
+//           .catch((error) => {
+//             console.error('Error reading subcollection', subcollectionPath, JSON.stringify(error));
+//             throw new functions.https.HttpsError(
+//               'data-loss',
+//               'Data was not copied properly to the target collection, please try again.',
+//             );
+//           });
+//       }
+//     }
+//     return true;
+//   }
+//   return false;
+// };

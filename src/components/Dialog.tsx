@@ -15,6 +15,7 @@ import { useRef, useState } from 'react'
 import DateTimePicker from './DateTimePicker';
 import { generateOTP } from '@/lib/utils';
 import { format, getDate } from 'date-fns';
+import { OrderAction } from '@/lib/constants';
 const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId, userId }: { isOpen: boolean, onOpen: () => void, onClose: () => void, actionType: string, orderId: string, userId : string }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [date, setDate] = useState<Date>(new Date())
@@ -55,17 +56,18 @@ const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId, userId }: { isOp
         let toastDescription = '';
 
         try {
-
             if (actionType === 'Confirm Order') {
                 const response = await axios.patch(`/api/orders/${orderId}`, {
-                    updateType: actionType,
+                    updateType: OrderAction.CONFIRM_ORDER,
                     otp,
+                    userId 
                 })
                 const res = response.data.res;
+                
                 const status = res.error ? 'error' : 'success';
                 if (res.error) {
                     title = 'Failed'
-                    toastDescription = res.error;
+                    toastDescription = res.message;
                 }
                 toast({
                     title,
@@ -76,11 +78,9 @@ const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId, userId }: { isOp
                 },)
             }
             if (actionType === 'Accept Order') {
-                const otp = generateOTP(6);
                 const date_ = format(date, 'PPp')
                 const response = await axios.patch(`/api/orders/${orderId}`, {
-                    updateType: actionType,
-                    otp,
+                    updateType: OrderAction.ACCEPT_ORDER,
                     date : date_,
                     userId 
                 })
