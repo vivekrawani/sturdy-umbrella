@@ -36,7 +36,7 @@ export default function Orders() {
     })
     setOrders(filtered)
   }, [setOrders, data, range])
-
+console.log(orders)
 
   return (
     <div className='flex flex-col mt-6 mx-4 gap-5 justify-center items-center '>
