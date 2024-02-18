@@ -98,5 +98,6 @@ export const orderSlice = createSlice({
     });
   },
 });
-export { getOrders, getOrder, getPastOrders };
+export { getOrders, getOrder, getPastOrders, };
+export type {Order};
 export default orderSlice.reducer;
