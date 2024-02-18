@@ -15,7 +15,7 @@ import { useDisclosure } from '@chakra-ui/react'
 import Dialog from '@/components/Dialog'
 export default function Order({ params }: Params) {
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const { isOpen:isOpenD, onOpen:onOpenD, onClose: onCloseD } = useDisclosure()
+    const { isOpen: isOpenD, onOpen: onOpenD, onClose: onCloseD } = useDisclosure()
     const order = useAppSelector(state => state.orderReducers.single)
     const dispatch = useAppDispatch()
     useEffect(() => {
@@ -23,28 +23,36 @@ export default function Order({ params }: Params) {
     }, [params.orderId])
 
     const userId = order.orderDetails?.userId as string
-
     const orderStatus = (order.orderDetails?.isAccepted === false) ? 'Accept Order' : 'Confirm Order'
 
     return (
         <div>
-            <div>
+            <div className='bg-white mx-3 my-2 rounded-md'>
                 {
-                    order?.products?.length > 0 && order!.products!.map(product => <Card details={product} key={product.productId} />)
+                    order?.products?.length > 0 && order!.products!.map((product, i) => {
+                        return (
+                            <div key={product.productId}>
+                                <Card details={product} />
+                                {i !== (order?.products?.length - 1) &&
+                                    <hr className='mx-5 border-0 border-t border-b border-dashed  border-b-black boder-t-[#8c8c8c]' />}
+                            </div>
+                        )
+                    }
+                    )
                 }
             </div>
             <div>
-               {order?.orderDetails &&  <OrdersCard details={order.orderDetails} />}
+                {order?.orderDetails && <OrdersCard details={order.orderDetails} />}
             </div>
             <div className='flex w-full justify-center gap-5'>
-            
                 <button onClick={onOpen}
-                 className='bg-green-600 text-white rounded-lg p-2'>{orderStatus}</button>
+                    className='bg-green-600 text-white rounded-lg p-2'>{orderStatus}</button>
                 <button onClick={onOpenD}
-                 className='bg-red-600 text-white rounded-lg p-2'>Cancel Order</button>
+                    className='bg-red-600 text-white rounded-lg p-2'>Cancel Order</button>
             </div>
-           {isOpen && <Dialog isOpen={isOpen} onOpen={onOpen} onClose={onClose} actionType={orderStatus} orderId={params.orderId} userId={userId}/>}
-           {isOpenD && <Dialog isOpen={isOpenD} onOpen={onOpenD} onClose={onCloseD} actionType={'Delete'} orderId={params.orderId} userId={userId}/>}
+            {isOpen && <Dialog isOpen={isOpen} onOpen={onOpen} onClose={onClose} actionType={orderStatus} orderId={params.orderId} userId={userId} />}
+            {isOpenD && <Dialog isOpen={isOpenD} onOpen={onOpenD} onClose={onCloseD} actionType={'Delete'} orderId={params.orderId} userId={userId} />}
         </div>
     )
 }
+

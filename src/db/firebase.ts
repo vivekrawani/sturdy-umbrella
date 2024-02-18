@@ -572,7 +572,7 @@ const db = getFirestore()
   .doc("myOrders")
   .collection(orderId);
 
-  const targetCollection =  db.collection('users').doc(userId).collection('order').doc("pastOrder").collection(orderId);
+  const targetCollection =  db.collection('users').doc(userId).collection('order').doc("pastOrders").collection(orderId);
 
 userOrderRef.get().then((qs)=>{
   qs.forEach((doc)=>{

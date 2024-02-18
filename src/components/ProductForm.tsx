@@ -42,6 +42,7 @@ export default function ProductForm() {
         if (formRef.current) {
             const formData = new FormData(formRef.current)
             const isFeatured = (formData.get("isFeatured") === 'on') ? 'true' : 'false'
+            formData.set('isFeatured', isFeatured)
             const res = await axios.post(`/api/products`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -56,8 +57,7 @@ export default function ProductForm() {
             setIsPosting(false);
             const category = formData.get('category')
             router.push(`/products/${category}`);
-                
-              
+     
         }   
         
 

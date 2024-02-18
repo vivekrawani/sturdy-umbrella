@@ -1,4 +1,4 @@
 export enum OrderAction {
-    ACCEPT_ORDER,
-    CONFIRM_ORDER
+    ACCEPT_ORDER = "Accept Order",
+    CONFIRM_ORDER = "Confirm Order",
 }

@@ -4,9 +4,6 @@ import { useAppSelector } from '@/lib/hooks';
 import { useRouter } from 'next/navigation'
 import React from 'react'
 
-
-
-
 type IFormInput = {
     name: string,
     description: string,
@@ -24,7 +21,7 @@ export default function Products() {
     if (!isAdmin) {
             setTimeout(() => {
                 router.back()
-            }, 5000)
+            }, 3000)
             return (
                 <div className='flex flex-col justify-center items-center h-80svh p-6'>
                     <h1 className='text-3xl text-blue-500 '>Hey your are not an admin! You cannot view this page</h1>
