@@ -6,7 +6,7 @@ export async function PATCH(req: Request) {
   const id = body.orderId as string;
   const updateType = body.updateType as string;
   const additionalInfo = body.additionalInfo as string;
-  console.log(id, updateType, additionalInfo);
+  // console.log(id, updateType, additionalInfo);
 
 
   // const res = await updateOrder(id, updateType, additionalInfo);

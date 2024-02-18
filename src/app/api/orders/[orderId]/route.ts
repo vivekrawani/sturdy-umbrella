@@ -27,7 +27,6 @@ export async function PATCH(req: Request, context: Context) {
       return Response.json({ res }, { status: 201 });
     } else if(updateType === OrderAction.CONFIRM_ORDER) {
       const res = await confirmOrder(userId, orderId, otp);
-      console.log(res)
       return Response.json({ res }, { status: 201 });
     }
   } catch (error) {

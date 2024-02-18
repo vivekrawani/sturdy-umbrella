@@ -19,7 +19,6 @@ export default function SearchBox({ isOpen, onClose, onOpen }: { isOpen: boolean
   const [inputVal, setInputVal] = useState<string>('');
   const [filteredProduct, setFilteredProduct] = useState<Product[]>([]);
   const handleChange = (e: any) => {
-    console.log(e.target.value);
     const query = e.target.value;
     
     setInputVal(query)

@@ -10,7 +10,8 @@ import SearchBox from '@/components/SearchBox';
 const sub = [
     { name: "Cosmetics", href: '/products/cosmetics' },
     { name: "Grocery", href: '/products/grocery' },
-    { name: "Stationary", href: '/products/stationary' }
+    { name: "Stationary", href: '/products/stationary' },
+    { name: "Pooja", href: '/products/pooja' },
 ]
 
 export default function RootLayout({
@@ -31,7 +32,7 @@ export default function RootLayout({
 
             <div>
                 {len === 3 && <main className="grid w-full place-items-center">
-                    <div className="grid w-full md:w-[40rem] grid-cols-3 gap-2 rounded-full bg-gray-200 p-2">
+                    <div className="grid w-full md:w-[40rem] grid-cols-4 gap-2 rounded-full bg-gray-200 p-2">
                         {
                             sub.map((val) => {
                                 const isActive = pathname.startsWith(val.href);

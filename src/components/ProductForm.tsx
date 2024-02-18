@@ -26,7 +26,7 @@ import { useToast } from '@chakra-ui/react'
 import { capitalizeFirstLetter } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 const categories = [
-    "cosmetics", "stationary", "grocery"
+    "cosmetics", "stationary", "grocery", "pooja"
 ]
 export default function ProductForm() {
 

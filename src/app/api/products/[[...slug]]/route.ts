@@ -34,7 +34,6 @@ export async function POST(req: NextRequest, { params }: Context) {
   if (!slug) {
     try {
       const data = await req.formData();
-      console.log(data)
       const res = await addProduct(data);
       
       return NextResponse.json({ data : res }, { status: 201 });
@@ -64,8 +63,6 @@ export async function PATCH(request: NextRequest, { params }: Context) {
 
 export async function DELETE(request: NextRequest, { params }: Context) {
   const slug = params.slug;
-  console.log(slug);
-
   if (slug?.length === 2) {
     const collection = slug[0];
     const productId = slug[1];
