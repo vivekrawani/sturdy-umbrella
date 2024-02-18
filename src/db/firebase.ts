@@ -229,6 +229,7 @@ export const getData = async () => {
     const time = data!.time;
     const orderTime = data!.orderTime?.toDate();
     const userId = data!.userId;
+    const orderAcceptTime = data!.orderAcceptTime;
 
     const Order: OrderDetails = {
       userName,
@@ -244,6 +245,7 @@ export const getData = async () => {
       time,
       orderTime,
       userId,
+      orderAcceptTime
     };
 
     orders.push(Order);
@@ -310,10 +312,12 @@ export const acceptOrder = async (
     .collection(orderId);
   const userOrder = await userOrderRef.doc("orderDetails").get();
   const globalOrder = await globalOrderRef.doc("orderDetails").get();
+  const orderAcceptTime = new Date();
   if (userOrder.exists) {
     userOrderRef.doc("orderDetails").update({
       isAccepted: true,
       time: deliveryTime,
+      orderAcceptTime,
       otp,
     });
   }
@@ -321,6 +325,7 @@ export const acceptOrder = async (
     globalOrderRef.doc("orderDetails").update({
       isAccepted: true,
       time: deliveryTime,
+      orderAcceptTime,
       otp,
     });
   }
@@ -536,6 +541,8 @@ export const getPastOrders = async () => {
     const gst = data!.gst;
     const time = data!.time;
     const userId = data!.userId;
+    const orderTime = data!.orderTime?.toDate();
+    const orderAcceptTime = data!.orderAcceptTime;
 
     const Order: OrderDetails = {
       userName,
@@ -550,6 +557,8 @@ export const getPastOrders = async () => {
       gst,
       time,
       userId,
+      orderTime,
+      orderAcceptTime
     };
     orders.push(Order);
   }

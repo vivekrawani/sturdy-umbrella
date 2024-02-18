@@ -25,6 +25,7 @@ export type OrderDetails = {
   gst: string;
   time: string;
   userId : string;
-  orderTime? : Date;
+  orderTime : Date;
   products?: Product[];
+  orderAcceptTime? : Date;
 };

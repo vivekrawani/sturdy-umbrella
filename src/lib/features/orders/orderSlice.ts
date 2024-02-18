@@ -86,7 +86,7 @@ export const orderSlice = createSlice({
     });
     builder.addCase(getPastOrders.fulfilled, (state: any, action: any) => {
       state.loading = false;
-      if (action.payload) state.single = action.payload;
+      if (action.payload) state.pastOrders = action.payload;
       
     });
     builder.addCase(getPastOrders.pending, (state: any) => {

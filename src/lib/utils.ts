@@ -1,6 +1,7 @@
 import { format } from "date-fns";
 import type { Product } from "./types";
 import jsPDF from "jspdf";
+import axios from "axios";
 export function getStringBetween(str: string | null): string[] {
   const result = str!.split(/[//]/);
   return result;
@@ -43,8 +44,8 @@ const generateData = (products: any[], total: string) => {
       "Sl No.": (i + 1).toString(),
       Particular: x.name,
       "Rate    ": x.discountedPrice.toString(),
-      Quantity: x.count.toString(),
-      Amount: (x.discountedPrice * x.count).toString(),
+      Quantity: x.nos.toString(),
+      Amount: (x.discountedPrice * x.nos).toString(),
     };
     result.push(data);
   }
@@ -59,7 +60,16 @@ const generateData = (products: any[], total: string) => {
   return result;
 };
 
-export function generateReceipt(
+
+export async function genrateReceipt(orderId:string) {
+  const data = await (await axios.get(`/api/orders/${orderId}`)).data
+  const productArr : any [] = data?.products;
+  const amount  = data?.orderDetails.amount as string;
+  generateReceiptPDF(productArr, amount, orderId )
+  // console.log(data, productArr, amount)
+}
+
+export function generateReceiptPDF(
   products: any[],
   amount: string,
   orderId: string

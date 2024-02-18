@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { useEffect } from 'react';
 export default function Orders() {
   const dispatch = useAppDispatch();
-  const data = useAppSelector(state => state.orderReducers.data)
+  const data = useAppSelector(state => state.orderReducers.pastOrders)
   useEffect(() => {
     dispatch(getPastOrders())
   }, [dispatch])
