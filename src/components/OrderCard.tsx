@@ -11,14 +11,15 @@ import { useDisclosure } from '@chakra-ui/react'
 import Dialog from '@/components/Dialog'
 import { genrateReceipt } from '@/lib/utils';
 export default function OrderCard({ details }: { details: OrderDetails | null }) {
-    const { userName, mobileNumber, address, pincode, amount, isAccepted, isDelivered, payment, products, orderId, time, userId, orderAcceptTime } = details ?? { userName: '', address: '', orderId: '', userId: '', orderAcceptTime: 'now' };
-    const time_ = details?.orderTime || new Date();
-    const date = new Date(time_);
-    const orderTime = format(date, "PPp")
+    const { userName, mobileNumber, address, pincode, amount, isAccepted, isDelivered, payment, products, orderId, time, userId, orderAcceptTime, deliverTime, orderTime} = details ?? { userName: '', address: '', orderId: '', userId: '' };
+    
     const isPending = isAccepted && (!isDelivered);
     const isNew = (!isAccepted) && (!isDelivered);
+    const isPast = isAccepted && isDelivered
     let orderStatus = isPending ? OrderAction.CONFIRM_ORDER : OrderAction.ACCEPT_ORDER;
-
+    const orderAcceptTimeF = orderAcceptTime ?  format(orderAcceptTime, 'PPp') : '';
+    const deliverTimeF = deliverTime ? format(deliverTime, "PPp") : '';
+    const orderTimeF = orderTime ?  format(orderTime, "PPp"): '';
     const { isOpen, onOpen, onClose } = useDisclosure()
     const { isOpen: isOpenD, onOpen: onOpenD, onClose: onCloseD } = useDisclosure()
     return (
@@ -26,9 +27,12 @@ export default function OrderCard({ details }: { details: OrderDetails | null })
 
             <div className='flex flex-col'>
                 {isNew && <><div>ORDER PLACED</div>
-                    <div>{orderTime}</div>
+                    <div>{orderTimeF}</div>
                 </>}
-                {isPending && <> <div><div>  ACCEPTED AT </div> <div>{(orderAcceptTime)?.toString()}</div> </div><div className='flex flex-col'> <div>EXPECTED DELIVERY :</div> <div>{time}</div> </div></>}
+                {isPending && <> <div><div>ACCEPTED AT : </div> <div>{(orderAcceptTimeF)?.toString()}</div> </div><div className='flex flex-col'> <div>EXPECTED DELIVERY :</div> <div>{time}</div> </div></>}
+                {
+                    isPast && <><div><div>DELIVERED AT : </div> <div>{(deliverTimeF)?.toString()}</div> </div></>
+                }
             </div>
             <div className='flex flex-col'>
                 <div>TOTAL</div>

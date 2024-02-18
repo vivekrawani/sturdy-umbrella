@@ -28,4 +28,5 @@ export type OrderDetails = {
   orderTime : Date;
   products?: Product[];
   orderAcceptTime? : Date;
+  deliverTime? : Date;
 };

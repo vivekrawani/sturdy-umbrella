@@ -23,7 +23,7 @@ export default function Order({ params }: Params) {
     const dispatch = useAppDispatch()
     useEffect(() => {
         dispatch(getOrder(orderId))
-    }, [orderId])
+    }, [orderId, dispatch])
     const isLoading = order?.products?.length === 0 || loading;
 
     const userId = order.orderDetails?.userId as string
