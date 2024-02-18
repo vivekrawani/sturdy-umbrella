@@ -25,7 +25,7 @@ const links = [
 	},
 	{
 		name: "Orders",
-		href: "/orders/new"
+		href: "/orders"
 	},
 
 	{

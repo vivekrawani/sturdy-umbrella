@@ -29,7 +29,7 @@ export default function Orders() {
         {
           data!.length > 0 ? (data!.reduce((acc: any[], v) => {
             if (v?.isAccepted === true && v.isDelivered === false) {
-              acc.push(<OrdersCard details={v} />)
+              acc.push(<OrdersCard key={v.orderId} details={v} />)
             }
             return acc;
           }, []

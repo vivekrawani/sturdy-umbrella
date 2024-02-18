@@ -15,7 +15,7 @@ export default function Orders() {
   return (
     <div className='flex flex-col mt-6 justify-center items-center bg-slate-300 '>
      
-        {
+        {/* {
 
 
           data!.length > 0 ? (data?.map(v => {
@@ -23,7 +23,7 @@ export default function Orders() {
               <OrdersCard key={v!.orderId} details={v} />
             )
           })) : <div className='w-full h-screen'><Loading /></div>
-        }
+        } */}
 
       </div>
    

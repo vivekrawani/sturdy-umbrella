@@ -257,11 +257,16 @@ export const getData = async () => {
 export async function getOrderWithId(id: string) {
   await initAdmin();
   const db = getFirestore();
-  const ordersRef = await db
+  let ordersRef =  await db
     .collection("orders")
     .doc("newOrders")
-    .collection(id)
-    .get();
+    .collection(id).get()
+  if(ordersRef.empty){
+    ordersRef = await db
+    .collection("orders")
+    .doc("pastOrders")
+    .collection(id).get()
+  }
   const subCollections = ordersRef.docs;
   const products: any[] = [];
   for (let index = 0; index < subCollections.length - 1; index++) {
@@ -478,7 +483,6 @@ export const searchProduct = async (q: string) => {
     .where("name", ">=", q)
     .where("name", "<=", q + "\uf8ff");
   const snap = await collectionRef.get();
-  console.log(snap.docs);
   snap.docs.map((doc) => {
     results.push(doc.data());
   });
