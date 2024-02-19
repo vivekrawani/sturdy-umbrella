@@ -3,6 +3,7 @@ import { initAdmin } from "./firebaseAdminSdk";
 import { getFirestore } from "firebase-admin/firestore";
 import { getStorage } from "firebase-admin/storage";
 import { getMessaging } from "firebase-admin/messaging";
+import { error } from "console";
 
 const uploadFile = async (file: File | null) => {
   if (file) {
@@ -65,6 +66,7 @@ export async function addProduct(data: any) {
   };
   try {
     await docRef.set(updateData);
+   
   } catch (error) {
     console.log(error);
   }
@@ -336,7 +338,7 @@ export const acceptOrder = async (
   }
   // FCM
   const fcmSnap = await db.collection("users").doc(userId).get();
-  const fcmToken = fcmSnap.get("fcm");
+  const fcmToken =fcmSnap.get('fcm');
   await sendPushMessage(
     fcmToken,
     "Order Accepted",
@@ -344,65 +346,6 @@ export const acceptOrder = async (
   );
 
   return { message: "success" };
-};
-
-export const confirmOrder = async (
-  userId: string,
-  orderId: string,
-  otp: string
-) => {
-  await initAdmin();
-  const db = getFirestore();
-  const userOrderRef = db
-    .collection("users")
-    .doc(userId)
-    .collection("order")
-    .doc("myOrders")
-    .collection(orderId);
-  const globalOrderRef = db
-    .collection("orders")
-    .doc("newOrders")
-    .collection(orderId);
-
-  const orderRef = await userOrderRef.doc("orderDetails").get();
-  const gOrderRef = await globalOrderRef.doc("orderDetails").get();
-
-  const details = (await globalOrderRef.doc("orderDetails").get()).data();
-  const res = {
-    message: "",
-    error: false,
-  };
-  if (details?.otp === otp) {
-    res.message = "Order Delivered";
-    if (orderRef.exists) {
-      userOrderRef.doc("orderDetails").update({
-        isDelivered: true,
-        payment: true,
-      });
-    }
-    if (gOrderRef.exists) {
-      globalOrderRef.doc("orderDetails").update({
-        isDelivered: true,
-        payment: true,
-      });
-    }
-
-    moveOrderToPastOrderUser(orderId, userId);
-    moveOrderToPastOrderGlobal(orderId);
-
-    const fcmSnap = await db.collection("users").doc(userId).get();
-    const fcmToken = fcmSnap.get("fcm");
-    await sendPushMessage(
-      fcmToken,
-      "Order Delivered",
-      "Your order has been delivered"
-    );
-    return { message: "success" };
-  } else {
-    res.message = "OTP did not match";
-    res.error = true;
-    return res;
-  }
 };
 
 export const updateOrder = async (
