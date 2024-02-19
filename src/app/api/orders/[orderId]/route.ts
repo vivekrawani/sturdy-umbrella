@@ -1,6 +1,5 @@
 export const dynamic = "force-dynamic"; //
-
-import { acceptOrder, confirmOrder, updateOrder } from "@/db/firebase";
+import { acceptOrder, updateOrder, confirmOrder } from "@/db/firebase";
 import { getData, getOrderWithId } from "@/db/firebase";
 import { OrderAction } from "@/lib/constants";
 import { generateOTP } from "@/lib/utils";
@@ -17,12 +16,12 @@ export async function GET(req: Request, context: Context) {
 export async function PATCH(req: Request, context: Context) {
   const body = await req.json();
   const orderId = context.params.orderId;
-  const updateType = body.updateType as string;
+  const updateType = body.updateType as OrderAction;
   const otp = body.otp as string;
   const date = body.date as string;
   const userId = body.userId as string;
   try {
-    if (updateType === OrderAction.ACCEPT_ORDER) {
+    if (updateType == OrderAction.ACCEPT_ORDER) {
       const otp = generateOTP(6);
       const res = await acceptOrder(orderId, otp, date, userId);
       return Response.json({ res }, { status: 201 });
