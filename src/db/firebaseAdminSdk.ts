@@ -5,11 +5,12 @@ type FirebaseAdminAppParams = {
   privateKey: string;
 };
 import admin from "firebase-admin";
-function formatKey(key: any){
+export function formatKey(key: any){
     return key.replace(/\\n/g, "\n")
+
 }
 function createFirebaseAdminApp(params: FirebaseAdminAppParams) {
-  const privateKey = formatKey(params.privateKey);
+  const privateKey = params.privateKey.split(String.raw`\n`).join('\n');
   if (admin.apps.length > 0) {
     console.log("Already");
     
