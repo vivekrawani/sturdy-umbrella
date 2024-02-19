@@ -82,7 +82,7 @@ export default function UpdateCard({ details }: any) {
             duration: 5000,
             isClosable: true,
         })
-        router.push(`/products/${sub}`);
+        router.push('/products/grocery');
     })
     const formRef = useRef<HTMLFormElement>() as React.MutableRefObject<HTMLFormElement>;
     const MyModal = () => (
@@ -177,7 +177,7 @@ export default function UpdateCard({ details }: any) {
             duration: 5000,
             isClosable: true,
         })
-        router.push(`/products/${sub}`);
+        router.push('/products/grocery');
 
     }
     const { isOpen: isOpenD, onOpen: onOpenD, onClose: onCloseD } = useDisclosure()

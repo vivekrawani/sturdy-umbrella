@@ -27,6 +27,7 @@ export default function Order({ params }: Params) {
     const isLoading = order?.products?.length === 0 || loading;
 
     const userId = order.orderDetails?.userId as string
+
     const orderStatus = (order.orderDetails?.isAccepted === false) ? 'Accept Order' : 'Confirm Order'
 
     return (
@@ -70,4 +71,3 @@ export default function Order({ params }: Params) {
         </div>
     )
 }
-
