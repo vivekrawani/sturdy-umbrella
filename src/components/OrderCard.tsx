@@ -5,10 +5,12 @@ import { IoIosArrowDropdown } from "react-icons/io";
 import { OrderDetails } from '@/lib/types';
 import Tooltip from './Tooltip';
 import { format, getTime } from 'date-fns';
+import { genrateReceipt } from '@/lib/utils'
 export default function OrderCard({ details }: { details: OrderDetails | null }) {
     const { userName, mobileNumber, address, pincode, amount, isAccepted, isDelivered, payment, products, orderId, time } = details ?? {userName:'', address:''};
     const time_ = details?.orderTime as Date;
     const date = new Date(time_);
+    const orderId_ = orderId as string;
     const month = date.toLocaleString('default', { month: 'long' });
     const stringDate = `${date.getDate()} ${month} ${date.getFullYear()}`
     const localTime = format(date, "p")
@@ -36,7 +38,7 @@ export default function OrderCard({ details }: { details: OrderDetails | null })
                     <button className='text-blue-700 hover:underline'
                     > <Link href={`/orders/${orderId}`}> View order details </Link></button>
                     <button className='text-blue-700 hover:underline'
-                        onClick={e => genrateReceipt(orderId)}
+                        onClick={e => genrateReceipt(orderId_)}
 
                     >Invoice</button>
                 </div>
