@@ -8,12 +8,10 @@ import { format, getTime } from 'date-fns';
 import { genrateReceipt } from '@/lib/utils'
 export default function OrderCard({ details }: { details: OrderDetails | null }) {
     const { userName, mobileNumber, address, pincode, amount, isAccepted, isDelivered, payment, products, orderId, time } = details ?? {userName:'', address:''};
-    const time_ = details?.orderTime as Date;
-    const date = new Date(time_);
+    const time_ = details?.orderTime || new Date();
     const orderId_ = orderId as string;
-    const month = date.toLocaleString('default', { month: 'long' });
-    const stringDate = `${date.getDate()} ${month} ${date.getFullYear()}`
-    const localTime = format(date, "p")
+    const stringDate =  format(time_ , "PPp") //`${date.getDate()} ${month} ${date.getFullYear()}`
+    const localTime = format(time_, "p")
 
     return (
         <div className='grid gap-2 md:grid-cols-5  w-full bg-blue-100 rounded-lg px-2 py-1 text-gray-600'>
