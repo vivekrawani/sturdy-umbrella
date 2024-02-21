@@ -378,16 +378,19 @@ export const confirmOrder = async (
   };
   if (details?.otp === otp) {
     res.message = "Order Delivered";
+    const deliverTime = new Date();
     if (orderRef.exists) {
       userOrderRef.doc("orderDetails").update({
         isDelivered: true,
         payment: true,
+        deliverTime,
       });
     }
     if (gOrderRef.exists) {
       globalOrderRef.doc("orderDetails").update({
         isDelivered: true,
         payment: true,
+        deliverTime,
       });
     }
 

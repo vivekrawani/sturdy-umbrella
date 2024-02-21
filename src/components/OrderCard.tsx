@@ -11,15 +11,15 @@ import { useDisclosure } from '@chakra-ui/react'
 import Dialog from '@/components/Dialog'
 import { genrateReceipt } from '@/lib/utils';
 export default function OrderCard({ details }: { details: OrderDetails | null }) {
-    const { userName, mobileNumber, address, pincode, amount, isAccepted, isDelivered, payment, products, orderId, time, userId, orderAcceptTime, deliverTime, orderTime} = details ?? { userName: '', address: '', orderId: '', userId: '' };
-    
-    const isPending =( isAccepted )&& (!isDelivered);
+    const { userName, mobileNumber, address, pincode, amount, isAccepted, isDelivered, payment, products, orderId, time, userId, orderAcceptTime, deliverTime, orderTime } = details ?? { userName: '', address: '', orderId: '', userId: '' };
+
+    const isPending = (isAccepted) && (!isDelivered);
     const isNew = (!isAccepted) && (!isDelivered);
     const isPast = isAccepted && isDelivered
     let orderStatus = isPending ? OrderAction.CONFIRM_ORDER : OrderAction.ACCEPT_ORDER;
-    // const orderAcceptTimeF = orderAcceptTime ?  format(orderAcceptTime, 'PPp') : '';
+    const orderAcceptTimeF = orderAcceptTime ?  format(orderAcceptTime, 'PPp') : '';
     // const deliverTimeF = deliverTime ? format(deliverTime, "PPp") : '';
-    // const orderTimeF = orderTime ?  format(orderTime, "PPp"): '';
+    const orderTimeF = orderTime ? format(orderTime, "PPp") : '';
     const { isOpen, onOpen, onClose } = useDisclosure()
     const { isOpen: isOpenD, onOpen: onOpenD, onClose: onCloseD } = useDisclosure()
     return (
@@ -27,9 +27,9 @@ export default function OrderCard({ details }: { details: OrderDetails | null })
 
             <div className='flex flex-col'>
                 {isNew && <><div>ORDER PLACED</div>
-                    <div>{orderTime?.toString()}</div>
+                    <div>{orderTimeF}</div>
                 </>}
-                {isPending && <> <div><div>ACCEPTED AT : </div> <div>{(orderAcceptTime)?.toString()}</div> </div><div className='flex flex-col'> <div>EXPECTED DELIVERY :</div> <div>{time}</div> </div></>}
+                {isPending && <> <div><div>ACCEPTED AT : </div> <div>{orderAcceptTimeF}</div> </div><div className='flex flex-col'> <div>EXPECTED DELIVERY :</div> <div>{time}</div> </div></>}
                 {
                     isPast && <><div><div>DELIVERED AT : </div> <div>{(deliverTime)?.toString()}</div> </div></>
                 }
@@ -67,7 +67,7 @@ export default function OrderCard({ details }: { details: OrderDetails | null })
                 </div>
             }
             {isOpen && <Dialog isOpen={isOpen} onOpen={onOpen} onClose={onClose} actionType={orderStatus} orderId={orderId} userId={userId} />}
-           {isNew &&  isOpenD && <Dialog isOpen={isOpenD} onOpen={onOpenD} onClose={onCloseD} actionType={OrderAction.DELETE_ORDER} orderId={orderId} userId={userId} />}
+            {isNew && isOpenD && <Dialog isOpen={isOpenD} onOpen={onOpenD} onClose={onCloseD} actionType={OrderAction.DELETE_ORDER} orderId={orderId} userId={userId} />}
         </div>
     )
 }
