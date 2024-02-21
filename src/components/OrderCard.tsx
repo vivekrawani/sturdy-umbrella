@@ -25,9 +25,8 @@ export default function OrderCard({ details }: { details: OrderDetails | null })
         // orderAcceptTimeF = format(orderAcceptTime, "PPp");
     }
     let deliverTimeF =  '';
-    if(orderAcceptTime){
-        console.log("here ")
-        // deliverTimeF = format(deliverTime, "PPp");
+    if(deliverTime){
+        deliverTimeF = format(deliverTime, "PPp");
     }
    
     
