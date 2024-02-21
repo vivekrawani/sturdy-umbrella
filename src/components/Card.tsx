@@ -28,7 +28,7 @@ export default function Card({ details, category }: any) {
                     <span className='text-sm font-bold'>Original Price</span>  <span className=" text-sm">₹{price}</span>
                 </div>
                 <div className="mt-3 flex items-center  gap-2">
-                    <span className='text-sm font-bold'>Discounted Price Price</span> <span className="text-sm">₹{discountedPrice}</span>
+                    <span className='text-sm font-bold'>Discounted Price</span> <span className="text-sm">₹{discountedPrice}</span>
                 </div>
                 <div className="mt-3 flex items-center  gap-2">
                     <span className='text-sm font-bold'>In Stock</span>    <span className="text-sm">{inStock}</span>
