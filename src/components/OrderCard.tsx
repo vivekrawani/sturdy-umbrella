@@ -18,11 +18,11 @@ export default function OrderCard({ details }: { details: OrderDetails | null })
     const isPast = isAccepted && isDelivered
     let orderStatus = isPending ? OrderAction.CONFIRM_ORDER : OrderAction.ACCEPT_ORDER;
     let orderAcceptTimeF =  '';
-    if(orderAcceptTime){
+    if(orderAcceptTime !== undefined){
         orderAcceptTimeF = format(orderAcceptTime, "PPp");
     }
     let deliverTimeF =  '';
-    if(deliverTime){
+    if(deliverTime !== undefined){
         deliverTimeF = format(deliverTime, "PPp");
     }
     console.log(orderTime, orderAcceptTime, deliverTime);
