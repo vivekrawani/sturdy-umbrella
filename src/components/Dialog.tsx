@@ -50,15 +50,13 @@ const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId, userId }: { isOp
     const handleAction = async () => {
         setIsLoading(true);
         const otp = InputRef.current?.value;
-        const api = process.env.NEXT_PUBLIC_FIREBASE_funapi;
-
         let title = actionType === OrderAction.CONFIRM_ORDER ? 'Order Confirmed' : 'Order Accepted';
         let toastDescription = '';
 
         try {
             if (actionType === OrderAction.CONFIRM_ORDER) {
                 
-                const response = await axios.patch(`${api}${orderId}`, {
+                const response = await axios.patch(`/api/orders/${orderId}`, {
                     updateType: OrderAction.CONFIRM_ORDER,
                     otp,
                     userId 
@@ -80,7 +78,7 @@ const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId, userId }: { isOp
             }
             if (actionType === OrderAction.ACCEPT_ORDER) {
                 const date_ = format(date, 'PPp')
-                const response = await axios.patch(`${api}${orderId}`, {
+                const response = await axios.patch(`/api/orders/${orderId}`, {
                     updateType: OrderAction.ACCEPT_ORDER,
                     date : date_,
                     userId 

@@ -399,7 +399,7 @@ export const confirmOrder = async (
 
     const fcmSnap = await db.collection("users").doc(userId).get();
     const fcmToken = fcmSnap.get("fcm");
-    await sendPushMessage(
+    sendPushMessage(
       fcmToken,
       "Order Delivered",
       "Your order has been delivered"

@@ -20,13 +20,14 @@ export default function OrderCard({ details }: { details: OrderDetails | null })
     let orderAcceptTimeF =  '';
     console.log(orderTime, orderAcceptTime, deliverTime);
     if(orderAcceptTime !== undefined){
-        const date__ = new Date(orderAcceptTime)
-        console.log(date__);
+        // const date__ = new Date(orderAcceptTime)
+        // console.log(date__);
+        console.log("Undefined")
         // orderAcceptTimeF = format(orderAcceptTime, "PPp");
     }
     let deliverTimeF =  '';
     if(orderAcceptTime){
-
+console.log("emty")
         // deliverTimeF = format(deliverTime, "PPp");
     }
    
