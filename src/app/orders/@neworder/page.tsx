@@ -11,10 +11,13 @@ import { FcSearch } from "react-icons/fc";
 import type { Order } from '@/lib/features/orders/orderSlice';
 import { useDisclosure } from '@chakra-ui/react';
 import OrderSearch from '@/components/OrderSearch'
+import { useRouter } from 'next/navigation';
 export default function Orders() {
   const dispatch = useAppDispatch();
   const data = useAppSelector(state => state.orderReducers.data)
   const loading = useAppSelector(state => state.orderReducers.loading)
+  const user = useAppSelector(state => state.authReducer.user);
+  const router = useRouter();
 
   useEffect(() => {
     dispatch(getOrders())
@@ -45,6 +48,11 @@ export default function Orders() {
   }, [setOrders, data, range])
 
   const { onOpen, onClose, isOpen } = useDisclosure();
+  const isAdmin = user && user!.isAdmin;
+  if (!isAdmin) {
+    setTimeout(() => {
+      router.back()
+    }, 5000)}
   return (
     <div className='flex flex-col mt-6 mx-4 gap-5 justify-center items-center '>
       <div className='w-full justify-end flex gap-4 items-center'>
