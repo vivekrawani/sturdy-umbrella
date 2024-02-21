@@ -15,6 +15,7 @@ import { useDisclosure } from '@chakra-ui/react'
 import Dialog from '@/components/Dialog'
 import Loading from '@/components/Loading'
 import { genrateReceipt } from '@/lib/utils'
+import { OrderAction } from '@/lib/constants'
 export default function Order({ params }: Params) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const { isOpen: isOpenD, onOpen: onOpenD, onClose: onCloseD } = useDisclosure()
@@ -28,7 +29,7 @@ export default function Order({ params }: Params) {
 
     const userId = order.orderDetails?.userId as string
 
-    const orderStatus = (order.orderDetails?.isAccepted === false) ? 'Accept Order' : 'Confirm Order'
+    const orderStatus = (order.orderDetails?.isAccepted === false) ? OrderAction.ACCEPT_ORDER : OrderAction.CONFIRM_ORDER;
 
     return (
         <div>
@@ -67,7 +68,7 @@ export default function Order({ params }: Params) {
             }
 
             {isOpen && <Dialog isOpen={isOpen} onOpen={onOpen} onClose={onClose} actionType={orderStatus} orderId={params.orderId} userId={userId} />}
-            {isOpenD && <Dialog isOpen={isOpenD} onOpen={onOpenD} onClose={onCloseD} actionType={'Delete'} orderId={params.orderId} userId={userId} />}
+            {orderStatus===OrderAction.ACCEPT_ORDER &&  isOpenD && <Dialog isOpen={isOpenD} onOpen={onOpenD} onClose={onCloseD} actionType={OrderAction.DELETE_ORDER} orderId={params.orderId} userId={userId} />}
         </div>
     )
 }

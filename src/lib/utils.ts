@@ -2,6 +2,7 @@ import { format } from "date-fns";
 import type { Product } from "./types";
 import jsPDF from "jspdf";
 import axios from "axios";
+import { Order } from "./features/orders/orderSlice";
 export function getStringBetween(str: string | null): string[] {
   const result = str!.split(/[//]/);
   return result;
@@ -17,6 +18,16 @@ export function capitalizeFirstLetter(str: string) {
 export const searchRegEx = (word: string, arr: Product[]) => {
   const regex = new RegExp(word, "gi");
   const filteredArr = arr.filter((item) => regex.test(item.name));
+  return filteredArr;
+};
+export const searchOrder = (word: string, arr: Order[]) => {
+  const regex = new RegExp(word, "gi");
+
+  const filteredArr = arr.filter((item) => {
+    const orderId = item ? item.orderId : "";
+    const name = item ? item.userName : "";
+    return regex.test(orderId) || regex.test(name);
+  });
   return filteredArr;
 };
 const createHeaders = (keys: any) => {
@@ -60,12 +71,11 @@ const generateData = (products: any[], total: string) => {
   return result;
 };
 
-
-export async function genrateReceipt(orderId:string) {
-  const data = await (await axios.get(`/api/orders/${orderId}`)).data
-  const productArr : any [] = data?.products;
-  const amount  = data?.orderDetails.amount as string;
-  generateReceiptPDF(productArr, amount, orderId )
+export async function genrateReceipt(orderId: string) {
+  const data = await (await axios.get(`/api/orders/${orderId}`)).data;
+  const productArr: any[] = data?.products;
+  const amount = data?.orderDetails.amount as string;
+  generateReceiptPDF(productArr, amount, orderId);
   // console.log(data, productArr, amount)
 }
 

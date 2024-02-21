@@ -15,7 +15,8 @@ import { useRef, useState } from 'react'
 import DateTimePicker from './DateTimePicker';
 import { generateOTP } from '@/lib/utils';
 import { format, getDate } from 'date-fns';
-const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId, userId }: { isOpen: boolean, onOpen: () => void, onClose: () => void, actionType: string, orderId: string, userId : string }) => {
+import { OrderAction } from '@/lib/constants';
+const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId, userId }: { isOpen: boolean, onOpen: () => void, onClose: () => void, actionType: OrderAction, orderId: string, userId : string }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [date, setDate] = useState<Date>(new Date())
 
@@ -23,14 +24,14 @@ const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId, userId }: { isOp
     const InputRef = useRef<HTMLInputElement>(null)
     const MyModalBody = () => {
 
-        if (actionType === 'Accept Order')
+        if (actionType === OrderAction.ACCEPT_ORDER)
             return (
                 <div className='flex flex-col gap-2 justify-center items-center'>
                     <div className=''>Select Expected Delivery Date</div>
                     <DateTimePicker date={date} setDate={setDate} />
                 </div>
             )
-        else if (actionType === 'Delete') {
+        else if (actionType === OrderAction.DELETE_ORDER) {
             return (
                 <div>
                     Delete
@@ -51,21 +52,22 @@ const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId, userId }: { isOp
         setIsLoading(true);
         const otp = InputRef.current?.value;
 
-        let title = actionType === 'Confirm Order' ? 'Order Confirmed' : 'Order Accepted';
+        let title = actionType === OrderAction.CONFIRM_ORDER ? 'Order Confirmed' : 'Order Accepted';
         let toastDescription = '';
 
         try {
-
-            if (actionType === 'Confirm Order') {
+            if (actionType === OrderAction.CONFIRM_ORDER) {
                 const response = await axios.patch(`/api/orders/${orderId}`, {
-                    updateType: actionType,
+                    updateType: OrderAction.CONFIRM_ORDER,
                     otp,
+                    userId 
                 })
                 const res = response.data.res;
+                
                 const status = res.error ? 'error' : 'success';
                 if (res.error) {
                     title = 'Failed'
-                    toastDescription = res.error;
+                    toastDescription = res.message;
                 }
                 toast({
                     title,
@@ -75,12 +77,10 @@ const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId, userId }: { isOp
                     isClosable: true,
                 },)
             }
-            if (actionType === 'Accept Order') {
-                const otp = generateOTP(6);
+            if (actionType === OrderAction.ACCEPT_ORDER) {
                 const date_ = format(date, 'PPp')
                 const response = await axios.patch(`/api/orders/${orderId}`, {
-                    updateType: actionType,
-                    otp,
+                    updateType: OrderAction.ACCEPT_ORDER,
                     date : date_,
                     userId 
                 })

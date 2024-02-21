@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-
 export const metadata: Metadata = {
   title: 'Johar Basket',
   description: 'Buy groceries, cosmetics, stationaries.',
@@ -12,6 +11,7 @@ import Link from 'next/link';
 export default function Home() {
   return (
     <div className='p-5 flex flex-col md:flex-row gap-6'>
+      
 
       <Image src='/landing.svg' height={600} width={600} alt='' />
       <div className='w-full flex flex-col gap-5 justify-center items-center mt-10 md:mt-0 '>

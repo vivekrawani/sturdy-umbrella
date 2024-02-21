@@ -7,6 +7,9 @@ import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { useEffect, useState } from 'react';
 import { parseISO, isWithinInterval, subDays, subHours } from 'date-fns';
 import type { Order } from '@/lib/features/orders/orderSlice';
+import { FcSearch } from "react-icons/fc";
+import { useDisclosure } from '@chakra-ui/react';
+import OrderSearch from '@/components/OrderSearch'
 export default function Orders() {
   const dispatch = useAppDispatch();
   const data = useAppSelector(state => state.orderReducers.data)
@@ -36,11 +39,15 @@ export default function Orders() {
     })
     setOrders(filtered)
   }, [setOrders, data, range])
-console.log(orders)
-
+  const { onOpen, onClose, isOpen } = useDisclosure();
+  
   return (
     <div className='flex flex-col mt-6 mx-4 gap-5 justify-center items-center '>
       <div className='w-full justify-end flex gap-4 items-center'>
+      <div>  <button onClick={onOpen}
+          className=' bg-white px-4 py-2 rounded-lg'
+        > <FcSearch className='' /></button>
+          <OrderSearch onClose={onClose} onOpen={onOpen} isOpen={isOpen} sub={orders} /></div>
         <label htmlFor="time-range" className='text-white font-bold text-md'></label>
 
         <select name="time-range" id="time-range" className='rounded-md min-w-max px-2 py-1' value={range} onChange={e => {
