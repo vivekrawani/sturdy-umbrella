@@ -339,7 +339,7 @@ export const acceptOrder = async (
   // FCM
   const fcmSnap = await db.collection("users").doc(userId).get();
   const fcmToken =fcmSnap.get('fcm');
-  await sendPushMessage(
+  sendPushMessage(
     fcmToken,
     "Order Accepted",
     "Your Order has been accepted"
