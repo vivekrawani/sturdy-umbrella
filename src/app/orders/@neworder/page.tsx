@@ -26,7 +26,10 @@ export default function Orders() {
     let sevenDaysAgo = subDays(currentDate, 7);
     let twentyFourHoursAgo = subHours(currentDate, 24);
     const filtered = data!.filter((o) => {
-      const date = o?.orderTime || new Date();
+      let date = new Date();
+      if (o?.orderTime) {
+        date = o?.orderTime;
+      }
       let c1 = true;
       if (range === 'today') {
         c1 = isWithinInterval(date, { start: twentyFourHoursAgo, end: currentDate });
