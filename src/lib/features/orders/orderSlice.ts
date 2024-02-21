@@ -25,7 +25,9 @@ const initialState: InitialState = {
 
 const getOrders = createAsyncThunk("/api/orders", async (_, _thunkAPI: any) => {
   try {
-    const data = (await axios.get(`/api/orders`)).data;
+    const api = process.env.NEXT_PUBLIC_FIREBASE_funapi;
+    // const data = (await axios.get(`/api/orders`)).data;
+    const data = (await axios.get(`${api}newOrders`)).data;
     return data;
   } catch (error: any) {
     console.log("Errorsss", error);
@@ -35,7 +37,9 @@ const getOrders = createAsyncThunk("/api/orders", async (_, _thunkAPI: any) => {
 
 const getPastOrders = createAsyncThunk("/api/orders/past", async (_, _thunkAPI: any) => {
   try {
-    const data = (await axios.get(`/api/orders/past`)).data;
+    const api = process.env.NEXT_PUBLIC_FIREBASE_funapi;
+    // const data = (await axios.get(`/api/orders/past`)).data;
+    const data = (await axios.get(`${api}pastOrders`)).data;
     return data;
   } catch (error: any) {
     console.log("Errorsss", error);
