@@ -18,14 +18,19 @@ export default function OrderCard({ details }: { details: OrderDetails | null })
     const isPast = isAccepted && isDelivered
     let orderStatus = isPending ? OrderAction.CONFIRM_ORDER : OrderAction.ACCEPT_ORDER;
     let orderAcceptTimeF =  '';
-    // if(orderAcceptTime !== undefined){
-    //     orderAcceptTimeF = format(orderAcceptTime, "PPp");
-    // }
-    let deliverTimeF =  '';
-    // if(deliverTime !== undefined){
-    //     deliverTimeF = format(deliverTime, "PPp");
-    // }
     console.log(orderTime, orderAcceptTime, deliverTime);
+    if(orderAcceptTime){
+        const date__ = new Date(orderAcceptTime)
+        console.log(date__);
+        // orderAcceptTimeF = format(orderAcceptTime, "PPp");
+    }
+    let deliverTimeF =  '';
+    if(orderAcceptTime){
+        console.log("here ")
+        // deliverTimeF = format(deliverTime, "PPp");
+    }
+   
+    
     const orderTimeF = orderTime ? format(orderTime, "PPp") : '';
     const { isOpen, onOpen, onClose } = useDisclosure()
     const { isOpen: isOpenD, onOpen: onOpenD, onClose: onCloseD } = useDisclosure()
