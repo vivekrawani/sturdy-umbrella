@@ -66,7 +66,7 @@ export default function Navbar() {
 				</div>
 				<div>
 					{
-						links.map((link) => <Link key={link.name}
+						 user && user.isAdmin && links.map((link) => <Link key={link.name}
 							className="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded mb-1 " href={link.href}
 							onClick={() => { setOpen(false) }}
 						>{link.name}</Link>
@@ -119,7 +119,7 @@ export default function Navbar() {
 
 				<div className="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 md:flex md:mx-auto md:items-center md:w-auto md:space-x-6">
 					{
-						links.map((link, index) => {
+						  user && user.isAdmin && links.map((link, index) => {
 							const isActive = pathname.includes(link.href)
 							const ll = isActive ?
 								<Link className="text-sm text-blue-600 font-bold mr-5" href={link.href}>{link.name}</Link> :

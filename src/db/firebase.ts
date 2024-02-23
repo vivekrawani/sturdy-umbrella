@@ -66,7 +66,6 @@ export async function addProduct(data: any) {
   };
   try {
     await docRef.set(updateData);
-   
   } catch (error) {
     console.log(error);
   }
@@ -247,7 +246,7 @@ export const getData = async () => {
       time,
       orderTime,
       userId,
-      orderAcceptTime
+      orderAcceptTime,
     };
 
     orders.push(Order);
@@ -259,15 +258,17 @@ export const getData = async () => {
 export async function getOrderWithId(id: string) {
   await initAdmin();
   const db = getFirestore();
-  let ordersRef =  await db
+  let ordersRef = await db
     .collection("orders")
     .doc("newOrders")
-    .collection(id).get()
-  if(ordersRef.empty){
+    .collection(id)
+    .get();
+  if (ordersRef.empty) {
     ordersRef = await db
-    .collection("orders")
-    .doc("pastOrders")
-    .collection(id).get()
+      .collection("orders")
+      .doc("pastOrders")
+      .collection(id)
+      .get();
   }
   const subCollections = ordersRef.docs;
   const products: any[] = [];
@@ -284,10 +285,13 @@ export async function getOrderWithId(id: string) {
 }
 
 export const sendPushMessage = async (
-  token: string,
+  userId: string,
   title: string,
   body: string
 ) => {
+  const db = getFirestore();
+  const fcmSnap = await db.collection("users").doc(userId).get();
+  const token = fcmSnap.get("fcm");
   const message = {
     notification: {
       title,
@@ -336,19 +340,17 @@ export const acceptOrder = async (
       otp,
     });
   }
-  // FCM
-  const fcmSnap = await db.collection("users").doc(userId).get();
-  const fcmToken =fcmSnap.get('fcm');
-  sendPushMessage(
-    fcmToken,
-    "Order Accepted",
-    "Your Order has been accepted"
-  );
+
+  sendPushMessage(userId, "Order Accepted", "Your Order has been accepted")
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 
   return { message: "success" };
 };
-
-
 
 export const confirmOrder = async (
   userId: string,
@@ -394,16 +396,28 @@ export const confirmOrder = async (
       });
     }
 
-    moveOrderToPastOrderUser(orderId, userId);
-    moveOrderToPastOrderGlobal(orderId);
+    sendPushMessage(userId, "Order Delivered", "Your order has been delivered")
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
 
-    const fcmSnap = await db.collection("users").doc(userId).get();
-    const fcmToken = fcmSnap.get("fcm");
-    sendPushMessage(
-      fcmToken,
-      "Order Delivered",
-      "Your order has been delivered"
-    );
+    moveOrderToPastOrderUser(orderId, userId)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    moveOrderToPastOrderGlobal(orderId)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
     return { message: "success" };
   } else {
     res.message = "OTP did not match";
@@ -411,7 +425,6 @@ export const confirmOrder = async (
     return res;
   }
 };
-
 
 export const updateOrder = async (
   id: string,
@@ -443,7 +456,7 @@ export const updateOrder = async (
     };
     if (details?.otp === otp) {
       res.message = "Order Delivered";
-      await orderDetailsRef.update({
+      orderDetailsRef.update({
         isDelivered: true,
       });
     } else {
@@ -570,7 +583,7 @@ export const getPastOrders = async () => {
       time,
       userId,
       orderTime,
-      orderAcceptTime
+      orderAcceptTime,
     };
     orders.push(Order);
   }
@@ -583,61 +596,85 @@ export const acceptOrConfirmOrder = async () => {
 };
 export async function moveOrderToPastOrderUser(
   orderId: string,
-  userId: string,
+  userId: string
 ) {
-const db = getFirestore()
+  const db = getFirestore();
   const userOrderRef = db
-  .collection("users")
-  .doc(userId)
-  .collection("order")
-  .doc("myOrders")
-  .collection(orderId);
+    .collection("users")
+    .doc(userId)
+    .collection("order")
+    .doc("myOrders")
+    .collection(orderId);
 
-  const targetCollection =  db.collection('users').doc(userId).collection('order').doc("pastOrder").collection(orderId);
+  const targetCollection = db
+    .collection("users")
+    .doc(userId)
+    .collection("order")
+    .doc("pastOrder")
+    .collection(orderId);
 
-userOrderRef.get().then((qs)=>{
-  qs.forEach((doc)=>{
-    let data = doc.data();
-     targetCollection.doc(doc.id).set(data).then(()=>{
-      console.log("Document copied")
-      userOrderRef.doc(doc.id).delete().then(()=>{
-        console.log("Deleted")
-      })
-     }).catch((er)=>{
-      console.log("Cant copy", er)
-     })
-  })
-}).catch((err)=>{
-  console.log(err)
-})
-
-
-
+  userOrderRef
+    .get()
+    .then((qs) => {
+      qs.forEach((doc) => {
+        let data = doc.data();
+        targetCollection
+          .doc(doc.id)
+          .set(data)
+          .then(() => {
+            console.log("Document copied");
+            userOrderRef
+              .doc(doc.id)
+              .delete()
+              .then(() => {
+                console.log("Deleted");
+              });
+          })
+          .catch((er) => {
+            console.log("Cant copy", er);
+          });
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 export async function moveOrderToPastOrderGlobal(orderId: string) {
-const db = getFirestore();
-const globalOrderRef = db
-.collection("orders")
-.doc("newOrders")
-.collection(orderId);
+  const db = getFirestore();
+  const globalOrderRef = db
+    .collection("orders")
+    .doc("newOrders")
+    .collection(orderId);
 
-const targetCollection = db.collection("orders").doc("pastOrders").collection(orderId);
-globalOrderRef.get().then((qs)=>{
-  qs.forEach((doc)=>{
-    let data = doc.data();
-     targetCollection.doc(doc.id).set(data).then(()=>{
-      console.log("Document copied")
-      globalOrderRef.doc(doc.id).delete().then(()=>{
-        console.log("Deleted")
-      })
-     }).catch((er)=>{
-      console.log("Cant copy", er)
-     })
-  })
-}).catch((err)=>{
-  console.log(err)
-})
-
+  const targetCollection = db
+    .collection("orders")
+    .doc("pastOrders")
+    .collection(orderId);
+  globalOrderRef
+    .get()
+    .then((qs) => {
+      qs.forEach((doc) => {
+        let data = doc.data();
+        targetCollection
+          .doc(doc.id)
+          .set(data)
+          .then(() => {
+            console.log("Document copied");
+            globalOrderRef
+              .doc(doc.id)
+              .delete()
+              .then(() => {
+                console.log("Deleted");
+              });
+          })
+          .catch((er) => {
+            console.log("Cant copy", er);
+          });
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 // export const copyDoc = async (

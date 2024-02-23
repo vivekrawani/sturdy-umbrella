@@ -63,7 +63,26 @@ const getOrder = createAsyncThunk(
 export const orderSlice = createSlice({
   name: "orders",
   initialState,
-  reducers: {},
+  reducers: {
+    acceptOrder : (state, action)=>{
+      const orderId = action.payload;
+      const arr = state.data;
+      arr.forEach((a)=>{
+        if(a?.orderId === orderId){
+          a!.isAccepted = true;
+        }
+      })
+      state.data = arr;
+    },
+    confirmOrder : (state, action)=>{
+      const orderId = action.payload;
+      const arr = state.data;
+      const res = arr.filter(o=>{
+        o?.orderId != orderId;
+      })
+      state.data = res;
+    },
+  },
   extraReducers: (builder: any) => {
     builder.addCase(getOrders.fulfilled, (state: any, action: any) => {
       state.loading = false;
@@ -103,5 +122,6 @@ export const orderSlice = createSlice({
   },
 });
 export { getOrders, getOrder, getPastOrders, };
+export const { acceptOrder, confirmOrder } = orderSlice.actions
 export type {Order};
 export default orderSlice.reducer;
