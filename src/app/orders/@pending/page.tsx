@@ -19,6 +19,12 @@ export default function Orders() {
   const router = useRouter();
   useEffect(() => {
     dispatch(getOrders())
+    const interval = setInterval(() => {
+      dispatch(getOrders())
+    }, 10000)
+    return () => {
+      clearTimeout(interval);
+    }
   }, [dispatch])
 
   const [orders, setOrders] = useState<Order[]>(data);

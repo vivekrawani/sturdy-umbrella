@@ -9,7 +9,7 @@ import { parseISO, isWithinInterval, subDays, subHours } from 'date-fns';
 import { FcSearch } from "react-icons/fc";
 
 import type { Order } from '@/lib/features/orders/orderSlice';
-import { useDisclosure } from '@chakra-ui/react';
+import { useDisclosure, useInterval } from '@chakra-ui/react';
 import OrderSearch from '@/components/OrderSearch'
 import { useRouter } from 'next/navigation';
 export default function Orders() {
@@ -21,6 +21,12 @@ export default function Orders() {
 
   useEffect(() => {
     dispatch(getOrders())
+    const interval = setInterval(() => {
+      dispatch(getOrders())
+    }, 10000)
+    return () => {
+      clearTimeout(interval);
+    }
   }, [dispatch])
   const [orders, setOrders] = useState<Order[]>(data);
   const [range, setRange] = useState('today')
@@ -52,7 +58,8 @@ export default function Orders() {
   if (!isAdmin) {
     setTimeout(() => {
       router.back()
-    }, 5000)}
+    }, 5000)
+  }
   return (
     <div className='flex flex-col mt-6 mx-4 gap-5 justify-center items-center '>
       <div className='w-full justify-end flex gap-4 items-center'>

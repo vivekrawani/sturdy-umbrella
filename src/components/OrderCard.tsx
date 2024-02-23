@@ -19,9 +19,6 @@ export default function OrderCard({ details }: { details: OrderDetails | null })
     let orderStatus = isPending ? OrderAction.CONFIRM_ORDER : OrderAction.ACCEPT_ORDER;
     const orderAcceptTimeF = orderAcceptTime ? format(orderAcceptTime, "PPp") : '';
     const deliverTimeF = deliverTime ? format(deliverTime, "PPp") : '';
-    console.log(orderTime, orderAcceptTime, deliverTime);
-
-
 
     const orderTimeF = orderTime ? format(orderTime, "PPp") : '';
     const { isOpen, onOpen, onClose } = useDisclosure()

@@ -21,6 +21,12 @@ export default function Orders() {
   
   useEffect(() => {
     dispatch(getPastOrders())
+    const interval = setInterval(() => {
+      dispatch(getPastOrders())
+    }, 10000)
+    return () => {
+      clearTimeout(interval);
+    }
   }, [dispatch])
   const [orders, setOrders] = useState<Order[]>(data);
   const [range, setRange] = useState('today')
