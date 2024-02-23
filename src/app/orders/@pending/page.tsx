@@ -22,7 +22,7 @@ export default function Orders() {
   }, [dispatch])
 
   const [orders, setOrders] = useState<Order[]>(data);
-  const [range, setRange] = useState('all')
+  const [range, setRange] = useState('today')
   useEffect(() => {
     let currentDate = new Date();
     let sevenDaysAgo = subDays(currentDate, 7);

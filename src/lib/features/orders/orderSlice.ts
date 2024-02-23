@@ -10,7 +10,7 @@ interface InitialState {
     orderDetails: Order;
   };
   loading: boolean;
-  pastOrders : Order [];
+  pastOrders: Order[];
 }
 
 const initialState: InitialState = {
@@ -20,7 +20,7 @@ const initialState: InitialState = {
     orderDetails: null,
   },
   loading: false,
-  pastOrders : [],
+  pastOrders: [],
 };
 
 const getOrders = createAsyncThunk("/api/orders", async (_, _thunkAPI: any) => {
@@ -35,17 +35,20 @@ const getOrders = createAsyncThunk("/api/orders", async (_, _thunkAPI: any) => {
   }
 });
 
-const getPastOrders = createAsyncThunk("/api/orders/past", async (_, _thunkAPI: any) => {
-  try {
-    const api = process.env.NEXT_PUBLIC_FIREBASE_funapi;
-    // const data = (await axios.get(`/api/orders/past`)).data;
-    const data = (await axios.get(`${api}pastOrders`)).data;
-    return data;
-  } catch (error: any) {
-    console.log("Errorsss", error);
-    _thunkAPI.rejectWithValue(error);
+const getPastOrders = createAsyncThunk(
+  "/api/orders/past",
+  async (_, _thunkAPI: any) => {
+    try {
+      const api = process.env.NEXT_PUBLIC_FIREBASE_funapi;
+      // const data = (await axios.get(`/api/orders/past`)).data;
+      const data = (await axios.get(`${api}pastOrders`)).data;
+      return data;
+    } catch (error: any) {
+      console.log("Errorsss", error);
+      _thunkAPI.rejectWithValue(error);
+    }
   }
-});
+);
 
 const getOrder = createAsyncThunk(
   "/api/orders/id",
@@ -64,29 +67,37 @@ export const orderSlice = createSlice({
   name: "orders",
   initialState,
   reducers: {
-    acceptOrder : (state, action)=>{
+    acceptOrder: (state, action) => {
       const orderId = action.payload;
       const arr = state.data;
-      arr.forEach((a)=>{
-        if(a?.orderId === orderId){
+      arr.forEach((a) => {
+        if (a?.orderId === orderId) {
           a!.isAccepted = true;
         }
-      })
+      });
       state.data = arr;
     },
-    confirmOrder : (state, action)=>{
+    confirmOrder: (state, action) => {
       const orderId = action.payload;
       const arr = state.data;
-      const res = arr.filter(o=>{
+      const res = arr.filter((o) => {
         o?.orderId != orderId;
-      })
+      });
       state.data = res;
     },
   },
   extraReducers: (builder: any) => {
     builder.addCase(getOrders.fulfilled, (state: any, action: any) => {
       state.loading = false;
-      if (action.payload) state.data = action.payload;
+      if (action.payload) {
+        const order = action.payload;
+        state.data = order;
+        order.sort((a: OrderDetails, b: OrderDetails) => {
+          const cond = new Date(b.orderTime).getTime() - new Date(a.orderTime).getTime();
+          return cond;
+        });
+        state.data = order;
+      }
     });
     builder.addCase(getOrders.pending, (state: any) => {
       state.loading = true;
@@ -98,7 +109,6 @@ export const orderSlice = createSlice({
     builder.addCase(getOrder.fulfilled, (state: any, action: any) => {
       state.loading = false;
       if (action.payload) state.single = action.payload;
-    
     });
     builder.addCase(getOrder.pending, (state: any) => {
       state.loading = true;
@@ -110,7 +120,14 @@ export const orderSlice = createSlice({
     builder.addCase(getPastOrders.fulfilled, (state: any, action: any) => {
       state.loading = false;
       if (action.payload) state.pastOrders = action.payload;
-      
+      if (action.payload) {
+        const order = action.payload;
+        order.sort((a: OrderDetails, b: OrderDetails) => {
+          const cond = new Date(b.orderTime).getTime() - new Date(a.orderTime).getTime();
+          return cond;
+        });
+        state.pastOrders = order;
+      }
     });
     builder.addCase(getPastOrders.pending, (state: any) => {
       state.loading = true;
@@ -121,7 +138,7 @@ export const orderSlice = createSlice({
     });
   },
 });
-export { getOrders, getOrder, getPastOrders, };
-export const { acceptOrder, confirmOrder } = orderSlice.actions
-export type {Order};
+export { getOrders, getOrder, getPastOrders };
+export const { acceptOrder, confirmOrder } = orderSlice.actions;
+export type { Order };
 export default orderSlice.reducer;

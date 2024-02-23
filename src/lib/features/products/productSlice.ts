@@ -28,7 +28,7 @@ const getProduct = createAsyncThunk(
       const data = (
         await axios.get(`/api/products/${arg.collection}/${arg.id}`)
       ).data;
-      return data?.res;
+      return data;
     } catch (error: any) {
       console.log("Errorsss");
       _thunkAPI.rejectWithValue(error);
@@ -41,7 +41,7 @@ const fetchAllProducts = createAsyncThunk(
   async (_, _thunkAPI: any) => {
     try {
       const data = (await axios.get("/api/products")).data;
-      return data!.res;
+      return data;
     } catch (error: any) {
       console.log("Errorsss");
       _thunkAPI.rejectWithValue(error);
@@ -55,8 +55,8 @@ const fetchProductsFrom = createAsyncThunk(
     
     try {
       const data = (await axios.get(`/api/products/${sub}`)).data;
-      return data?.res;
-      
+      data.sort((a : Product, b : Product)=> a.inStock - b.inStock);
+      return data;
     } catch (error: any) {
       console.log("Errorsss");
       _thunkAPI.rejectWithValue(error);

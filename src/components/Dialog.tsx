@@ -16,7 +16,7 @@ import DateTimePicker from './DateTimePicker';
 import { format, getDate } from 'date-fns';
 import { OrderAction } from '@/lib/constants';
 import { useAppDispatch } from '@/lib/store';
-import { acceptOrder } from '@/lib/features/orders/orderSlice';
+import { acceptOrder, confirmOrder } from '@/lib/features/orders/orderSlice';
 const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId, userId }: { isOpen: boolean, onOpen: () => void, onClose: () => void, actionType: OrderAction, orderId: string, userId: string }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [date, setDate] = useState<Date>(new Date());
@@ -54,47 +54,48 @@ const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId, userId }: { isOp
         const otp = InputRef.current?.value;
         let title = actionType === OrderAction.CONFIRM_ORDER ? 'Order Confirmed' : 'Order Accepted';
         let toastDescription = '';
-
+        const api = process.env.NEXT_PUBLIC_FIREBASE_funapi;
         try {
             if (actionType === OrderAction.CONFIRM_ORDER) {
 
-                const response = await axios.patch(`/api/orders/${orderId}`, {
+                const response = await axios.patch(`${api}${orderId}`, {
                     updateType: OrderAction.CONFIRM_ORDER,
                     otp,
                     userId
                 })
                 const res = response.data;
 
-                // const status = res.error ? 'error' : 'success';
-                // if (res.error) {
-                //     title = 'Failed'
-                //     toastDescription = res.message;
-                // }
+                const status = res.error ? 'error' : 'success';
+                if (res.error) {
+                    title = 'Failed'
+                    toastDescription = res.message;
+                }
                 toast({
                     title,
-                    status: 'success',
+                    status,
                     description: toastDescription,
                     duration: 5000,
                     isClosable: true,
                 },)
+                dispatch(confirmOrder(orderId));
 
             }
             if (actionType === OrderAction.ACCEPT_ORDER) {
                 const date_ = format(date, 'PPp')
-                const response = await axios.patch(`/api/orders/${orderId}`, {
+                const response = await axios.patch(`${api}${orderId}`, {
                     updateType: OrderAction.ACCEPT_ORDER,
                     date: date_,
                     userId
                 })
                 const res = response.data;
-                // const status = res.error ? 'error' : 'success';
-                // if (res.error) {
-                //     title = 'Failed'
-                //     toastDescription = res.error;
-                // }
+                const status = res.error ? 'error' : 'success';
+                if (res.error) {
+                    title = 'Failed'
+                    toastDescription = res.error;
+                }
                 toast({
                     title,
-                    status: 'success',
+                    status,
                     description: toastDescription,
                     duration: 5000,
                     isClosable: true,
@@ -118,6 +119,7 @@ const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId, userId }: { isOp
        
 
     }
+    
 
     return (
         <>

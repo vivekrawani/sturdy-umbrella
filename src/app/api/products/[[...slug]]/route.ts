@@ -15,14 +15,12 @@ type Context = {
 };
 export async function GET(req: NextRequest, { params }: Context) {
   const { slug } = params;
-  let res = NextResponse;
   if (slug?.length === 1) {
     const res = await getAllDocsFrom(slug[0]);
-    res.sort((a, b)=> a.inStock - b.inStock)
-    return NextResponse.json({ res }, { status: 200 });
+    return NextResponse.json( res , { status: 200 });
   } else if (slug?.length === 2) {
     const res = await getDocWithIdFromCollection(slug[1], slug[0]);
-    return NextResponse.json({ res }, { status: 200 });
+    return NextResponse.json( res , { status: 200 });
   } else {
     return Response.json({ message: "Not allowed" }, { status: 405 });
   }
