@@ -53,12 +53,13 @@ export default function Orders() {
   if (!isAdmin) {
     setTimeout(() => {
       router.back()
-    }, 5000)}
-  
+    }, 5000)
+  }
+
   return (
     <div className='flex flex-col mt-6 mx-4 gap-5 justify-center items-center '>
       <div className='w-full justify-end flex gap-4 items-center'>
-      <div>  <button onClick={onOpen}
+        <div>  <button onClick={onOpen}
           className=' bg-white px-4 py-2 rounded-lg'
         > <FcSearch className='' /></button>
           <OrderSearch onClose={onClose} onOpen={onOpen} isOpen={isOpen} sub={orders} /></div>
@@ -72,18 +73,10 @@ export default function Orders() {
           {/* <option value="yesterday">Yesterday</option> */}
           <option value="week">Past 7 days</option>
         </select>
-
-
       </div>
       {
-       (!loading)  ? <>
-       {
-        orders.length > 0 ? (orders.map((v) => <OrdersCard key={v?.orderId} details={v} />)) : <div>No data</div>
-       }
-       </> : <div className='w-full h-screen'><Loading /></div>
+        orders.length > 0 ? (orders.map((v) => <OrdersCard key={v?.orderId} details={v} />)) : <div className='w-full h-screen'><Loading /></div>
       }
-
-
     </div>
   )
 }

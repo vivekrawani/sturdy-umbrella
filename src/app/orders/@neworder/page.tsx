@@ -67,9 +67,7 @@ export default function Orders() {
           className=' bg-white px-4 py-2 rounded-lg'
         > <FcSearch className='' /></button>
           <OrderSearch onClose={onClose} onOpen={onOpen} isOpen={isOpen} sub={orders} /></div>
-
         <label htmlFor="time-range" className='text-white font-bold text-md'></label>
-
         <select name="time-range" id="time-range" className='rounded-md min-w-max px-2 py-1' value={range} onChange={e => {
           setRange(e.target.value)
         }}>
@@ -78,15 +76,9 @@ export default function Orders() {
           {/* <option value="yesterday">Yesterday</option> */}
           <option value="week">Past 7 days</option>
         </select>
-
-
       </div>
       {
-        (!loading) ? <>
-          {
-            orders.length > 0 ? (orders.map((v) => <OrdersCard key={v?.orderId} details={v} />)) : <div>No data</div>
-          }
-        </> : <div className='w-full h-screen'><Loading /></div>
+        orders.length > 0 ? (orders.map((v) => <OrdersCard key={v?.orderId} details={v} />)) : <div className='w-full h-screen'><Loading /></div>
       }
       {/* {
         data!.length > 0 ? (data!.reduce((acc: any[], v) => {
