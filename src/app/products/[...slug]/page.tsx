@@ -7,17 +7,23 @@ import { useAppSelector } from '@/lib/hooks';
 import { useAppDispatch } from '@/lib/store';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react'
+import { IoMdAddCircle } from "react-icons/io";
+import { useDisclosure } from '@chakra-ui/react';
+import AddProductModal from '@/components/AddProductModal';
 interface Context {
   params: {
     slug: string[]
   }
 }
+
+
 export default function Products({ params }: Context) {
   const { slug } = params;
   const router = useRouter();
   const user = useAppSelector(state => state.authReducer.user);
   const { single, loading } = useAppSelector(state => state.productReducer)
   const { sub } = useAppSelector(state => state.productReducer)
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (slug?.length === 1) {
@@ -65,7 +71,16 @@ export default function Products({ params }: Context) {
             sub.map((val: any) => <Card key={val.productId} details={val} category={slug[0]} />)
           }
 
-        </div>}
+
+        </div>
+
+        }
+        <div className=' fixed bottom-5 right-5'>
+
+          <IoMdAddCircle className=' text-4xl cursor-pointer'
+            onClick={onOpen} />
+        </div>
+        <> <AddProductModal isOpen={isOpen} onClose={onClose} onOpen={onOpen} sub={slug[0]} /></>
 
 
       </React.Fragment>

@@ -1,7 +1,4 @@
-
 import { useRef, useState } from "react"
-import { FiFile } from 'react-icons/fi';
-import FileUpload from './FileUpload'
 import { FcUpload } from "react-icons/fc";
 import axios from 'axios'
 import { TiDelete } from "react-icons/ti";
@@ -13,14 +10,14 @@ import {
 
 } from '@chakra-ui/react'
 
-import { useForm } from 'react-hook-form'
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton } from "@chakra-ui/react"
 import { useToast } from '@chakra-ui/react'
 import { capitalizeFirstLetter } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 const categories = [
     "cosmetics", "stationary", "grocery", "pooja"
 ]
-export default function ProductForm() {
+function ProductForm({ sub, onClose }: { sub: string, onClose: () => void }) {
 
     const toast = useToast()
     const router = useRouter()
@@ -28,17 +25,20 @@ export default function ProductForm() {
     const [file, setFile] = useState<File | null>(null);
     const formRef = useRef<HTMLFormElement>(null)
     const [stock, setStock] = useState<number>(0);
-    const onSubmit = async (e: any) => {
+    const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setIsPosting(true);
         if (formRef.current) {
             const formData = new FormData(formRef.current)
             const isFeatured = (formData.get("isFeatured") === 'on') ? 'true' : 'false'
+            formData.set('isFeatured', isFeatured);
+            formData.set('category', sub);
             const res = await axios.post(`/api/products`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             })
+
             toast({
                 title: 'Added New Product',
                 status: 'success',
@@ -46,12 +46,12 @@ export default function ProductForm() {
                 isClosable: true,
             },)
             setIsPosting(false);
-            const category = formData.get('category')
-            router.push(`/products/${category}`);
-                
-              
-        }   
-        
+            onClose();
+
+
+
+        }
+
 
     };
     const inputs = [
@@ -109,13 +109,13 @@ export default function ProductForm() {
                             className="w-full px-4 py-1 col-span-4 rounded-lg   mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none "
 
                         />
-                        <div className="absolute  flex right-1 top-1"><div className="p-1 text-xl font-bold cursor-pointer" 
-                        onClick={e => setStock(p => p + 1)}>+</div> <div className="p-1 text-xl font-bold cursor-pointer" onClick={e => setStock(p => p - 1)}>-</div></div>
+                        <div className="absolute  flex right-1 top-1"><div className="p-1 text-xl font-bold cursor-pointer"
+                            onClick={e => setStock(p => p + 1)}>+</div> <div className="p-1 text-xl font-bold cursor-pointer" onClick={e => setStock(p => p - 1)}>-</div></div>
                     </div>
                 </div>
                 <div className="mt-5">
 
-                    <div className="flex justify-evenly items-baseline">
+                    <div className="flex justify-start items-baseline">
                         <label className="flex items-center relative w-max cursor-pointer select-none">
                             <span className=" mr-3">Is Featured</span>
                             <input type="checkbox"
@@ -127,18 +127,7 @@ export default function ProductForm() {
                             <span className="absolute font-medium text-xs uppercase right-8 text-white"> ON </span>
                             <span className="w-7 h-7 right-7 absolute rounded-full transform transition-transform bg-gray-100" />
                         </label>
-                        <div className="bg-pink-100 rounded-md p-2 gap-3 flex items-baseline">
-                            <label htmlFor="category" className="font-bold"> Select Category</label>
-                            <select id="category"
 
-                                name="category"
-                                className="px-3 py-2 bg-gray-100 rounded-lg ">
-                                {
-                                    categories.map(val => <option key={val} value={val}>{capitalizeFirstLetter(val)}</option>)
-                                }
-
-                            </select>
-                        </div>
                     </div>
                     <label htmlFor="description">Description</label>
                     <textarea
@@ -176,17 +165,6 @@ export default function ProductForm() {
                                 }
                             </div>
                         </div>
-
-
-
-                        {/* <FileUpload
-                                accept={'image/*'}
-                                register={register('file')}
-                            >
-
-                            </FileUpload> */}
-
-
                         <Button bg={'#F2880C'} color={'white'} mr={3} type='submit' isLoading={isPosting} >
                             Submit
                         </Button>
@@ -199,5 +177,29 @@ export default function ProductForm() {
             </form>
 
         </div >
+    )
+}
+export default function AddProductModal({ isOpen, onOpen, onClose, sub }:
+    { isOpen: boolean, onOpen: () => void, onClose: () => void, sub: string }) {
+    return (
+        <Modal isOpen={isOpen} onClose={onClose} size={'xl'} scrollBehavior='inside' >
+            <ModalOverlay
+                bg='blackAlpha.100'
+                brightness={100}
+                backdropFilter='blur(10px)' />
+            <ModalContent>
+                <ModalHeader>
+                    Add new {sub} item
+                </ModalHeader>
+
+                <ModalCloseButton />
+                <ModalBody>
+                    <ProductForm sub={sub} onClose={onClose} />
+                </ModalBody>
+
+
+            </ModalContent>
+        </Modal>
+
     )
 }
