@@ -12,6 +12,9 @@ const config: Config = {
         "90svh": "90svh",
         "80svh": "80svh",
       },
+      fontFamily : {
+        Abril : ["Abril Fatface", "serif"]
+      },
       colors: {
         "red-bull": "#F62F63",
         "t-b-9": "rgba(0, 0, 0, 0.9)",
@@ -22,8 +25,18 @@ const config: Config = {
       },
       boxShadow: {
         "3xl": "-16px -6px 15px 0px rgba(0, 0, 0, 0.3)",
+        "neon" : "0 0 .2rem #fff, 0 0 .2rem #fff, 0 0 2rem #bc13fe, 0 0 0.8rem #bc13fe, 0 0 2.8rem #bc13fe, inset 0 0 1.3rem #bc13fe",
+        "neon-2":" 0 0 2px 4px rgba(200, 230, 255, 0.5), 0 -2px 2px 3px rgba(200, 230, 255, 0.5) inset, 0 0 2px 10px rgba(100, 150, 255, 0.9), 0 0 2px 7px rgba(100, 150, 255, 1) inset,  0 0 12px 13px rgba(0, 50, 255, 0.9), 0 0 12px 11px rgba(0, 50, 255, 0.7) inset, 0 8px 30px 18px rgba(0, 0, 0, 0.8), 0 8px 25px 12px rgba(0, 0, 0, 0.7) inset"
       },
       backgroundImage: {
+        "mall-image" : "url(/mall-1.jpg)",
+        "mall-image-2" : "url(/mall-2.jpg)",
+        "mall-image-3" : "url(/mall-3.jpg)",
+        "mall-image-4" : "url(/mall-4.jpg)",
+        "left" : "url(/left.jpg)",
+        "middle" : "url(/middle.jpg)",
+        "right" : "url(/right.jpg)",
+        "random-300x500" : "url(https://source.unsplash.com/random/300×500)",
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",

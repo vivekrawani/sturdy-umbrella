@@ -8,11 +8,16 @@ export const metadata: Metadata = {
 
 import { Button, Image } from '@chakra-ui/react'
 import Link from 'next/link';
+import LandingPage from '@/components/LandingPage';
 export default function Home() {
-  const applink = 'https://play.google.com/store/apps/details?id=com.opxica.johar&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1';
-  const imageSrc = 'https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png';
   return (
-    <div className='p-5 flex flex-col md:flex-row gap-6'>
+    <>
+    <LandingPage/>
+    </>
+  )
+}
+/*
+ <div className='p-5 flex flex-col md:flex-row gap-6'>
 
 
       <Image src='/landing.svg' height='auto' width={550} alt='' />
@@ -32,7 +37,7 @@ export default function Home() {
          <div className='text-3xl text-white  flex gap-5 items-center mt-6'>
           Continue as an admin  
           <Link className="py-2 px-6 bg-blue-500 hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-500"
-							href={'/login'} >Login</Link>
+              href={'/login'} >Login</Link>
          </div>
 
           {/* <Link href='/login'>
@@ -45,12 +50,7 @@ export default function Home() {
             <Button colorScheme='blue' className='w-32 p-2 '>Add product</Button>
           </Link>
 
-          <Link href='/orders'>
-            <Button colorScheme='blue' className='w-32 p-2 '>Orders</Button>
-          </Link> */}
+          </div>
+          </div>
         </div>
-      </div>
-    </div>
-
-  )
-}
+*/
