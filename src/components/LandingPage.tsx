@@ -68,12 +68,12 @@ export default function LandingPage() {
                     <div className='flex justify-center items-center gap-10'>
                         <Link href='https://twitter.com/joharbasket' target='_blank'><FaXTwitter className='text-3xl' /></Link>
                         <Link href='https://www.instagram.com/joharbasket/' target='_blank'><FaInstagram className='text-3xl text-[#E4405F]' /></Link>
-                        <Link href='#' target='_blank'><FaYoutube className='text-3xl text-[#CD201F]' /></Link>
+                        {/* <Link href='#' target='_blank'><FaYoutube className='text-3xl text-[#CD201F]' /></Link>
                         <Link href='#' target='_blank'><FaFacebookF className='text-3xl text-[#1773ea]' /></Link>
                         <Link href='#' target='_blank'><FaLinkedin className='text-3xl text-[#0b63bd]' /></Link>
                         <Link href='#' target='_blank'><FaTwitch className='text-3xl text-[#8e45f7]' /></Link>
                         <Link href='#' target='_blank'><FaDiscord className='text-3xl text-[#5865f2]' /></Link>
-                        <Link href='#' target='_blank'><FaPinterestP className='text-3xl text-[#BD081C]' /></Link>
+                        <Link href='#' target='_blank'><FaPinterestP className='text-3xl text-[#BD081C]' /></Link> */}
                     </div>
                 </div>
                 <div className=' bg-mall-image-4 bg-cover bg-center h-72 flex flex-col items-center justify-center px-10 gap-3'>

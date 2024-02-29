@@ -48,6 +48,7 @@ export default function Navbar() {
 	const dispatch = useAppDispatch();
 	const [open, setOpen] = useState(false);
 	const [openSearch, setOpenSearch] = useState(false);
+	const isAdmin = user && user.isAdmin;
 
 
 	const menuModal = (
@@ -66,7 +67,7 @@ export default function Navbar() {
 				</div>
 				<div>
 					{
-						 user && user.isAdmin && links.map((link) => <Link key={link.name}
+						 links.map((link) => <Link key={link.name}
 							className="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded mb-1 " href={link.href}
 							onClick={() => { setOpen(false) }}
 						>{link.name}</Link>
@@ -99,12 +100,15 @@ export default function Navbar() {
 			</nav >
 		</div >
 	)
+	if(!isAdmin) {
+		return(<></>);
+	}
 	return (
 		<div className=" sticky top-0 z-50 bg-black bg-opacity-70 ">
 
 			<nav className="relative px-4 py-2 flex justify-between items-center bg-transparent backdrop-blur-lg ">
-				<Link className="text-3xl font-bold leading-none bg-white rounded-lg pb-1 pl-1" href="/">
-				<Image src={'/jb-t.png'} width={150} height={150} alt=''/>
+				<Link className="text-3xl font-bold leading-none pb-1 pl-1" href="/">
+				<Image src={'/jb.png'} width={150} height={150} alt='' className="rounded-lg"/>
 				</Link>
 				<div className="md:hidden">
 					<button className="navbar-burger flex items-center text-blue-600 p-3"
