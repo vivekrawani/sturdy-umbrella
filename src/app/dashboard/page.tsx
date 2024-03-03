@@ -31,8 +31,8 @@ export default function Dashboard() {
       const formData = new FormData(formRef.current);
       const title = formData.get("title");
       const body = formData.get("body");
-
-      axios.post("http://127.0.0.1:5001/johar-basket/asia-east1/api/v1/notification", {
+      const api = process.env.NEXT_PUBLIC_FIREBASE_funapi;
+      axios.post(`${api}/v1/notification`, {
         title,
         body
       })
