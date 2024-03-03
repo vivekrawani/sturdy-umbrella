@@ -45,6 +45,15 @@ const config: Config = {
         "landing-svg": "url(/landing.svg)",
         "image-upload" : "url(https://images.unsplash.com/photo-1621243804936-775306a8f2e3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80);",
       },
+      keyframes: {
+        wiggle: {
+          '0%, 100%': { transform: 'rotate(-10deg)' },
+          '50%': { transform: 'rotate(10deg)' },
+        }
+      },
+      animation: {
+        wiggle: 'wiggle 0.5s infinite',
+      }
     },
   },
   plugins: [],

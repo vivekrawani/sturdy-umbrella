@@ -11,9 +11,20 @@ import {
   ModalBody,
   ModalCloseButton,
 } from '@chakra-ui/react'
+import { useEffect, useState } from "react";
+import axios from "axios";
 export default function Dashboard() {
   const user = useAppSelector(state => state.authReducer.user);
+  const [banners, setBanners] = useState<string []>([]);
+
   const { isOpen, onClose, onOpen } = useDisclosure();
+  useEffect(()=>{
+    axios.get("/api/banner").then((res)=>{
+      setBanners(res.data);
+    }).catch(e=>{
+      console.log("Error ")
+    })
+  }, [])
 
   const MyModal = () => (<>
     <Modal isOpen={isOpen} onClose={onClose} size={'xl'} scrollBehavior='inside' >
@@ -53,13 +64,20 @@ export default function Dashboard() {
     onOpen()
   }
   return (
-    <div className="flex flex-col justify-center items-center  mt-5 gap-5">
+    <div className="flex flex-col justify-center m-2">
 
-      <h1 className="font-bold text-3xl text-emerald-800 "> Welcome {user?.displayName}</h1>
-      <div className="py-2 px-6  text-sm text-white text-[3rem] font-bold rounded-xl transition duration-500"
+      <h1 className="font-bold text-7xl text-emerald-800 "> Welcome {user?.displayName}</h1>
+
+      <div className="py-2 px-6 text-white text-[3rem] font-bold rounded-xl transition duration-500"
         onClick={handleClick}
-      ><IoIosNotificationsOutline /></div>
+      ><IoIosNotificationsOutline  className="text-3xl rounded-full bg-yellow-500 hover:animate-wiggle duration-150"/></div>
       {isOpen && <MyModal />}
+      <h2 className="text-5xl font-bold">Banners</h2>
+      <div className="flex gap-4 flex-wrap p-3">
+        {
+          banners.map((b)=><Image key={b} src={b} height={"200px"} width={"140px"} alt={b}/>)
+        }
+      </div>
     </div>
   )
 }

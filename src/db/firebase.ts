@@ -676,6 +676,18 @@ export async function moveOrderToPastOrderGlobal(orderId: string) {
       console.log(err);
     });
 }
+export const addBanner = async () => {
+  await initAdmin();
+  const db = getFirestore();
+  const imgArrayRef = db.collection("img").doc("img");
+  const res = await imgArrayRef.get();
+  const imageArray =  res.data()!.img_array;
+  // const newImage = "https://images.unsplash.com/photo-1705651460796-f4b4d74c9fea?q=80&w=1893&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  // imageArray.push(newImage);
+  // imgArrayRef.update({img_array : imageArray});
+  return imageArray;
+
+};
 
 // export const copyDoc = async (
 //   collectionFrom: string,
