@@ -11,7 +11,7 @@ import {
   ModalBody,
   ModalCloseButton,
 } from '@chakra-ui/react'
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 export default function Dashboard() {
   const user = useAppSelector(state => state.authReducer.user);
@@ -25,6 +25,23 @@ export default function Dashboard() {
       console.log("Error ")
     })
   }, [])
+  const handleSubmit = (e : React.FormEvent)=>{
+    e.preventDefault()
+    if(formRef.current){
+      const formData = new FormData(formRef.current);
+      const title = formData.get("title");
+      const body = formData.get("body");
+
+      axios.post("http://127.0.0.1:5001/johar-basket/asia-east1/api/v1/notification", {
+        title,
+        body
+      })
+      close()
+    }
+
+  }
+
+  const formRef = useRef<HTMLFormElement>(null);
 
   const MyModal = () => (<>
     <Modal isOpen={isOpen} onClose={onClose} size={'xl'} scrollBehavior='inside' >
@@ -40,7 +57,7 @@ export default function Dashboard() {
         <ModalCloseButton />
         <ModalBody>
           <div >
-            <form className="flex flex-col">
+            <form className="flex flex-col" onSubmit={handleSubmit} ref={formRef}>
               <label htmlFor="title"> Title</label>
               <input type="text" name="title" id="title"
                 className="w-full px-4 py-3 rounded-lg bg-gray-100 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
@@ -49,7 +66,7 @@ export default function Dashboard() {
               <textarea name="body" id="body" 
                 className="w-full px-4 py-3 rounded-lg bg-gray-100 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
                 required/>
-
+              <button type="submit" className="rounded-lg bg-blue-500 text-white py-1 px-3 max-w-max mt-8">Send</button>
             </form>
           </div>
         </ModalBody>

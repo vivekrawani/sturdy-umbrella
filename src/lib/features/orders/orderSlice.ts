@@ -27,7 +27,7 @@ const getOrders = createAsyncThunk("/api/orders", async (_, _thunkAPI: any) => {
   try {
     const api = process.env.NEXT_PUBLIC_FIREBASE_funapi;
     // const data = (await axios.get(`/api/orders`)).data;
-    const data = (await axios.get(`${api}newOrders`)).data;
+    const data = (await axios.get(`${api}/orders/newOrders`)).data;
     return data;
   } catch (error: any) {
     console.log("Errorsss", error);
@@ -41,7 +41,7 @@ const getPastOrders = createAsyncThunk(
     try {
       const api = process.env.NEXT_PUBLIC_FIREBASE_funapi;
       // const data = (await axios.get(`/api/orders/past`)).data;
-      const data = (await axios.get(`${api}pastOrders`)).data;
+      const data = (await axios.get(`${api}/orders/pastOrders`)).data;
       return data;
     } catch (error: any) {
       console.log("Errorsss", error);

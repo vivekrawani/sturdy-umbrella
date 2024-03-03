@@ -58,7 +58,7 @@ const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId, userId }: { isOp
         try {
             if (actionType === OrderAction.CONFIRM_ORDER) {
 
-                const response = await axios.patch(`${api}${orderId}`, {
+                const response = await axios.patch(`${api}/orders/${orderId}`, {
                     updateType: OrderAction.CONFIRM_ORDER,
                     otp,
                     userId
