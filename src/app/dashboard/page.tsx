@@ -36,7 +36,7 @@ export default function Dashboard() {
         title,
         body
       })
-      close()
+      onClose();
     }
 
   }
