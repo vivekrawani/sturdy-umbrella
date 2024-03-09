@@ -1,24 +1,28 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-type Notifications = {
-  author: string;
-  time: Date;
+type Notification = {
+  author: {
+    email : string;
+    name : string;
+  };
+  date: Date;
   body: string;
   title: string;
 };
-export type { Notifications };
+export type { Notification };
 
 const initialState: {
-  notifications: Notifications[];
+  notifications: Notification[];
 } = {
   notifications: [],
 };
 
 const getNotifications = createAsyncThunk(
   "/api/notifications",
-  async (arg: { id: string; collection: string }, _thunkAPI: any) => {
+  async (_, _thunkAPI: any) => {
     try {
       const data = (await axios.get(`/api/notifications`)).data;
+      console.log(data);
       return data;
     } catch (error: any) {
       console.log("Errorsss");

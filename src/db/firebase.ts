@@ -706,7 +706,12 @@ export const getNotification = async () => {
   const snapshot = await db.collection("notifications").get();
   const res: any[] = [];
   snapshot.forEach((doc) => {
-    res.push(doc.data());
+    const data = doc.data();
+    const date = data?.date;
+    if(date){
+      data.date = date.toDate();
+    }
+    res.push(data);
   });
   return res;
 };

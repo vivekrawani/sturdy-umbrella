@@ -13,13 +13,29 @@ import {
 import axios from 'axios';
 import { IoIosNotificationsOutline } from 'react-icons/io';
 import { useAppSelector } from '@/lib/hooks';
+import { useAppDispatch } from '@/lib/store';
+import { Notification, getNotifications } from '@/lib/features/notifications/notificationSlice';
+import { format } from 'date-fns';
 
 
 
-function Card({ notification }: any) {
+function Card({ notification }: {notification : Notification}) {
+    
+ const stringDate = notification.date &&  format(notification.date, "PPp")
     return (
-        <div>
-           test
+        <div className='rounded-md shadow-sm shadow-slate-300 px-4 py-2'>
+            <div>
+                <span> Title</span> : {notification.title}
+            </div>
+            <div>
+                <span> Body</span> : {notification.body}
+            </div>
+            <div>
+                <span> Author</span> : {notification?.author?.name}
+            </div>
+            <div>
+                <span> At </span> : {stringDate}
+            </div>         
         </div>
     )
 }
@@ -27,11 +43,15 @@ function Card({ notification }: any) {
 export default function Notifications() {
     const user = useAppSelector(state => state.authReducer.user);
    const notifications = useAppSelector(state=>state.notificationReducers.notifications);
+   const dispatch = useAppDispatch();
     const author = {
         name: user?.displayName,
         email: user?.email,
     }
     const { isOpen, onClose, onOpen } = useDisclosure();
+    useEffect(()=>{
+        dispatch(getNotifications());
+    }, [dispatch])
    
    
 
@@ -105,17 +125,16 @@ export default function Notifications() {
             <div>
                 <span className='text-xl'>Past Notifications</span>
                 <div>
+
                     {
-                        notifications?.length > 0 && <>
+                        notifications ? <div className='flex flex-col gap-5 mt-3'>
                             {
-                                notifications?.map((notification: any) => {
-                                    <Card notification={notification} />
-                                })
+                                notifications.map((notification : any, i)=> <Card key={i} notification={notification}/>
+                                )
                             }
-                        </>
+                        </div> : <div>nhi hai</div>
                     }
-
-
+                
                 </div>
             </div>
             {isOpen && <MyModal />}
