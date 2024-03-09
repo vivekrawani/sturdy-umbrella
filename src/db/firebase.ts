@@ -104,15 +104,21 @@ export async function getAllCollections() {
   });
 }
 
-export async function getAllDocsFrom(collectionName: string, limit : number) {
+export async function getAllDocsFrom(collectionName: string, limit: number) {
   await initAdmin();
   const firestore = getFirestore();
   let snapshot;
-  if(!Number.isNaN(limit)){
-    console.log(limit, "infirebse");
-    snapshot = await firestore.collection(collectionName).orderBy("inStock").limit(limit).get();
-  } else{
-    snapshot = await firestore.collection(collectionName).orderBy("inStock").get();
+  if (!Number.isNaN(limit)) {
+    snapshot = await firestore
+      .collection(collectionName)
+      .orderBy("inStock")
+      .limit(limit)
+      .get();
+  } else {
+    snapshot = await firestore
+      .collection(collectionName)
+      .orderBy("inStock")
+      .get();
   }
   const res: any[] = [];
   snapshot.forEach((doc) => {
@@ -687,12 +693,22 @@ export const addBanner = async () => {
   const db = getFirestore();
   const imgArrayRef = db.collection("img").doc("img");
   const res = await imgArrayRef.get();
-  const imageArray =  res.data()!.img_array;
+  const imageArray = res.data()!.img_array;
   // const newImage = "https://images.unsplash.com/photo-1705651460796-f4b4d74c9fea?q=80&w=1893&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
   // imageArray.push(newImage);
   // imgArrayRef.update({img_array : imageArray});
   return imageArray;
+};
 
+export const getNotification = async () => {
+  await initAdmin();
+  const db = getFirestore();
+  const snapshot = await db.collection("notifications").get();
+  const res: any[] = [];
+  snapshot.forEach((doc) => {
+    res.push(doc.data());
+  });
+  return res;
 };
 
 // export const copyDoc = async (

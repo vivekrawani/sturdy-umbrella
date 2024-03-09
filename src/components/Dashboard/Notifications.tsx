@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
     Modal,
     ModalOverlay,
@@ -14,13 +14,27 @@ import axios from 'axios';
 import { IoIosNotificationsOutline } from 'react-icons/io';
 import { useAppSelector } from '@/lib/hooks';
 
+
+
+function Card({ notification }: any) {
+    return (
+        <div>
+           test
+        </div>
+    )
+}
+
 export default function Notifications() {
     const user = useAppSelector(state => state.authReducer.user);
+   const notifications = useAppSelector(state=>state.notificationReducers.notifications);
     const author = {
         name: user?.displayName,
         email: user?.email,
     }
     const { isOpen, onClose, onOpen } = useDisclosure();
+   
+   
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         if (formRef.current) {
@@ -36,6 +50,7 @@ export default function Notifications() {
             onClose();
         }
     }
+
     const formRef = useRef<HTMLFormElement>(null);
     const MyModal = () => (<>
         <Modal isOpen={isOpen} onClose={onClose} size={'xl'} scrollBehavior='inside' >
@@ -76,7 +91,7 @@ export default function Notifications() {
             onOpen()
         }
     }
-
+    console.log(notifications);
     return (
         <div className="bg-white rounded-md shadow-md shadow-slate-900 p-4 divide-y-8 divide-white">
             <h2 className="text-5xl font-bold">Notifications</h2>
@@ -89,6 +104,19 @@ export default function Notifications() {
             </div>
             <div>
                 <span className='text-xl'>Past Notifications</span>
+                <div>
+                    {
+                        notifications?.length > 0 && <>
+                            {
+                                notifications?.map((notification: any) => {
+                                    <Card notification={notification} />
+                                })
+                            }
+                        </>
+                    }
+
+
+                </div>
             </div>
             {isOpen && <MyModal />}
         </div>

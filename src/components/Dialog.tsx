@@ -82,7 +82,7 @@ const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId, userId }: { isOp
             }
             if (actionType === OrderAction.ACCEPT_ORDER) {
                 const date_ = format(date, 'PPp')
-                const response = await axios.patch(`${api}${orderId}`, {
+                const response = await axios.patch(`${api}/orders/${orderId}`, {
                     updateType: OrderAction.ACCEPT_ORDER,
                     date: date_,
                     userId

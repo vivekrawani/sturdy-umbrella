@@ -21,7 +21,7 @@ export default function Orders() {
     dispatch(getOrders())
     const interval = setInterval(() => {
       dispatch(getOrders())
-    }, 10000)
+    }, 20000)
     return () => {
       clearTimeout(interval);
     }

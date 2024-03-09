@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import type { Product, OrderDetails } from "@/lib/types";
+import { useAppSelector } from "@/lib/hooks";
 type Order = OrderDetails | null;
 
 interface InitialState {
@@ -13,6 +14,7 @@ interface InitialState {
   pastOrders: Order[];
 }
 
+
 const initialState: InitialState = {
   data: [],
   single: {
@@ -22,6 +24,7 @@ const initialState: InitialState = {
   loading: false,
   pastOrders: [],
 };
+
 
 const getOrders = createAsyncThunk("/api/orders", async (_, _thunkAPI: any) => {
   try {

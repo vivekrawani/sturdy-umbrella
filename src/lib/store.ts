@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./features/auth/authSlice";
 import productReducer from "./features/products/productSlice";
 import orderReducers from "./features/orders/orderSlice"
+import notificationReducers from "./features/notifications/notificationSlice"
 import { useDispatch } from "react-redux";
 import {
   persistStore,
@@ -39,6 +40,8 @@ export const store = configureStore({
     authReducer :persistedReducer,
     productReducer,
     orderReducers : persistedOrder,
+    notificationReducers,
+    
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

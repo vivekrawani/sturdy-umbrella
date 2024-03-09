@@ -23,7 +23,7 @@ export default function Orders() {
     dispatch(getPastOrders())
     const interval = setInterval(() => {
       dispatch(getPastOrders())
-    }, 10000)
+    }, 20000)
     return () => {
       clearTimeout(interval);
     }
