@@ -104,10 +104,16 @@ export async function getAllCollections() {
   });
 }
 
-export async function getAllDocsFrom(collectionName: string) {
+export async function getAllDocsFrom(collectionName: string, limit : number) {
   await initAdmin();
   const firestore = getFirestore();
-  const snapshot = await firestore.collection(collectionName).get();
+  let snapshot;
+  if(!Number.isNaN(limit)){
+    console.log(limit, "infirebse");
+    snapshot = await firestore.collection(collectionName).orderBy("inStock").limit(limit).get();
+  } else{
+    snapshot = await firestore.collection(collectionName).orderBy("inStock").get();
+  }
   const res: any[] = [];
   snapshot.forEach((doc) => {
     res.push(doc.data());

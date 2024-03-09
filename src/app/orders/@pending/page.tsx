@@ -75,7 +75,7 @@ export default function Orders() {
         </select>
       </div>
       {
-        orders.length > 0 ? (orders.map((v) => <OrdersCard key={v?.orderId} details={v} />)) : <div className='w-full h-screen'><Loading /></div>
+        orders.length > 0 && (orders.map((v) => <OrdersCard key={v?.orderId} details={v} />)) 
       }
     </div>
   )

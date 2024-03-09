@@ -1,7 +1,7 @@
 "use client"
 import { usePathname } from "next/navigation"
 import { FcDoughnutChart } from "react-icons/fc";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { IoEllipsisVerticalSharp } from "react-icons/io5";
 import Link from 'next/link'
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -10,9 +10,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import Image from "next/image";
 import { gLogout } from "@/lib/features/auth/authSlice";
 import { useRouter } from 'next/navigation'
-import { CiSearch } from "react-icons/ci";
-import SearchBox from "./SearchBox";
-import { fetchAllProducts } from "@/lib/features/products/productSlice";
+
 
 const links = [
 	{

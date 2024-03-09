@@ -16,11 +16,19 @@ type Context = {
 export async function GET(req: NextRequest, { params }: Context) {
   const { slug } = params;
   if (slug?.length === 1) {
-    const res = await getAllDocsFrom(slug[0]);
-    return NextResponse.json( res , { status: 200 });
+    try {
+      const limit = parseInt(req.nextUrl.searchParams.get("limit")!);
+
+      console.log(limit);
+      const res = await getAllDocsFrom(slug[0], limit);
+
+      return NextResponse.json(res, { status: 200 });
+    } catch (error) {
+      return Response.json({ message: "somthing went worng" }, { status: 500 });
+    }
   } else if (slug?.length === 2) {
     const res = await getDocWithIdFromCollection(slug[1], slug[0]);
-    return NextResponse.json( res , { status: 200 });
+    return NextResponse.json(res, { status: 200 });
   } else {
     return Response.json({ message: "Not allowed" }, { status: 405 });
   }
@@ -33,8 +41,8 @@ export async function POST(req: NextRequest, { params }: Context) {
     try {
       const data = await req.formData();
       const res = await addProduct(data);
-      
-      return NextResponse.json({ data : res }, { status: 201 });
+
+      return NextResponse.json({ data: res }, { status: 201 });
     } catch (error) {
       console.log(error);
       return NextResponse.json({ message: "Failed" }, { status: 500 });

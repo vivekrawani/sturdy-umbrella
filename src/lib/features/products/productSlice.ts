@@ -55,7 +55,6 @@ const fetchProductsFrom = createAsyncThunk(
     
     try {
       const data = (await axios.get(`/api/products/${sub}`)).data;
-      data.sort((a : Product, b : Product)=> a.inStock - b.inStock);
       return data;
     } catch (error: any) {
       console.log("Errorsss");
@@ -63,6 +62,24 @@ const fetchProductsFrom = createAsyncThunk(
     }
   }
 );
+const fetchProductsInitial = createAsyncThunk(
+  "/api/products/init",
+  async (sub : string, _thunkAPI) => {
+    
+    try {
+      const data = (await axios.get(`/api/products/${sub}`,{
+        params : {
+          limit : 10
+        }
+      })).data;
+      return data;
+    } catch (error: any) {
+      console.log("Errorsss");
+      _thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 
 export const productSlice = createSlice({
   name: "products",
@@ -96,20 +113,29 @@ export const productSlice = createSlice({
       state.loading = false;
       console.log(action.error.message);
     });
+    builder.addCase(fetchProductsInitial.fulfilled, (state: any, action: any) => {
+      state.loading = false;
+      if (action.payload) {
+        state.sub = action.payload;
+      }
+    });
+    builder.addCase(fetchProductsInitial.pending, (state: any) => {
+      state.loading = true;
+    });
+    builder.addCase(fetchProductsInitial.rejected, (state: any, action: any) => {
+      state.loading = false;
+      console.log(action.error.message);
+    });
     builder.addCase(fetchProductsFrom.fulfilled, (state: any, action: any) => {
       state.loading = false;
       if (action.payload) {
         state.sub = action.payload;
       }
     });
-    builder.addCase(fetchProductsFrom.pending, (state: any) => {
-      state.loading = true;
-    });
     builder.addCase(fetchProductsFrom.rejected, (state: any, action: any) => {
-      state.loading = false;
       console.log(action.error.message);
     });
   },
 });
-export { getProduct, fetchAllProducts, fetchProductsFrom };
+export { getProduct, fetchProductsFrom, fetchProductsInitial };
 export default productSlice.reducer;
