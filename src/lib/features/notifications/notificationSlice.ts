@@ -2,12 +2,14 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 type Notification = {
   author: {
-    email : string;
-    name : string;
+    email: string;
+    name: string;
   };
-  date: Date;
-  body: string;
-  title: string;
+  date: string;
+  message: {
+    body: string;
+    title: string;
+  };
 };
 export type { Notification };
 
@@ -34,7 +36,13 @@ const getNotifications = createAsyncThunk(
 export const notificationSlice = createSlice({
   name: "notifications",
   initialState,
-  reducers: {},
+  reducers: {
+    pushLatestNotification: (state, action) => {
+      const notification = action.payload;
+      console.log(notification);
+      state.notifications.unshift(notification);
+    },
+  },
   extraReducers: (builder: any) => {
     builder.addCase(getNotifications.fulfilled, (state: any, action: any) => {
       state.loading = false;
@@ -53,4 +61,5 @@ export const notificationSlice = createSlice({
   },
 });
 export { getNotifications };
+export const { pushLatestNotification  } = notificationSlice.actions;
 export default notificationSlice.reducer;

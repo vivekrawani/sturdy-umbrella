@@ -35,6 +35,10 @@ const links = [
 		name: "Users",
 		href: "/users"
 	},
+	{
+		name: "Notifications",
+		href: "/notifications"
+	},
 
 
 ]

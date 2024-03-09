@@ -3,7 +3,6 @@ import { initAdmin } from "./firebaseAdminSdk";
 import { getFirestore } from "firebase-admin/firestore";
 import { getStorage } from "firebase-admin/storage";
 import { getMessaging } from "firebase-admin/messaging";
-import { error } from "console";
 
 const uploadFile = async (file: File | null) => {
   if (file) {
@@ -195,6 +194,7 @@ type Product = {
 };
 
 import type { OrderDetails } from "@/lib/types";
+import { format } from "date-fns";
 
 export const getData = async () => {
   await initAdmin();
@@ -709,7 +709,8 @@ export const getNotification = async () => {
     const data = doc.data();
     const date = data?.date;
     if(date){
-      data.date = date.toDate();
+      const stringDate = format(date.toDate(), "PPp");
+      data.date = stringDate;
     }
     res.push(data);
   });
