@@ -58,6 +58,11 @@ export default function Notifications() {
             const title = formData.get("title");
             const body = formData.get("body");
             const api = process.env.NEXT_PUBLIC_FIREBASE_funapi;
+            axios.post(`${api}/v1/notification`, {
+                title,
+                body,
+                author,
+            })
             dispatch(pushLatestNotification({
                 message: { 
                     title,
@@ -66,11 +71,6 @@ export default function Notifications() {
                 author,
                 date : format(new Date(), "PPp")
             }))
-            axios.post(`${api}/v1/notification`, {
-                title,
-                body,
-                author,
-            })
             onClose();
         }
     }
@@ -115,9 +115,8 @@ export default function Notifications() {
             onOpen()
         }
     }
-    console.log(notifications);
     return (
-        <div className="bg-white rounded-md shadow-md shadow-slate-900 p-4 divide-y-8 divide-white">
+        <div className="bg-white text-black rounded-md shadow-md shadow-slate-900 p-4 divide-y-8 divide-white">
             <h2 className="text-5xl font-bold">Notifications</h2>
             <div className='flex items-center gap-3'>
                 <span className='text-xl'>Send a notification</span>
