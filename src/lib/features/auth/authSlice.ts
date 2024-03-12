@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { googleAuth, verifyIsAdmin, signout } from "@/db/firebaseAuth";
-
+import { googleAuth, signout } from "@/db/firebaseAuth";
+import axios from "axios";
+const api = process.env.NEXT_PUBLIC_FIREBASE_funapi;
 type InitialState = {
   user: {
     email: string;
@@ -9,6 +10,7 @@ type InitialState = {
     phoneNumber: string;
     photoURL: string;
     uid: string;
+    token? : string;
     isAdmin?: boolean;
   } | null;
   loading: boolean;
@@ -21,8 +23,15 @@ const initialState: InitialState = {
 const gLogin = createAsyncThunk("/user/login", async (_, thunkAPI) => {
   try {
     const user = await googleAuth();
-    const isAdmin = await verifyIsAdmin(user!.email);
-    const data = {...user, isAdmin};
+    
+    const userToken = (await axios.get(`${api}/auth`, {
+      params:{
+        email : user.email,
+      }
+    })).data;
+    const isAdmin = userToken.isAdmin;
+    const token = userToken.token;
+    const data = {...user, isAdmin, token};
     return data;
   } catch (error: any) {
     ("Errorsss");

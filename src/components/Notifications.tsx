@@ -16,11 +16,12 @@ import { useAppSelector } from '@/lib/hooks';
 import { useAppDispatch } from '@/lib/store';
 import { Notification, getNotifications } from '@/lib/features/notifications/notificationSlice';
 import { format } from 'date-fns';
-import {pushLatestNotification} from "@/lib/features/notifications/notificationSlice"
+import { pushLatestNotification } from "@/lib/features/notifications/notificationSlice"
 
+const api = process.env.NEXT_PUBLIC_FIREBASE_funapi;
 
-function Card({ notification }: {notification : Notification}) {
-    
+function Card({ notification }: { notification: Notification }) {
+
     return (
         <div className='rounded-md shadow-sm shadow-slate-300 px-4 py-2'>
             <div>
@@ -34,21 +35,21 @@ function Card({ notification }: {notification : Notification}) {
             </div>
             <div>
                 <span> At </span> : {notification?.date}
-            </div>         
+            </div>
         </div>
     )
 }
 
 export default function Notifications() {
     const user = useAppSelector(state => state.authReducer.user);
-   const notifications = useAppSelector(state=>state.notificationReducers.notifications);
-   const dispatch = useAppDispatch();
+    const notifications = useAppSelector(state => state.notificationReducers.notifications);
+    const dispatch = useAppDispatch();
     const author = {
         name: user?.displayName,
         email: user?.email,
     }
     const { isOpen, onClose, onOpen } = useDisclosure();
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(getNotifications());
     }, [dispatch])
     const handleSubmit = (e: React.FormEvent) => {
@@ -57,19 +58,24 @@ export default function Notifications() {
             const formData = new FormData(formRef.current);
             const title = formData.get("title");
             const body = formData.get("body");
-            const api = process.env.NEXT_PUBLIC_FIREBASE_funapi;
+
             axios.post(`${api}/v1/notification`, {
                 title,
                 body,
                 author,
-            })
+            },
+                {
+                    headers: {
+                        Authorization: user?.token
+                },
+                })
             dispatch(pushLatestNotification({
-                message: { 
+                message: {
                     title,
                     body,
                 },
                 author,
-                date : format(new Date(), "PPp")
+                date: format(new Date(), "PPp")
             }))
             onClose();
         }
@@ -130,14 +136,14 @@ export default function Notifications() {
                 <div>
 
                     {
-                        notifications.length> 0 ? <div className='flex flex-col gap-5 mt-3'>
+                        notifications.length > 0 ? <div className='flex flex-col gap-5 mt-3'>
                             {
-                                notifications.map((notification : any, i)=> <Card key={i} notification={notification}/>
+                                notifications.map((notification: any, i) => <Card key={i} notification={notification} />
                                 )
                             }
                         </div> : <div>nhi hai</div>
                     }
-                
+
                 </div>
             </div>
             {isOpen && <MyModal />}

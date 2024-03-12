@@ -19,15 +19,16 @@ export default function Orders() {
   const user = useAppSelector(state => state.authReducer.user);
   const router = useRouter();
 
+
   useEffect(() => {
-    dispatch(getOrders())
+    dispatch(getOrders(user?.token))
     const interval = setInterval(() => {
-      dispatch(getOrders())
-    }, 20000)
+      dispatch(getOrders(user?.token))
+    }, 60000)
     return () => {
       clearTimeout(interval);
     }
-  }, [dispatch])
+  }, [dispatch, user])
   const [orders, setOrders] = useState<Order[]>(data);
   const [range, setRange] = useState('today')
   useEffect(() => {

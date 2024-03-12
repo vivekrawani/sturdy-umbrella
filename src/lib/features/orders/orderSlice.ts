@@ -1,9 +1,13 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  configureStore,
+} from "@reduxjs/toolkit";
 import axios from "axios";
 import type { Product, OrderDetails } from "@/lib/types";
-import { useAppSelector } from "@/lib/hooks";
-type Order = OrderDetails | null;
 
+type Order = OrderDetails | null;
+const api = process.env.NEXT_PUBLIC_FIREBASE_funapi;
 interface InitialState {
   data: Order[];
   single: {
@@ -13,7 +17,6 @@ interface InitialState {
   loading: boolean;
   pastOrders: Order[];
 }
-
 
 const initialState: InitialState = {
   data: [],
@@ -25,12 +28,17 @@ const initialState: InitialState = {
   pastOrders: [],
 };
 
-
-const getOrders = createAsyncThunk("/api/orders", async (_, _thunkAPI: any) => {
+const getOrders = createAsyncThunk("/api/orders", async (payload:any, _thunkAPI: any) => {
   try {
-    const api = process.env.NEXT_PUBLIC_FIREBASE_funapi;
-    // const data = (await axios.get(`/api/orders`)).data;
-    const data = (await axios.get(`${api}/orders/newOrders`)).data;
+    
+    const token = payload;
+    const data = (
+      await axios.get(`${api}/orders/newOrders`, {
+        headers: {
+          Authorization: token,
+        },
+      })
+    ).data;
     return data;
   } catch (error: any) {
     console.log("Errorsss", error);
@@ -40,11 +48,15 @@ const getOrders = createAsyncThunk("/api/orders", async (_, _thunkAPI: any) => {
 
 const getPastOrders = createAsyncThunk(
   "/api/orders/past",
-  async (_, _thunkAPI: any) => {
+  async (payload:any, _thunkAPI: any) => {
+
     try {
-      const api = process.env.NEXT_PUBLIC_FIREBASE_funapi;
       // const data = (await axios.get(`/api/orders/past`)).data;
-      const data = (await axios.get(`${api}/orders/pastOrders`)).data;
+      const data = (await axios.get(`${api}/orders/pastOrders`, {
+        headers: {
+          Authorization: payload,
+        },
+      })).data;
       return data;
     } catch (error: any) {
       console.log("Errorsss", error);
@@ -96,7 +108,8 @@ export const orderSlice = createSlice({
         const order = action.payload;
         state.data = order;
         order.sort((a: OrderDetails, b: OrderDetails) => {
-          const cond = new Date(b.orderTime).getTime() - new Date(a.orderTime).getTime();
+          const cond =
+            new Date(b.orderTime).getTime() - new Date(a.orderTime).getTime();
           return cond;
         });
         state.data = order;
@@ -126,7 +139,8 @@ export const orderSlice = createSlice({
       if (action.payload) {
         const order = action.payload;
         order.sort((a: OrderDetails, b: OrderDetails) => {
-          const cond = new Date(b.orderTime).getTime() - new Date(a.orderTime).getTime();
+          const cond =
+            new Date(b.orderTime).getTime() - new Date(a.orderTime).getTime();
           return cond;
         });
         state.pastOrders = order;

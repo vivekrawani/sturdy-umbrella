@@ -20,14 +20,14 @@ export default function Orders() {
   const router = useRouter();
 
   useEffect(() => {
-    dispatch(getPastOrders())
+    dispatch(getPastOrders(user?.token))
     const interval = setInterval(() => {
-      dispatch(getPastOrders())
-    }, 20000)
+      dispatch(getPastOrders(user?.token))
+    }, 60000)
     return () => {
       clearTimeout(interval);
     }
-  }, [dispatch])
+  }, [dispatch, user])
   const [orders, setOrders] = useState<Order[]>(data);
   const [range, setRange] = useState('today')
   useEffect(() => {

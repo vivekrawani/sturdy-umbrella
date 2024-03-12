@@ -17,10 +17,14 @@ import { format, getDate } from 'date-fns';
 import { OrderAction } from '@/lib/constants';
 import { useAppDispatch } from '@/lib/store';
 import { acceptOrder, confirmOrder } from '@/lib/features/orders/orderSlice';
+import { useAppSelector } from '@/lib/hooks';
+const api = process.env.NEXT_PUBLIC_FIREBASE_funapi;
+
 const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId, userId }: { isOpen: boolean, onOpen: () => void, onClose: () => void, actionType: OrderAction, orderId: string, userId: string }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [date, setDate] = useState<Date>(new Date());
     const dispatch = useAppDispatch();
+    const user = useAppSelector(state => state.authReducer.user);
     const toast = useToast();
     const InputRef = useRef<HTMLInputElement>(null);
     const MyModalBody = () => {
@@ -54,7 +58,7 @@ const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId, userId }: { isOp
         const otp = InputRef.current?.value;
         let title = actionType === OrderAction.CONFIRM_ORDER ? 'Order Confirmed' : 'Order Accepted';
         let toastDescription = '';
-        const api = process.env.NEXT_PUBLIC_FIREBASE_funapi;
+
         try {
             if (actionType === OrderAction.CONFIRM_ORDER) {
 
@@ -62,6 +66,10 @@ const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId, userId }: { isOp
                     updateType: OrderAction.CONFIRM_ORDER,
                     otp,
                     userId
+                }, {
+                    headers: {
+                        Authorization: user?.token
+                    }
                 })
                 const res = response.data;
 
@@ -86,6 +94,10 @@ const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId, userId }: { isOp
                     updateType: OrderAction.ACCEPT_ORDER,
                     date: date_,
                     userId
+                }, {
+                    headers: {
+                        Authorization: user?.token
+                    }
                 })
                 const res = response.data;
                 const status = res.error ? 'error' : 'success';
@@ -101,7 +113,7 @@ const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId, userId }: { isOp
                     isClosable: true,
                 },)
                 dispatch(acceptOrder(orderId));
-                
+
             }
 
         } catch (error) {
@@ -116,10 +128,10 @@ const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId, userId }: { isOp
         }
         setIsLoading(false)
         onClose()
-       
+
 
     }
-    
+
 
     return (
         <>
