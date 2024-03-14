@@ -100,6 +100,20 @@ export const orderSlice = createSlice({
       });
       state.data = res;
     },
+    cancelOrder : (state, action) =>{
+      const orderId = action.payload;
+      const arr = state.data;
+      const res = arr.filter((o)=>{
+        o?.orderId != orderId;
+      });
+      state.data = res;
+
+      const res2 = arr.filter((o)=>{
+        o?.orderId == orderId;
+      });
+      state.pastOrders = res2;
+      
+    }
   },
   extraReducers: (builder: any) => {
     builder.addCase(getOrders.fulfilled, (state: any, action: any) => {
@@ -156,6 +170,6 @@ export const orderSlice = createSlice({
   },
 });
 export { getOrders, getOrder, getPastOrders };
-export const { acceptOrder, confirmOrder } = orderSlice.actions;
+export const { acceptOrder, confirmOrder, cancelOrder } = orderSlice.actions;
 export type { Order };
 export default orderSlice.reducer;

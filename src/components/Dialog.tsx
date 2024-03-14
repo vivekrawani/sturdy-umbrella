@@ -16,7 +16,7 @@ import DateTimePicker from './DateTimePicker';
 import { format, getDate } from 'date-fns';
 import { OrderAction } from '@/lib/constants';
 import { useAppDispatch } from '@/lib/store';
-import { acceptOrder, confirmOrder } from '@/lib/features/orders/orderSlice';
+import { acceptOrder, confirmOrder, cancelOrder } from '@/lib/features/orders/orderSlice';
 import { useAppSelector } from '@/lib/hooks';
 const api = process.env.NEXT_PUBLIC_FIREBASE_funapi;
 
@@ -88,6 +88,21 @@ const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId, userId }: { isOp
                 dispatch(confirmOrder(orderId));
 
             }
+            if(actionType === OrderAction.DELETE_ORDER){
+                const response = (await axios.delete(`${api}/orders/${orderId}`, {
+                    headers : {
+                        Authorization: user?.token
+                    }, 
+                }));
+                const status = response.status;
+                const title = status >= 400 ? "Failed to delete" : "Items deleted";
+                const toastStatus = status >= 400 ? "success"  : "error";
+                toast({
+                    title,
+                    status : toastStatus
+                })
+                dispatch(cancelOrder(orderId));
+            }
             if (actionType === OrderAction.ACCEPT_ORDER) {
                 const date_ = format(date, 'PPp')
                 const response = await axios.patch(`${api}/orders/${orderId}`, {
@@ -115,6 +130,7 @@ const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId, userId }: { isOp
                 dispatch(acceptOrder(orderId));
 
             }
+            
 
         } catch (error) {
             console.log(error);
