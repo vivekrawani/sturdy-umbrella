@@ -1,3 +1,4 @@
+"use client";
 import { useAppSelector } from '@/lib/hooks'
 import React from 'react'
 import type { Product } from '@/lib/types';
