@@ -20,7 +20,7 @@ import { acceptOrder, confirmOrder, cancelOrder } from '@/lib/features/orders/or
 import { useAppSelector } from '@/lib/hooks';
 const api = process.env.NEXT_PUBLIC_FIREBASE_funapi;
 
-const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId, userId }: { isOpen: boolean, onOpen: () => void, onClose: () => void, actionType: OrderAction, orderId: string, userId: string }) => {
+const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId, userId, userName }: { isOpen: boolean, onOpen: () => void, onClose: () => void, actionType: OrderAction, orderId: string, userId: string, userName? : string }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [date, setDate] = useState<Date>(new Date());
     const dispatch = useAppDispatch();
@@ -91,8 +91,13 @@ const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId, userId }: { isOp
             if(actionType === OrderAction.DELETE_ORDER){
                 const response = (await axios.delete(`${api}/orders/${orderId}`, {
                     headers : {
-                        Authorization: user?.token
+                        Authorization: user?.token,
                     }, 
+                    params :{
+                        userId,
+                        admin : user?.displayName,
+                        userName,
+                    }
                 }));
                 const status = response.status;
                 const title = status >= 400 ? "Failed to delete" : "Items deleted";
@@ -101,7 +106,7 @@ const Dialog = ({ isOpen, onOpen, onClose, actionType, orderId, userId }: { isOp
                     title,
                     status : toastStatus
                 })
-                dispatch(cancelOrder(orderId));
+                // dispatch(cancelOrder(orderId));
             }
             if (actionType === OrderAction.ACCEPT_ORDER) {
                 const date_ = format(date, 'PPp')

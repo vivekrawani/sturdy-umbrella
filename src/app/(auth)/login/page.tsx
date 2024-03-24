@@ -1,10 +1,8 @@
 "use client"
 import {  gLogin } from '@/lib/features/auth/authSlice';
-import { useAppSelector } from '@/lib/hooks';
 import { useAppDispatch } from '@/lib/store';
-import { delay } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { FcGoogle } from "react-icons/fc";
 
 
@@ -26,17 +24,10 @@ export default function Login() {
         <div className='grid md:grid-cols-2 h-screen w-screen bg-slate-100'>
             <div className='bg-indigo-600 hidden md:block     bg-image-1 bg-no-repeat bg-cover'>
             </div>
-
-
             <div className="p-8 md:mx-14" >
-
                 <div className="w-full h-100">
-
-
                     <h1 className="text-xl md:text-2xl font-bold leading-tight mt-12">Log in to your account</h1>
-
                     <form className="mt-6"
-
                         onSubmit={(e) => {
                             handleSubmit(e);
                         }}>
@@ -73,25 +64,17 @@ export default function Login() {
                         <button type="submit" className="w-full block bg-indigo-500 hover:bg-indigo-400 focus:bg-indigo-400 text-white font-semibold rounded-lg
               px-4 py-3 mt-6">Log In</button>
                     </form>
-
                     <hr className="my-6 border-gray-300 w-full" />
-
                     <button type="button" onClick={handleGoogleSignIn} className="w-full block bg-white hover:bg-gray-100 focus:bg-gray-100 text-gray-900 font-semibold rounded-lg px-4 py-3 border border-gray-300">
                         <div className="flex items-center justify-center">
-
                             <span className="ml-4 flex gap-2"> <FcGoogle className='text-3xl' /> Log in with Google</span>
                         </div>
                     </button>
-
                     <p className="mt-8">Need an account? <a href="#" className="text-blue-500 hover:text-blue-700 font-semibold">Create an
                         account</a></p>
-
-
                 </div>
             </div>
-
         </div>
-
     )
 }
 
