@@ -4,11 +4,11 @@ import React from 'react'
 import Link from 'next/link';
 import { IoIosArrowDropdown } from "react-icons/io";
 import { OrderDetails } from '@/lib/types';
-import Tooltip from './Tooltip';
+import Tooltip from '../Tooltip';
 import { format } from 'date-fns';
 import { OrderAction } from '@/lib/constants';
 import { useDisclosure } from '@chakra-ui/react'
-import Dialog from '@/components/Dialog'
+import Dialog from '@/components/Orders/Dialog'
 import { genrateReceipt } from '@/lib/utils';
 export default function OrderCard({ details }: { details: OrderDetails | null }) {
     const { userName, mobileNumber, address, pincode, amount, isAccepted, isDelivered, payment, products, orderId, time, userId, orderAcceptTime, deliverTime, orderTime } = details ?? { userName: '', address: '', orderId: '', userId: '' };

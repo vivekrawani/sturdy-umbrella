@@ -1,7 +1,7 @@
 
 import { useRef, useState } from "react"
 import { FiFile } from 'react-icons/fi';
-import FileUpload from './FileUpload'
+import FileUpload from '../FileUpload'
 import { FcUpload } from "react-icons/fc";
 import axios from 'axios'
 import { TiDelete } from "react-icons/ti";

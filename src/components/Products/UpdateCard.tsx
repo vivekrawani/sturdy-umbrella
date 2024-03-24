@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useRef, useState } from "react"
 import { FiFile } from 'react-icons/fi';
-import FileUpload from './FileUpload'
+import FileUpload from '../FileUpload'
 import axios from 'axios'
 import {
     Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Button, useDisclosure,

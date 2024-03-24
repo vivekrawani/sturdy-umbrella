@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react'
 import axios from 'axios';
 import { useRef, useState } from 'react'
-import DateTimePicker from './DateTimePicker';
+import DateTimePicker from '../DateTimePicker';
 import { format, getDate } from 'date-fns';
 import { OrderAction } from '@/lib/constants';
 import { useAppDispatch } from '@/lib/store';

@@ -1,5 +1,5 @@
 "use client";
-import ProductForm from '@/components/ProductForm';
+import ProductForm from '@/components/Products/ProductForm';
 import { useAppSelector } from '@/lib/hooks';
 import { useRouter } from 'next/navigation'
 import React from 'react'

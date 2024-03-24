@@ -1,7 +1,7 @@
 "use client";
 import { OrderType } from '@/lib/constants';
 import Loading from '@/components/Loading';
-import OrdersCard from '@/components/OrderCard'
+import OrdersCard from '@/components/Orders/OrderCard'
 import { getOrders, getPastOrders } from '@/lib/features/orders/orderSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { useEffect, useState } from 'react';
@@ -10,7 +10,7 @@ import { FcSearch } from "react-icons/fc";
 
 import type { Order } from '@/lib/features/orders/orderSlice';
 import { useDisclosure, useInterval } from '@chakra-ui/react';
-import OrderSearch from '@/components/OrderSearch'
+import OrderSearch from '@/components/Orders/OrderSearch'
 import { useRouter } from 'next/navigation';
 export default function Orders({ orderType }: { orderType: OrderType }) {
   const dispatch = useAppDispatch();

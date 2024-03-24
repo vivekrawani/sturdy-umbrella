@@ -18,8 +18,6 @@ export async function GET(req: NextRequest, { params }: Context) {
   if (slug?.length === 1) {
     try {
       const limit = parseInt(req.nextUrl.searchParams.get("limit")!);
-
-      console.log(limit);
       const res = await getAllDocsFrom(slug[0], limit);
 
       return NextResponse.json(res, { status: 200 });

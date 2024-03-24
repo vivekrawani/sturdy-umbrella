@@ -1,5 +1,5 @@
 "use client"
-import UpdateCard from '@/components/UpdateCard';
+import UpdateCard from '@/components/Products/UpdateCard';
 import Card from '@/components/Card';
 import Loading from "@/components/Loading";
 import { fetchProductsFrom, getProduct, fetchProductsInitial } from '@/lib/features/products/productSlice';

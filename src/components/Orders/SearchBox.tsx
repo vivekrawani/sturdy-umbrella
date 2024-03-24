@@ -4,7 +4,7 @@ import React from 'react'
 import type { Product } from '@/lib/types';
 import { useState } from 'react';
 import { searchRegEx } from '@/lib/utils';
-import SmallProductCard from './SmallProductCard';
+import SmallProductCard from '../Products/SmallProductCard';
 import {
   Modal,
   ModalOverlay,

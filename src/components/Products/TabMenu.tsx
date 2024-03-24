@@ -3,7 +3,7 @@ import React from 'react'
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useDisclosure } from '@chakra-ui/react';
-import SearchBox from '@/components/SearchBox';
+import SearchBox from '@/components/Orders/SearchBox';
 import { FcSearch } from "react-icons/fc";
 import { getStringBetween } from '@/lib/utils';
 
