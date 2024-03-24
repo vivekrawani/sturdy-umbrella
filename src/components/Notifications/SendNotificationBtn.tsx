@@ -81,7 +81,6 @@ export default function SendNotificationBtn() {
     const handleClick = () => {
         if (user?.isAdmin) {
             onOpen();
-            console.log("Clicked")
         }
     }
     return (

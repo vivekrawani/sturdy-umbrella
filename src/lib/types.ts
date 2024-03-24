@@ -30,3 +30,15 @@ export type OrderDetails = {
   orderAcceptTime? : Date;
   deliverTime? : Date;
 };
+
+export type Notification = {
+  author: {
+    email: string;
+    name: string;
+  };
+  date: string;
+  message: {
+    body: string;
+    title: string;
+  };
+};

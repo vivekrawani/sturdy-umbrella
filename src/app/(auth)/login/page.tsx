@@ -18,7 +18,7 @@ export default function Login() {
     }
     const handleGoogleSignIn = async () => {
         await dispatch(gLogin());
-        router.push('/products')
+        router.push('/dashboard')
     }
     return (
         <div className='grid md:grid-cols-2 h-screen w-screen bg-slate-100'>

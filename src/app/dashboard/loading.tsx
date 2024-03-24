@@ -1,7 +1,9 @@
-import React from 'react'
-
-export default function Loading() {
+import Loading from "@/components/Loading";
+export default function loading() {
   return (
-    <div>Loading...</div>
+    <div className="w-full h-screen">
+       <Loading/>
+    </div>
+   
   )
 }

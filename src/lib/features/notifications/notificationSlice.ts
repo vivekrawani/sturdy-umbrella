@@ -1,18 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-type Notification = {
-  author: {
-    email: string;
-    name: string;
-  };
-  date: string;
-  message: {
-    body: string;
-    title: string;
-  };
-};
-export type { Notification };
-
+import type { Notification } from "@/lib/types"
 const initialState: {
   notifications: Notification[];
 } = {
