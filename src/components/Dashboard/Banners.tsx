@@ -1,8 +1,9 @@
-import { addBanner } from "@/db/firebase";
+import { getBanner } from "@/db/firebase";
 import { Image } from "@chakra-ui/react";
+import AddBanner from "./AddBanner";
 
 export default async function Banners() {
- const banners =  await addBanner();
+ const banners =  await getBanner();
   return (
     <div className="bg-white rounded-md shadow-md shadow-slate-900 p-4">
       <h2 className="text-5xl font-bold">Banners</h2>
@@ -12,7 +13,7 @@ export default async function Banners() {
         }
       </div>
       <div>
-        <h2>Add a new Banner</h2>
+      <AddBanner/>
         
       </div>
     </div>
