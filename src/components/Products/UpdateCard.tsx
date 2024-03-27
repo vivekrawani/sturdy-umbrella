@@ -1,5 +1,6 @@
+"use client";
 import Image from "next/image";
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { FiFile } from 'react-icons/fi';
 import FileUpload from '../FileUpload'
 import axios from 'axios'
@@ -23,6 +24,9 @@ import { useForm } from 'react-hook-form'
 import { useToast } from '@chakra-ui/react'
 import { usePathname, useRouter } from "next/navigation";
 import { getStringBetween } from "@/lib/utils";
+import { useAppDispatch } from "@/lib/store";
+import { getProduct } from "@/lib/features/products/productSlice";
+import { useAppSelector } from "@/lib/hooks";
 interface IFormInput {
     name: string
     description: string
@@ -45,13 +49,28 @@ const validateFiles = (value: FileList) => {
     }
     return true
 }
-export default function UpdateCard({ details }: any) {
-    const { imageUrl = null, price = 0, discountedPrice = 0, description = '', inStock = 0, name = '', productId = '', isFeatured = false } = details;
+export default function UpdateCard({ collection, id }: { collection: string, id: string }) {
+    // const { imageUrl = null, price = 0, discountedPrice = 0, description = '', inStock = 0, name = '', productId = '', isFeatured = false } = details;
     const toast = useToast()
     const [loading, setLoading] = useState<boolean>(false)
     const { isOpen, onOpen, onClose } = useDisclosure()
     const router = useRouter();
     const pathname = usePathname();
+    const dispatch = useAppDispatch();
+    const single = useAppSelector(state => state.productReducer.single);
+    const imageUrl = single?.imageUrl as string;
+    const price = single?.price;
+    const discountedPrice = single?.discountedPrice;
+    const description = single?.description;
+    const inStock = single?.inStock;
+    const name = single?.name as string;
+    const productId = single?.productId;
+    const isFeatured = single?.isFeatured;
+
+    useEffect(() => {
+        dispatch(getProduct({ id: id, collection: collection }))
+    }, [dispatch, id, collection])
+
     const { register, handleSubmit, formState: { errors }, control } = useForm<IFormInput>({
         defaultValues: {
             name,
@@ -207,43 +226,50 @@ export default function UpdateCard({ details }: any) {
             </Modal>
         )
     }
+    const loadingConditon = (single === null) || loading;
     return (
-        <div className="grid grid-cols-2 justify-around  md:w-1/2  m-4 bg-white rounded-3xl py-4 mx-4">
-            <div className=" h-max-32 w-max-32 p-2 rounded-full ">
-                <Image src={imageUrl}
-                    width={250}
-                    height={250}
-                    alt={name} />
-            </div>
-            <div className="flex flex-col justify-around">
-                <div className="p-4">
-                    <h2 className="mt-2 mb-2  font-bold">{name}</h2>
+        <div className='flex flex-row justify-center items-center h-80svh'>
+            {loadingConditon ? <div className='loader'></div> :
+                <div className="grid grid-cols-2 justify-around  md:w-1/2  m-4 bg-white rounded-3xl py-4 mx-4">
+                    <div className=" h-max-32 w-max-32 p-2 rounded-full ">
+                        <Image src={imageUrl}
+                            width={250}
+                            height={250}
+                            alt={name} />
+                    </div>
+                    <div className="flex flex-col justify-around">
+                        <div className="p-4">
+                            <h2 className="mt-2 mb-2  font-bold">{name}</h2>
 
-                    <div className="mt-3 flex items-center gap-2">
-                        <span className='text-sm font-bold'>Original Price</span>  <span className=" text-sm">₹{price}</span>
+                            <div className="mt-3 flex items-center gap-2">
+                                <span className='text-sm font-bold'>Original Price</span>  <span className=" text-sm">₹{price}</span>
+                            </div>
+                            <div className="mt-3 flex items-center  gap-2">
+                                <span className='text-sm font-bold'>Discounted Price Price</span> <span className="text-sm">₹{discountedPrice}</span>
+                            </div>
+                            <div className="mt-3 flex items-center  gap-2">
+                                <span className='text-sm font-bold'>In Stock</span>    <span className="text-sm">{inStock}</span>
+                            </div>
+                        </div>
                     </div>
-                    <div className="mt-3 flex items-center  gap-2">
-                        <span className='text-sm font-bold'>Discounted Price Price</span> <span className="text-sm">₹{discountedPrice}</span>
-                    </div>
-                    <div className="mt-3 flex items-center  gap-2">
-                        <span className='text-sm font-bold'>In Stock</span>    <span className="text-sm">{inStock}</span>
+                    <div className="col-span-2 ">
+                        <div className="w-full flex flex-row gap-2 px-3 py-1">
+                            <button className="bg-blue-500 rounded-full p-3 text-emerald-50 w-1/2 "
+                                onClick={onOpen}
+                            >Update Details</button>
+                            <button className="bg-red-500 rounded-full p-3 text-emerald-50 w-1/2 "
+                                onClick={onOpenD}
+                            >Delete</button>
+
+
+                        </div>
+                        {isOpen && <MyModal />}
+                        {isOpenD && <DeleteModal />}
                     </div>
                 </div>
-            </div>
-            <div className="col-span-2 ">
-                <div className="w-full flex flex-row gap-2 px-3 py-1">
-                    <button className="bg-blue-500 rounded-full p-3 text-emerald-50 w-1/2 "
-                        onClick={onOpen}
-                    >Update Details</button>
-                    <button className="bg-red-500 rounded-full p-3 text-emerald-50 w-1/2 "
-                        onClick={onOpenD}
-                    >Delete</button>
+            }
 
 
-                </div>
-                {isOpen && <MyModal />}
-                {isOpenD && <DeleteModal />}
-            </div>
         </div>
     )
 }

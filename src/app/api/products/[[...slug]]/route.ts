@@ -19,9 +19,9 @@ export async function GET(req: NextRequest, { params }: Context) {
     try {
       const limit = parseInt(req.nextUrl.searchParams.get("limit")!);
       const res = await getAllDocsFrom(slug[0], limit);
-
       return NextResponse.json(res, { status: 200 });
     } catch (error) {
+      console.log(error)
       return Response.json({ message: "somthing went worng" }, { status: 500 });
     }
   } else if (slug?.length === 2) {

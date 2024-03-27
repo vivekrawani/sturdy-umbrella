@@ -1,47 +1,53 @@
-"use client"
 import UpdateCard from '@/components/Products/UpdateCard';
-import Card from '@/components/Card';
-import Loading from "@/components/Loading";
-import { fetchProductsFrom, getProduct, fetchProductsInitial } from '@/lib/features/products/productSlice';
-import { useAppSelector } from '@/lib/hooks';
-import { useAppDispatch } from '@/lib/store';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react'
-import { IoMdAddCircle } from "react-icons/io";
-import { useDisclosure } from '@chakra-ui/react';
-import AddProductModal from '@/components/AddProductModal';
+import Products from '@/components/Products/Products';
+import { capitalizeFirstLetter } from "@/lib/utils"
 interface Context {
   params: {
     slug: string[]
   }
 }
+export async function generateMetadata({ params }: Context) {
+  const pageTitle = capitalizeFirstLetter(params.slug[0]) ;// + " - " + "Products | Johar Basket"
+  return {
+    title: `${pageTitle} Items | Johar Basket`
+  }
 
-export default function Products({ params }: Context) {
+}
+type Category = "pooja" | "cosmetics" | "grocery" | "stationary";
+export default function ProductsPage({ params }: Context) {
   const { slug } = params;
-  const router = useRouter();
-  const user = useAppSelector(state => state.authReducer.user);
-  const { single, loading } = useAppSelector(state => state.productReducer)
-  const { sub } = useAppSelector(state => state.productReducer)
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    let timeout = setTimeout(()=>{});
-    if (slug?.length === 1) {
-      dispatch(fetchProductsInitial(slug[0])).then(()=>{
-         timeout = setTimeout(()=>{
-          dispatch(fetchProductsFrom(slug[0]));
-        }, 10000)
-        return timeout;
-      })
+  if (slug?.length === 2) {
+    return (
+      <UpdateCard id={slug[1]} collection={slug[0]} />
+    )
+  }
+  if (slug?.length === 1) {
+    let category: Category = "grocery";
+    switch (slug[0]) {
+      case "pooja":
+        category = "pooja"
+        break;
+      case "cosmetics":
+        category = "cosmetics"
+        break;
+      case "grocery":
+        category = "grocery"
+        break;
+      case "stationary":
+        category = "stationary"
+        break;
+      default:
+        break;
     }
-    if (slug?.length === 2) {
-      dispatch(getProduct({ id: slug[1], collection: slug[0] }))
-    }
-   return ()=>{
-    clearTimeout(timeout);
-   }
-  }, [slug,dispatch])
-  const isAdmin = user && user!.isAdmin;
+    return (
+      <Products category={category} />
+    )
+  }
+}
+
+
+/*
+ const isAdmin = user && user!.isAdmin;
   if (!isAdmin) {
     setTimeout(() => {
       router.back()
@@ -54,45 +60,4 @@ export default function Products({ params }: Context) {
       </div>
     )
   }
-
-  const loadingConditon = (single === null) || loading;
-  if (slug?.length === 2) {
-
-
-    return (
-      <div className='flex flex-row justify-center items-center h-80svh'>
-
-        {loadingConditon ? <div className='loader'></div> : <UpdateCard details={single} />}
-
-      </div>
-    )
-  }
-  if (slug?.length === 1) {
-    const loadingConditonA = (sub === null) || loading;
-    return (
-      <React.Fragment>
-        {loadingConditonA ? <div className="w-full h-screen">
-          <Loading />
-        </div> : <div className='grid md:grid-cols-4 place-items-center'>
-
-          {
-            sub.map((val: any) => <Card key={val.productId} details={val} category={slug[0]} />)
-          }
-
-
-        </div>
-
-        }
-        <div className=' fixed bottom-5 right-5'>
-
-          <IoMdAddCircle className=' text-4xl cursor-pointer'
-            onClick={onOpen} />
-        </div>
-        <> <AddProductModal isOpen={isOpen} onClose={onClose} onOpen={onOpen} sub={slug[0]} /></>
-
-
-      </React.Fragment>
-    )
-  }
-}
-
+  */

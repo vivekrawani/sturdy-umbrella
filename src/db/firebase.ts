@@ -6,6 +6,7 @@ import { getMessaging } from "firebase-admin/messaging";
 
 const uploadFile = async (file: File | null) => {
   if (file) {
+    console.log(file.name, file.type)
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
     const bucket = getStorage().bucket();
@@ -729,6 +730,28 @@ export const addImageToBannerCollection = async (file: File) => {
   const res = await dataRef.update({img_array : imageArray});
   return res;
 };
+
+// export const deleteFile = async()=>{
+//   initAdmin();
+//   const storage = getStorage();
+//   const deleteOptions = {
+//     ifGenerationMatch: generationMatchPrecondition,
+//   };
+//   async function deleteFile() {
+//     await storage.bucket(bucketName).file(fileName).delete(deleteOptions);
+  
+//     console.log(`gs://${bucketName}/${fileName} deleted`);
+//   }
+  
+//   deleteFile().catch(console.error);
+// }
+ 
+export const fetchSubcategories = async(sub : string)=>{
+const db = getFirestore();
+const ref = db.collection("Subcategories").doc(sub);
+const data = (await ref.get()).data();
+return data;
+}
 
 // export const copyDoc = async (
 //   collectionFrom: string,

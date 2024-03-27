@@ -10,6 +10,7 @@ export type Product = {
   description: string;
   inStock: number;
   nos?:number;
+  subCategory?:string;
 };
 
 export type OrderDetails = {
