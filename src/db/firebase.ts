@@ -747,6 +747,7 @@ export const addImageToBannerCollection = async (file: File) => {
 // }
  
 export const fetchSubcategories = async(sub : string)=>{
+  await initAdmin();
 const db = getFirestore();
 const ref = db.collection("Subcategories").doc(sub);
 const data = (await ref.get()).data();
