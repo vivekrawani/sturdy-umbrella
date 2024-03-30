@@ -70,42 +70,50 @@ export default function UpdateCard({ collection, id }: { collection: string, id:
     useEffect(() => {
         dispatch(getProduct({ id: id, collection: collection }))
     }, [dispatch, id, collection])
-
-    const { register, handleSubmit, formState: { errors }, control } = useForm<IFormInput>({
-        defaultValues: {
-            name,
+        console.log(name,
             description,
             inStock,
             price,
             discountedPrice,
-            isFeatured,
-        }
-    },)
-    const onSubmit = handleSubmit(async (data) => {
-        setLoading(true)
-        const paths = getStringBetween(pathname)
-        const sub = paths[2];
-        const _id = paths[3];
-        console.log(sub, _id, data);
-        const response = await axios.patch(`/api/products/${sub}/${_id}`, data,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-        setLoading(false)
-        onClose();
-        toast({
-            title: 'Update',
-            description: "Update was successful",
-            status: 'success',
-            duration: 5000,
-            isClosable: true,
-        })
-        router.push('/products/grocery');
-    })
+            isFeatured,)
+  
+    
     const formRef = useRef<HTMLFormElement>() as React.MutableRefObject<HTMLFormElement>;
-    const MyModal = () => (
+    const MyModal = () => {
+        const { register, handleSubmit, formState: { errors }, control } = useForm<IFormInput>({
+            defaultValues: {
+                name,
+                description,
+                inStock,
+                price,
+                discountedPrice,
+                isFeatured,
+            }
+        },)
+        const onSubmit = handleSubmit(async (data) => {
+            setLoading(true)
+            const paths = getStringBetween(pathname)
+            const sub = paths[2];
+            const _id = paths[3];
+            console.log(sub, _id, data);
+            const response = await axios.patch(`/api/products/${sub}/${_id}`, data,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
+            setLoading(false)
+            onClose();
+            toast({
+                title: 'Update',
+                description: "Update was successful",
+                status: 'success',
+                duration: 5000,
+                isClosable: true,
+            })
+            router.push('/products/grocery');
+        })
+        return (        
         <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
             <ModalContent>
@@ -163,7 +171,7 @@ export default function UpdateCard({ collection, id }: { collection: string, id:
                                 <FileUpload
                                     accept={'image/*'}
                                     register={register('file')}
-                                >
+                                    >
                                     <Button leftIcon={<Icon as={FiFile} />} >
                                         Upload
                                     </Button>
@@ -181,7 +189,8 @@ export default function UpdateCard({ collection, id }: { collection: string, id:
             </ModalContent>
         </Modal>
     )
-
+                                }
+    
     const handleDelete = async () => {
         setDeleteLoading(true)
         const paths = getStringBetween(pathname)
