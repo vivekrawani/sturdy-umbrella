@@ -86,6 +86,7 @@ export default function UpdateCard({ collection, id }: { collection: string, id:
         const paths = getStringBetween(pathname)
         const sub = paths[2];
         const _id = paths[3];
+        console.log(sub, _id, data);
         const response = await axios.patch(`/api/products/${sub}/${_id}`, data,
             {
                 headers: {

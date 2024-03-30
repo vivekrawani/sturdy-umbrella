@@ -49,7 +49,7 @@ export default function Products({ category }: { category: Category }) {
       if(subcategory === 'all'){
         return true;
       }
-      if(s.subCategory){
+      if(s.category === subcategory){
         return true;
       }
     })

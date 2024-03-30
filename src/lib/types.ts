@@ -11,6 +11,7 @@ export type Product = {
   inStock: number;
   nos?:number;
   subCategory?:string;
+  category?:string;
 };
 
 export type OrderDetails = {
