@@ -1,6 +1,8 @@
 import { getBanner } from "@/db/firebase";
 import { Image } from "@chakra-ui/react";
 import AddBanner from "./AddBanner";
+import DeleteBanner from "./DeleteBanner";
+import ChangeOrder from "./ChangeOrder";
 
 export default async function Banners() {
  const banners =  await getBanner();
@@ -13,6 +15,8 @@ export default async function Banners() {
         }
       </div>
       <div>
+        <DeleteBanner/>
+        <ChangeOrder/>
       <AddBanner/>
         
       </div>
