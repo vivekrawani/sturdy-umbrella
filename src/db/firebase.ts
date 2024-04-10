@@ -697,10 +697,10 @@ export const getBanner = async () => {
     const res = await imgArrayRef.get();
     const imageArray: string[] = res.data()!.img_array;
     return imageArray;
-    
+
   } catch (error) {
     console.log(error);
-    const res : string [] = [];
+    const res: string[] = [];
     return res;
   }
   // const newImage = "https://images.unsplash.com/photo-1705651460796-f4b4d74c9fea?q=80&w=1893&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
@@ -737,16 +737,34 @@ export const addImageToBannerCollection = async (file: File) => {
   return res;
 };
 
-export const deleteBanner = async(index : number)=>{
+export const deleteBanner = async (index: number) => {
   initAdmin();
   const db = getFirestore();
   const dataRef = db.collection("img").doc("img")
   const result = (await dataRef.get()).data();
-  const imageArray : string [] = result?.img_array;
-  const filteredArray = imageArray.filter((_val, i)=> i != (index));
+  const imageArray: string[] = result?.img_array;
+  const filteredArray = imageArray.filter((_val, i) => i != (index));
   const res = await dataRef.update({ img_array: filteredArray });
   return res;
-  
+}
+
+import { Position } from "@/lib/constants";
+export const changeOrder = async (index: number, position: Position) => {
+  initAdmin();
+  const db = getFirestore();
+  const dataRef = db.collection("img").doc("img")
+  const result = (await dataRef.get()).data();
+  const imageArray: string[] = result?.img_array;
+  const imageUrl = imageArray[index];
+  const filteredArray = imageArray.filter((_val, i) => i != (index));
+  if (position == Position.FIRST) {
+    filteredArray.unshift(imageUrl);
+  } else {
+    filteredArray.push(imageUrl);
+  }
+  const res = await dataRef.update({ img_array: filteredArray });
+  return res;
+
 }
 // export const deleteFile = async()=>{
 //   initAdmin();
@@ -770,6 +788,7 @@ export const fetchSubcategories = async (sub: string) => {
   const data = (await ref.get()).data();
   return data;
 }
+
 
 // export const copyDoc = async (
 //   collectionFrom: string,

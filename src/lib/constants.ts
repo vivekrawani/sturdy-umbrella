@@ -11,3 +11,8 @@ export enum OrderType {
     PAST = "Past Order", 
     PENDING = "Pending Order",
 }
+
+export enum Position {
+    FIRST, 
+    LAST
+}

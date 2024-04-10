@@ -32,7 +32,7 @@ export default function Banners() {
       </div>
       <div>
         <DeleteBanner n={n} />
-        <ChangeOrder />
+        <ChangeOrder n={n} />
         <AddBanner />
       </div>
     </div>

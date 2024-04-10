@@ -1,6 +1,7 @@
 "use server";
-import { getBanner } from "@/db/firebase";
+import { changeOrder, getBanner } from "@/db/firebase";
 import { deleteBanner } from "@/db/firebase"
+import { Position } from "@/lib/constants";
 export const deleteBannerAction = async (index: number) => {
     try {
 
@@ -24,3 +25,20 @@ export const getBannersAction = async () => {
     return data;
 }
 
+export const changeOrderAction = async (index: number, position: Position) => {
+    try {
+        await changeOrder(index, position);
+        return {
+            success: true,
+            message: "Position Changed!"
+        }
+
+    } catch (error) {
+        console.log(error);
+        return {
+            success: false,
+            message: "Something went wrong!"
+        }
+    }
+
+}
