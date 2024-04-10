@@ -1,4 +1,4 @@
-export const dynamic = 'auto'
+export const dynamic = 'force-dynamic'
 import { getBanner } from "@/db/firebase";
 import { Image } from "@chakra-ui/react";
 import AddBanner from "./AddBanner";
