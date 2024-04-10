@@ -112,7 +112,7 @@ export default function Navbar() {
 				<Link className="text-3xl font-bold leading-none pb-1 pl-1" href="/">
 				<Image src={'/jb.png'} width={150} height={150} alt='' className="rounded-lg"/>
 				</Link>
-				<div className="md:hidden">
+				<div className="lg:hidden">
 					<button className="navbar-burger flex items-center text-blue-600 p-3"
 						onClick={(e) => {
 							setOpen(true);
