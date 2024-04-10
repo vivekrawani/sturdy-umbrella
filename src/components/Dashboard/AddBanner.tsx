@@ -15,7 +15,7 @@ export default function AddBanner() {
     const user = useAppSelector(state => state.authReducer.user);
     const [isPosting, setIsPosting] = useState<boolean>(false)
     const formRef = useRef<HTMLFormElement>(null)
-
+    const router = useRouter();
     const onSubmit = async (e: any) => {
         e.preventDefault()
         setIsPosting(true);
@@ -39,7 +39,7 @@ export default function AddBanner() {
             duration: 5000,
             isClosable: true,
         },)
-        window.location.reload();
+        router.push("/dashboard");
 
         }
        

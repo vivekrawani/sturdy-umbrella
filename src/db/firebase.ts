@@ -693,12 +693,19 @@ export const getBanner = async () => {
   await initAdmin();
   const db = getFirestore();
   const imgArrayRef = db.collection("img").doc("img");
-  const res = await imgArrayRef.get();
-  const imageArray: string[] = res.data()!.img_array;
+  try {
+    const res = await imgArrayRef.get();
+    const imageArray: string[] = res.data()!.img_array;
+    return imageArray;
+    
+  } catch (error) {
+    console.log(error);
+    const res : string [] = [];
+    return res;
+  }
   // const newImage = "https://images.unsplash.com/photo-1705651460796-f4b4d74c9fea?q=80&w=1893&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
   // imageArray.push(newImage);
   // imgArrayRef.update({img_array : imageArray});
-  return imageArray;
 };
 
 export const getNotification = async () => {
@@ -723,14 +730,24 @@ export const addImageToBannerCollection = async (file: File) => {
   const db = getFirestore();
   const url = await uploadFile(file);
   const dataRef = db.collection("img").doc("img")
-  const result   = (await dataRef.get()).data();
+  const result = (await dataRef.get()).data();
   const imageArray = result?.img_array;
   imageArray.push(url);
-  console.log("Res", imageArray);
-  const res = await dataRef.update({img_array : imageArray});
+  const res = await dataRef.update({ img_array: imageArray });
   return res;
 };
 
+export const deleteBanner = async(index : number)=>{
+  initAdmin();
+  const db = getFirestore();
+  const dataRef = db.collection("img").doc("img")
+  const result = (await dataRef.get()).data();
+  const imageArray : string [] = result?.img_array;
+  const filteredArray = imageArray.filter((_val, i)=> i != (index));
+  const res = await dataRef.update({ img_array: filteredArray });
+  return res;
+  
+}
 // export const deleteFile = async()=>{
 //   initAdmin();
 //   const storage = getStorage();
@@ -739,19 +756,19 @@ export const addImageToBannerCollection = async (file: File) => {
 //   };
 //   async function deleteFile() {
 //     await storage.bucket(bucketName).file(fileName).delete(deleteOptions);
-  
+
 //     console.log(`gs://${bucketName}/${fileName} deleted`);
 //   }
-  
+
 //   deleteFile().catch(console.error);
 // }
- 
-export const fetchSubcategories = async(sub : string)=>{
+
+export const fetchSubcategories = async (sub: string) => {
   await initAdmin();
-const db = getFirestore();
-const ref = db.collection("Subcategories").doc(sub);
-const data = (await ref.get()).data();
-return data;
+  const db = getFirestore();
+  const ref = db.collection("Subcategories").doc(sub);
+  const data = (await ref.get()).data();
+  return data;
 }
 
 // export const copyDoc = async (
