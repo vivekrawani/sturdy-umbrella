@@ -1,18 +1,25 @@
 "use client";
 import { deleteBannerAction } from "@/app/actions";
-import { useRouter } from "next/navigation";
 import { MdDeleteForever } from "react-icons/md";
+import { useToast } from '@chakra-ui/react'
 
 export default function DeleteButton({ index }: { index: number }) {
-    const router = useRouter();
-    const handleClick = () => {
-        deleteBannerAction(index);
-        router.push("/dashboard");
+    const toast = useToast()
+    const handleClick = async () => {
+        const res = await deleteBannerAction(index);
+        toast({
+            title: res.message,
+            status: res.success ? 'success' : 'error',
+            duration: 5000,
+            position: 'top',
+        })
+
+        window.location.reload();
 
     }
     return (
         <div className="text-xl text-red-600 hover:cursor-pointer  hover:scale-150  duration-150 ease-in-out"
-            onClick={handleClick}>
+            onClick={e => handleClick()}>
             <MdDeleteForever />
         </div>
     )

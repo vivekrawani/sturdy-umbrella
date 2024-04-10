@@ -1,13 +1,20 @@
-export const dynamic = 'force-dynamic'
-import { getBanner } from "@/db/firebase";
+"use client";
 import { Image } from "@chakra-ui/react";
 import AddBanner from "./AddBanner";
 import DeleteBanner from "./DeleteBanner";
 import ChangeOrder from "./ChangeOrder";
 import DeleteButton from "./DeleteButton";
+import { useEffect, useState } from "react";
+import { getBannersAction } from "@/app/actions";
 
-export default async function Banners() {
-  const banners = await getBanner();
+export default function Banners() {
+  const [banners, setBanners] = useState<string[]>([]);
+
+  useEffect(() => {
+    getBannersAction().then(data => {
+      setBanners(data);
+    })
+  }, [])
   const n = banners.length;
   return (
     <div className="bg-white rounded-md shadow-md shadow-slate-900 p-4">

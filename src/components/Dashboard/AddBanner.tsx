@@ -39,7 +39,7 @@ export default function AddBanner() {
             duration: 5000,
             isClosable: true,
         },)
-        router.push("/dashboard");
+        window.location.reload();
 
         }
        
