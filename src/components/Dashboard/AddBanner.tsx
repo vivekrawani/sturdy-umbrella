@@ -21,28 +21,29 @@ export default function AddBanner() {
         setIsPosting(true);
         console.log(file);
         setIsPosting(false);
-       
-        if(formRef.current){
+
+        if (formRef.current) {
             const formData = new FormData(formRef.current);
             const res = await axios.post(`/api/banner`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                    Authorization : user?.token,
+                    Authorization: user?.token,
                 },
             })
             const data = res.data;
             console.log(data)
             setIsPosting(false);
-             toast({
-            title: 'Added New Banner',
-            status: 'success',
-            duration: 5000,
-            isClosable: true,
-        },)
-        window.location.reload();
+            toast({
+                title: 'Added New Banner',
+                status: 'success',
+                duration: 5000,
+                isClosable: true,
+            },)
+            setTimeout(() => { window.location.reload(); }, 3000)
+
 
         }
-       
+
 
 
 

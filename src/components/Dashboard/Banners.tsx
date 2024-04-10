@@ -34,9 +34,7 @@ export default function Banners() {
         <DeleteBanner n={n} />
         <ChangeOrder />
         <AddBanner />
-
       </div>
-      <div>{JSON.stringify(new Date())}</div>
     </div>
   )
 }
