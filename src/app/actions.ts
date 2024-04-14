@@ -1,5 +1,5 @@
 "use server";
-import { changeOrder, getBanner } from "@/db/firebase";
+import { changeOrder, getBanner, getOrdersFromDb, sendPushMessage } from "@/db/firebase";
 import { deleteBanner } from "@/db/firebase"
 import { Position } from "@/lib/constants";
 export const deleteBannerAction = async (index: number) => {
@@ -41,4 +41,24 @@ export const changeOrderAction = async (index: number, position: Position) => {
         }
     }
 
+}
+
+export const sendPushMessageAction =
+    (userId: string, title: string, body: string) => {
+        try {
+            sendPushMessage(userId, title, body);
+            console.log("Done")
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
+type OrderType = "newOrders" | "pastOrders";
+export const getOrdersAction = async (orderType: OrderType) => {
+    try {
+        const res = await getOrdersFromDb(orderType);
+        return res;
+    } catch (error) {
+        console.log(error)
+    }
 }

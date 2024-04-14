@@ -19,6 +19,7 @@ export default function Orders({ orderType }: { orderType: OrderType }) {
   const loading = useAppSelector(state => state.orderReducers.loading)
   const user = useAppSelector(state => state.authReducer.user);
   const router = useRouter();
+
   useEffect(() => {
     if(orderType === OrderType.PAST) {
       dispatch(getPastOrders(user?.token))
@@ -38,7 +39,7 @@ export default function Orders({ orderType }: { orderType: OrderType }) {
       clearTimeout(interval);
     }
   }, [dispatch, user, orderType])
-  const [orders, setOrders] = useState<Order[]>(data);
+  const [orders, setOrders] = useState<any[]>(data);
   const [range, setRange] = useState('all')
   useEffect(() => {
     let currentDate = new Date();
@@ -89,7 +90,6 @@ export default function Orders({ orderType }: { orderType: OrderType }) {
         }}>
           <option value="all">All</option>
           <option value="today">Today</option>
-          {/* <option value="yesterday">Yesterday</option> */}
           <option value="week">Past 7 days</option>
         </select>
       </div>

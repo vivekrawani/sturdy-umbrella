@@ -12,6 +12,7 @@ import {
     useDisclosure,
 } from '@chakra-ui/react'
 import axios from 'axios';
+import SendPushMessage from './sendPush';
 const api = process.env.NEXT_PUBLIC_FIREBASE_funapi;
 
 export default function SendNotificationBtn() {
@@ -84,10 +85,14 @@ export default function SendNotificationBtn() {
         }
     }
     return (
-        <div className="py-2 text-white text-[3rem] font-bold rounded-xl transition duration-500"
-            onClick={handleClick}
-        ><IoIosNotificationsOutline className="text-3xl rounded-full bg-yellow-500 hover:animate-wiggle duration-150" />
-            {isOpen && <MyModal />}
-        </div>
+        <>
+            <div className="py-2 text-white text-[3rem] font-bold rounded-xl transition duration-500"
+                onClick={handleClick}
+            ><IoIosNotificationsOutline className="text-3xl rounded-full bg-yellow-500 hover:animate-wiggle duration-150" />
+                {isOpen && <MyModal />}
+
+            </div>
+            <SendPushMessage />
+        </>
     )
 }

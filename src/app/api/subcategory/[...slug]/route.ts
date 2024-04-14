@@ -10,7 +10,6 @@ export const GET = async(req : NextRequest, ctx : Context)=>{
     try {
         
         const data = await fetchSubcategories(sub);
-        console.log(sub, data);
         return NextResponse.json(data);
     } catch (error) {
        console.log(error); 

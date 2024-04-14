@@ -19,7 +19,6 @@ export default function AddBanner() {
     const onSubmit = async (e: any) => {
         e.preventDefault()
         setIsPosting(true);
-        console.log(file);
         setIsPosting(false);
 
         if (formRef.current) {
@@ -31,7 +30,7 @@ export default function AddBanner() {
                 },
             })
             const data = res.data;
-            console.log(data)
+
             setIsPosting(false);
             toast({
                 title: 'Added New Banner',

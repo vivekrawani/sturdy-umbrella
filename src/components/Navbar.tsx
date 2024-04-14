@@ -1,7 +1,7 @@
-"use client"
+"use client";
 import { usePathname } from "next/navigation"
 import { FcDoughnutChart } from "react-icons/fc";
-import {  useState } from "react";
+import { useState } from "react";
 import { IoEllipsisVerticalSharp } from "react-icons/io5";
 import Link from 'next/link'
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -69,7 +69,7 @@ export default function Navbar() {
 				</div>
 				<div>
 					{
-						 links.map((link) => <Link key={link.name}
+						links.map((link) => <Link key={link.name}
 							className="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded mb-1 " href={link.href}
 							onClick={() => { setOpen(false) }}
 						>{link.name}</Link>
@@ -102,8 +102,8 @@ export default function Navbar() {
 			</nav >
 		</div >
 	)
-	if(!isAdmin) {
-		return(<></>);
+	if (!isAdmin) {
+		return (<></>);
 	}
 	return (
 		<div className=" sticky top-0 z-50 bg-black bg-opacity-70 ">
@@ -125,7 +125,7 @@ export default function Navbar() {
 
 				<div className="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 md:flex md:mx-auto md:items-center md:w-auto md:space-x-6">
 					{
-						  user && user.isAdmin && links.map((link, index) => {
+						user && user.isAdmin && links.map((link, index) => {
 							const isActive = pathname.includes(link.href)
 							const ll = isActive ?
 								<Link className="text-sm text-blue-600 font-bold mr-5" href={link.href}>{link.name}</Link> :

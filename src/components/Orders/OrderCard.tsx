@@ -10,17 +10,25 @@ import { OrderAction } from '@/lib/constants';
 import { useDisclosure } from '@chakra-ui/react'
 import Dialog from '@/components/Orders/Dialog'
 import { genrateReceipt } from '@/lib/utils';
-export default function OrderCard({ details }: { details: OrderDetails | null }) {
-    const { userName, mobileNumber, address, pincode, amount, isAccepted, isDelivered, payment, products, orderId, time, userId, orderAcceptTime, deliverTime, orderTime } = details ?? { userName: '', address: '', orderId: '', userId: '' };
+export default function OrderCard({ details }: { details: any }) {
+    const { userName, mobileNumber, address, pincode, amount, isAccepted, isDelivered, payment, products, orderId, time, userId, orderAcceptTime, deliveryTime, orderTime, houseNo, city, landmark } = details ?? { userName: '', address: '', orderId: '', userId: '' };
+    const fullAddress = `
+                House Number : ${houseNo}, \n
+                Address : ${address}, \n
+                City : ${city},\n
+                Landmark : ${landmark} \n
 
+
+    `;
+  
     const isPending = (isAccepted) && (!isDelivered);
     const isNew = (!isAccepted) && (!isDelivered);
     const isPast = isAccepted && isDelivered
     let orderStatus = isPending ? OrderAction.CONFIRM_ORDER : OrderAction.ACCEPT_ORDER;
-    const orderAcceptTimeF = orderAcceptTime ? format(orderAcceptTime, "PPp") : '';
-    const deliverTimeF = deliverTime ? format(deliverTime, "PPp") : '';
+    const orderAcceptTimeF =  orderAcceptTime   ? format(orderAcceptTime, "PPp") : '';
+    const deliverTimeF = deliveryTime   ? format(deliveryTime, "PPp") : '';
 
-    const orderTimeF = orderTime ? format(orderTime, "PPp") : '';
+    const orderTimeF =  orderTime ? format( orderTime, "PPp") : '';
     const { isOpen, onOpen, onClose } = useDisclosure()
     const { isOpen: isOpenD, onOpen: onOpenD, onClose: onCloseD } = useDisclosure()
     return (
@@ -42,7 +50,7 @@ export default function OrderCard({ details }: { details: OrderDetails | null })
             <div className='flex flex-col'>
                 <div>SHIP TO</div>
 
-                <div className='flex items-center  gap-1'>{userName} <Tooltip name={userName} address={address} /></div>
+                <div className='flex items-center  gap-1'>{userName} <Tooltip name={userName} address={fullAddress} /></div>
             </div>
             <div className='flex flex-col col-span-2'>
                 <div> ORDER # {orderId}</div>

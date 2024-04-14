@@ -6,7 +6,6 @@ import { getMessaging } from "firebase-admin/messaging";
 
 const uploadFile = async (file: File | null) => {
   if (file) {
-    console.log(file.name, file.type)
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
     const bucket = getStorage().bucket();
@@ -166,7 +165,6 @@ export async function getDocWithId(_id: string) {
   });
   return results;
 }
-
 export async function getAllProduct() {
   await initAdmin();
   const firestore = getFirestore();
@@ -185,7 +183,6 @@ export async function getAllProduct() {
   });
   return results;
 }
-
 type Product = {
   imageUrl: string;
   name: string;
@@ -193,14 +190,12 @@ type Product = {
   count?: number;
   discountedPrice: number;
 };
-
 import type { OrderDetails } from "@/lib/types";
 import { format } from "date-fns";
-
 export const getData = async () => {
   await initAdmin();
   const db = getFirestore();
-  const orders: OrderDetails[] = [];
+  const orders = [];
   const newOrdersRef = db.collection("orders").doc("newOrders");
   const snap = await newOrdersRef.listCollections();
   for (let i = 0; i < snap.length; i++) {
@@ -208,63 +203,57 @@ export const getData = async () => {
     const subRef = newOrdersRef.collection(element.id);
     const subCollections = await subRef.listDocuments();
     const orderId = element.id;
-
     const len = subCollections.length;
-    // for (let j = 0; j < len - 1; j++) {
-    //   const inElement = subCollections[j];
-    //   const sub = await inElement.get();
-    //   const product = (await subRef.doc(sub.id).get()).data();
-    //   const name = product!.name;
-    //   const imageUrl = product!.imageUrl;
-    //   const price = product!.price;
-    //   const count = product!.nos;
-    //   const discountedPrice = product!.discountedPrice;
-    //   const finalProduct: Product = {
-    //     name,
-    //     imageUrl,
-    //     price,
-    //     count,
-    //     discountedPrice,
-    //   };
-    //   products.push(finalProduct);
-    // }
-    const ref = await subCollections[len - 1].get();
-    const data = (await subRef.doc(ref.id).get()).data();
+    const products: Product[] = [];
+    let details: any = {};
+    for (let j = 0; j < len; j++) {
+      const inElement = subCollections[j];
+      const id__ = inElement.id;
+      if (id__ == 'orderDetails') {
+        const sub = await inElement.get();
+        const data = (await subRef.doc(sub.id).get()).data();
+        details = {
+          ...details, userName: data!.userName,
+          mobileNumber: data!.mobileNumber,
+          amount: data!.amount,
+          isAccepted: data!.isAccepted,
+          isDelivered: data!.isDelivered,
+          payment: data!.payment,
+          gst: data!.gst,
+          time: data!.time,
+          orderTime: data!.orderTime?.toDate(),
+          userId: data!.userId,
+          orderAcceptTime: data!.orderAcceptTime,
+          pincode: data!.pincode,
+          address: data!.address,
+          city: data!.city,
+          houseNo: data!.houseNo,
+          landmark: data!.landmark,
+        }
+      } else {
+        const sub = await inElement.get();
+        const product = (await subRef.doc(sub.id).get()).data();
+        const name = product!.name;
+        const imageUrl = product!.imageUrl;
+        const price = product!.price;
+        const count = product!.nos;
+        const discountedPrice = product!.discountedPrice;
+        const finalProduct: Product = {
+          name,
+          imageUrl,
+          price,
+          count,
+          discountedPrice,
+        };
+        products.push(finalProduct);
+      }
+    }
 
-    const userName = data!.userName;
-    const mobileNumber = data!.mobileNumber;
-    const address = data!.address;
-    const pincode = data!.pincode;
-    const amount = data!.amount;
-    const isAccepted = data!.isAccepted;
-    const isDelivered = data!.isDelivered;
-    const payment = data!.payment;
-    const gst = data!.gst;
-    const time = data!.time;
-    const orderTime = data!.orderTime?.toDate();
-    const userId = data!.userId;
-    const orderAcceptTime = data!.orderAcceptTime;
+    details.products = products;
+    details.orderId = orderId;
 
-    const Order: OrderDetails = {
-      userName,
-      mobileNumber,
-      address,
-      pincode,
-      amount,
-      isAccepted,
-      isDelivered,
-      payment,
-      orderId,
-      gst,
-      time,
-      orderTime,
-      userId,
-      orderAcceptTime,
-    };
-
-    orders.push(Order);
+    orders.push(details);
   }
-
   return orders;
 };
 
@@ -552,6 +541,75 @@ export const deleteProduct = async (collectionName: string, id_: string) => {
   const res = await snapshot.delete();
   return res;
 };
+
+type OrderType = "newOrders" | "pastOrders";
+export const getOrdersFromDb = async (orderType: OrderType) => {
+  await initAdmin();
+  const db = getFirestore();
+  const newOrdersRef = db.collection("orders").doc(orderType);
+  const orders: any[] = [];
+  const snap = await newOrdersRef.listCollections();
+  for (let i = 0; i < snap.length; i++) {
+    const element = snap[i];
+    const subRef = newOrdersRef.collection(element.id);
+    const subCollections = await subRef.listDocuments();
+    const orderId = element.id;
+    const len = subCollections.length;
+    const products: any[] = [];
+    let details: any = {};
+    for (let j = 0; j < len; j++) {
+      const inElement = subCollections[j];
+      const id__ = inElement.id;
+      if (id__ == "orderDetails") {
+        const sub = await inElement.get();
+        const data = (await subRef.doc(sub.id).get()).data();
+        console.log(data);
+        details = {
+          ...details, userName: data?.userName,
+          mobileNumber: data?.mobileNumber,
+          amount: data?.amount,
+          isAccepted: data?.isAccepted,
+          isDelivered: data?.isDelivered,
+          payment: data?.payment,
+          gst: data?.gst,
+          time: data?.time,
+          orderTime: data?.orderTime?.toDate()?.toString(),
+          userId: data?.userId,
+          orderAcceptTime: data?.orderAcceptTime?.toDate()?.toString(),
+          pincode: data?.pincode,
+          address: data?.address,
+          city: data?.city,
+          houseNo: data?.houseNo,
+          landmark: data?.landmark,
+          deliveryTime : data?.deliveryTime?.toDate()?.toString(),
+        };
+      } else {
+        const sub = await inElement.get();
+        const product = (await subRef.doc(sub.id).get()).data();
+        const name = product?.name;
+        const imageUrl = product?.imageUrl;
+        const price = product?.price;
+        const count = product?.nos;
+        const discountedPrice = product?.discountedPrice;
+        const finalProduct = {
+          name,
+          imageUrl,
+          price,
+          count,
+          discountedPrice,
+        };
+        products.push(finalProduct);
+      }
+    }
+
+    details.products = products;
+    details.orderId = orderId;
+
+    orders.push(details);
+  }
+  return orders;
+}
+
 
 export const getPastOrders = async () => {
   await initAdmin();

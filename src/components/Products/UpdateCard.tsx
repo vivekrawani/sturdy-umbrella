@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image";
+import {Image} from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react"
 import { FiFile } from 'react-icons/fi';
 import FileUpload from '../FileUpload'
@@ -70,14 +70,9 @@ export default function UpdateCard({ collection, id }: { collection: string, id:
     useEffect(() => {
         dispatch(getProduct({ id: id, collection: collection }))
     }, [dispatch, id, collection])
-        console.log(name,
-            description,
-            inStock,
-            price,
-            discountedPrice,
-            isFeatured,)
-  
-    
+   
+
+
     const formRef = useRef<HTMLFormElement>() as React.MutableRefObject<HTMLFormElement>;
     const MyModal = () => {
         const { register, handleSubmit, formState: { errors }, control } = useForm<IFormInput>({
@@ -95,7 +90,6 @@ export default function UpdateCard({ collection, id }: { collection: string, id:
             const paths = getStringBetween(pathname)
             const sub = paths[2];
             const _id = paths[3];
-            console.log(sub, _id, data);
             const response = await axios.patch(`/api/products/${sub}/${_id}`, data,
                 {
                     headers: {
@@ -113,84 +107,84 @@ export default function UpdateCard({ collection, id }: { collection: string, id:
             })
             router.push('/products/grocery');
         })
-        return (        
-        <Modal isOpen={isOpen} onClose={onClose}>
-            <ModalOverlay />
-            <ModalContent>
-                <ModalHeader>Update Details</ModalHeader>
-                <ModalCloseButton />
-                <form onSubmit={onSubmit} >
-                    <ModalBody>
-                        <FormControl isInvalid={!!errors.file}>
-                            <div className="grid grid-cols-3">
-                                <label htmlFor="name" className="py-4">Name</label>
-                                <input type="text" id="name"
-                                    className="w-full px-4 py-3 col-span-2 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none "
-                                    {...register("name")}
-                                />
-                                <label htmlFor="price" className="py-4">Price</label>
-                                <input type="number" id="price" min={0}
-                                    className="w-full px-4 py-3 col-span-2 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none "
-                                    {...register("price")}
-                                />
-                                <label htmlFor="discountedPrice" className="py-4">Discounted Price</label>
-                                <input type="number" id="discountedPrice" min={0}
-                                    className="w-full px-4 py-3 col-span-2 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none "
-                                    {...register("discountedPrice")}
-                                />
-                                <label htmlFor="inStock" className="py-4">In Stock</label>
-                                {/* <input type="number" id="inStock" min={0}
+        return (
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Update Details</ModalHeader>
+                    <ModalCloseButton />
+                    <form onSubmit={onSubmit} >
+                        <ModalBody>
+                            <FormControl isInvalid={!!errors.file}>
+                                <div className="grid grid-cols-3">
+                                    <label htmlFor="name" className="py-4">Name</label>
+                                    <input type="text" id="name"
+                                        className="w-full px-4 py-3 col-span-2 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none "
+                                        {...register("name")}
+                                    />
+                                    <label htmlFor="price" className="py-4">Price</label>
+                                    <input type="number" id="price" min={0}
+                                        className="w-full px-4 py-3 col-span-2 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none "
+                                        {...register("price")}
+                                    />
+                                    <label htmlFor="discountedPrice" className="py-4">Discounted Price</label>
+                                    <input type="number" id="discountedPrice" min={0}
+                                        className="w-full px-4 py-3 col-span-2 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none "
+                                        {...register("discountedPrice")}
+                                    />
+                                    <label htmlFor="inStock" className="py-4">In Stock</label>
+                                    {/* <input type="number" id="inStock" min={0}
                                         className="w-full px-4 py-3 col-span-2 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none "
                                         {...register("inStock")}
                                     /> */}
-                                <div className="w-full px-4 py-1 col-span-2 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none">
+                                    <div className="w-full px-4 py-1 col-span-2 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none">
 
-                                    <NumberInput min={0}>
-                                        <NumberInputField className="focus:bg-white focus:outline-none"  {...register("inStock")} />
-                                        <NumberInputStepper>
-                                            <NumberIncrementStepper />
-                                            <NumberDecrementStepper />
-                                        </NumberInputStepper>
-                                    </NumberInput>
+                                        <NumberInput min={0}>
+                                            <NumberInputField className="focus:bg-white focus:outline-none"  {...register("inStock")} />
+                                            <NumberInputStepper>
+                                                <NumberIncrementStepper />
+                                                <NumberDecrementStepper />
+                                            </NumberInputStepper>
+                                        </NumberInput>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="flex flex-col gap-5">
-                                <label htmlFor="description">Description</label>
-                                <Textarea
-                                    size={'sm'}
-                                    {...register("description")} />
-                                <label className="flex items-center relative w-max cursor-pointer select-none">
-                                    <span className=" mr-3">Is Featured</span>
-                                    <input type="checkbox"
-                                        {...register("isFeatured")}
-                                        className="appearance-none transition-colors cursor-pointer w-14 h-7 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-blue-500 bg-red-500" />
-                                    <span className="absolute font-medium text-xs uppercase right-1 text-white"> OFF </span>
-                                    <span className="absolute font-medium text-xs uppercase right-8 text-white"> ON </span>
-                                    <span className="w-7 h-7 right-7 absolute rounded-full transform transition-transform bg-gray-200" />
-                                </label>
-                                <FileUpload
-                                    accept={'image/*'}
-                                    register={register('file')}
+                                <div className="flex flex-col gap-5">
+                                    <label htmlFor="description">Description</label>
+                                    <Textarea
+                                        size={'sm'}
+                                        {...register("description")} />
+                                    <label className="flex items-center relative w-max cursor-pointer select-none">
+                                        <span className=" mr-3">Is Featured</span>
+                                        <input type="checkbox"
+                                            {...register("isFeatured")}
+                                            className="appearance-none transition-colors cursor-pointer w-14 h-7 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-blue-500 bg-red-500" />
+                                        <span className="absolute font-medium text-xs uppercase right-1 text-white"> OFF </span>
+                                        <span className="absolute font-medium text-xs uppercase right-8 text-white"> ON </span>
+                                        <span className="w-7 h-7 right-7 absolute rounded-full transform transition-transform bg-gray-200" />
+                                    </label>
+                                    <FileUpload
+                                        accept={'image/*'}
+                                        register={register('file')}
                                     >
-                                    <Button leftIcon={<Icon as={FiFile} />} >
-                                        Upload
-                                    </Button>
-                                </FileUpload>
-                            </div>
-                        </FormControl>
-                    </ModalBody>
-                    <ModalFooter>
-                        <Button colorScheme='blue' mr={3} type='submit' isLoading={loading} >
-                            Submit
-                        </Button>
-                        <Button variant='ghost' onClick={onClose}>Close</Button>
-                    </ModalFooter>
-                </form>
-            </ModalContent>
-        </Modal>
-    )
-                                }
-    
+                                        <Button leftIcon={<Icon as={FiFile} />} >
+                                            Upload
+                                        </Button>
+                                    </FileUpload>
+                                </div>
+                            </FormControl>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button colorScheme='blue' mr={3} type='submit' isLoading={loading} >
+                                Submit
+                            </Button>
+                            <Button variant='ghost' onClick={onClose}>Close</Button>
+                        </ModalFooter>
+                    </form>
+                </ModalContent>
+            </Modal>
+        )
+    }
+
     const handleDelete = async () => {
         setDeleteLoading(true)
         const paths = getStringBetween(pathname)
@@ -242,9 +236,9 @@ export default function UpdateCard({ collection, id }: { collection: string, id:
             {loadingConditon ? <div className='loader'></div> :
                 <div className="grid grid-cols-2 justify-around  md:w-1/2  m-4 bg-white rounded-3xl py-4 mx-4">
                     <div className=" h-max-32 w-max-32 p-2 rounded-full ">
+
                         <Image src={imageUrl}
-                            width={250}
-                            height={250}
+                            boxSize='250px'
                             alt={name} />
                     </div>
                     <div className="flex flex-col justify-around">
