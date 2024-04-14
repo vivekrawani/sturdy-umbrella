@@ -33,14 +33,14 @@ const getOrders = createAsyncThunk("/api/orders", async (payload:any, _thunkAPI:
   try {
     
     const token = payload;
-    const data =await getOrdersAction("newOrders");
-    // const data = (
-    //   await axios.get(`${api}/orders/newOrders`, {
-    //     headers: {
-    //       Authorization: token,
-    //     },
-    //   })
-    // ).data;
+    // const data =await getOrdersAction("newOrders");
+    const data = (
+      await axios.get(`${api}/orders/newOrders`, {
+        headers: {
+          Authorization: token,
+        },
+      })
+    ).data;
     return data;
   } catch (error: any) {
     console.log("Errorsss", error);
@@ -54,12 +54,12 @@ const getPastOrders = createAsyncThunk(
 
     try {
       // const data = (await axios.get(`/api/orders/past`)).data;
-      // const data = (await axios.get(`${api}/orders/pastOrders`, {
-      //   headers: {
-      //     Authorization: payload,
-      //   },
-      // })).data;
-      const data = await getOrdersAction("pastOrders");
+      const data = (await axios.get(`${api}/orders/pastOrders`, {
+        headers: {
+          Authorization: payload,
+        },
+      })).data;
+      // const data = await getOrdersAction("pastOrders");
       return data;
     } catch (error: any) {
       console.log("Errorsss", error);
