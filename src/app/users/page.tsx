@@ -1,10 +1,11 @@
-import UsersTable from "@/components/Users/UsersTable";
+
+import UsersTable2 from "@/components/Users/UsersTable2";
 import { getAllUsers } from "@/db/firebase";
 
 export default async function Users() {
-  const data  =await getAllUsers();
+  const users  =await getAllUsers();
   return (
-     <UsersTable data={data}/>
+     <UsersTable2 users={users}/>
   )
 }
 

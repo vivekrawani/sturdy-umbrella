@@ -100,3 +100,10 @@ input:checked ~ span:last-child {
   border: 0x solid #555;
 }
 
+@layer components {
+  .pagination-btn {
+    @apply rounded-md bg-white hover:bg-[#667eea] text-black hover:text-white py-2 px-3
+        transition-all duration-100 ease-out border-2;
+    ;
+  }
+}
