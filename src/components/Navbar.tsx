@@ -51,6 +51,10 @@ export default function Navbar() {
 	const [open, setOpen] = useState(false);
 	const [openSearch, setOpenSearch] = useState(false);
 	const isAdmin = user && user.isAdmin;
+	const [currentTab, setCurrentTab] = useState<string>('Home');
+	const handleLinkClick = (name: string) => {
+		setCurrentTab(name);
+	}
 
 
 	const menuModal = (
@@ -77,22 +81,25 @@ export default function Navbar() {
 					}
 				</div>
 				<div className="mt-auto">
-					<div className="pt-6">
+
+					<div>
 						{
 							user ?
-								<div
-									onClick={e => {
-										dispatch(gLogout())
-										router.push('/')
-									}}
-									className="block px-4 py-3 mb-3 text-xs text-center font-semibold leading-none bg-gray-50 hover:bg-gray-200 rounded-xl" ></div>
-								:
-								<Link
-									onClick={(e) => {
-										setOpen(false);
+								<div className="ml-auto mr-3 flex flex-col justify-center items-center gap-2 " >
+									<Image src={user.photoURL} width={35} height={30} alt={user.displayName} className="rounded-full" />
+									<button
+										onClick={e => {
+											dispatch(gLogout())
+											router.push('/')
+										}}
 
-									}}
-									className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-blue-600 hover:bg-blue-700  rounded-xl" href="/login">Login</Link>
+										className="bg-blue-400 text-white hover:bg-gray-100 py-2 px-6 text-sm hover:text-gray-900 font-bold  rounded-xl transition duration-200">Logout</button>
+
+
+								</div>
+								:
+								<Link className="hidden md:inline-block py-2 px-6 bg-blue-500 hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200"
+									href={'/login'} >Login</Link>
 						}
 					</div>
 					<p className="my-4 text-xs text-center text-gray-400">
@@ -110,7 +117,7 @@ export default function Navbar() {
 
 			<nav className="relative px-4 py-2 flex justify-between items-center bg-transparent backdrop-blur-lg ">
 				<Link className="text-3xl font-bold leading-none pb-1 pl-1" href="/">
-				<Image src={'/jb.png'} width={150} height={150} alt='' className="rounded-lg"/>
+					<Image src={'/jb.png'} width={150} height={150} alt='' className="rounded-lg" />
 				</Link>
 				<div className="lg:hidden">
 					<button className="navbar-burger flex items-center text-blue-600 p-3"
@@ -123,16 +130,20 @@ export default function Navbar() {
 				</div>
 
 
-				<div className="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 md:flex md:mx-auto md:items-center md:w-auto md:space-x-6">
+				<div className="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:items-center lg:w-auto lg:space-x-6">
 					{
 						user && user.isAdmin && links.map((link, index) => {
-							const isActive = pathname.includes(link.href)
-							const ll = isActive ?
-								<Link className="text-sm text-blue-600 font-bold mr-5" href={link.href}>{link.name}</Link> :
-								<Link className="text-sm text-gray-400 hover:text-gray-500 mr-5" href={link.href}>{link.name}</Link>
+							const isActive =link.name === currentTab;
+							// const ll = isActive ?
+							// 	<Link className="text-sm text-blue-600 font-bold mr-5" href={link.href}>{link.name}</Link> :
+							// 	<Link className="text-sm text-gray-400 hover:text-gray-500 mr-5" href={link.href}>{link.name}</Link>
 							return (
 								<div key={link.name} className="flex items-center">
-									{ll}
+									<Link className={`text-sm mr-5 ${isActive ? 'text-blue-600 font-bold' : 'text-gray-400 hover:text-gray-500'}  `}
+										href={link.href}
+										onClick={e=>{
+											setCurrentTab(link.name);
+										}}>{link.name}</Link>
 									{index !== (links.length - 1) && <IoEllipsisVerticalSharp className="text-gray-300" />}
 								</div>
 							)
@@ -144,7 +155,7 @@ export default function Navbar() {
 
 				{
 					user ?
-						<div className="hidden md:ml-auto md:mr-3 md:flex gap-2 " >
+						<div className="hidden lg:ml-auto lg:mr-3 lg:flex gap-2 " >
 							<button
 								onClick={e => {
 									dispatch(gLogout())
