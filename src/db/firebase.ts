@@ -224,7 +224,7 @@ export const getData = async () => {
           orderTime: data!.orderTime?.toDate(),
           userId: data!.userId,
           orderAcceptTime: data!.orderAcceptTime?.toDate(),
-          deliveryTime : data?.deliveryTime?.toDate(),
+          deliveryTime: data?.deliveryTime?.toDate(),
           pincode: data!.pincode,
           address: data!.address,
           city: data!.city,
@@ -582,7 +582,7 @@ export const getOrdersFromDb = async (orderType: OrderType) => {
           city: data?.city,
           houseNo: data?.houseNo,
           landmark: data?.landmark,
-          deliveryTime : data?.deliveryTime?.toDate()?.toString(),
+          deliveryTime: data?.deliveryTime?.toDate()?.toString(),
         };
       } else {
         const sub = await inElement.get();
@@ -846,6 +846,31 @@ export const fetchSubcategories = async (sub: string) => {
   const ref = db.collection("Subcategories").doc(sub);
   const data = (await ref.get()).data();
   return data;
+}
+
+export const getAllCoupons = async () => {
+  await initAdmin();
+  const db = getFirestore();
+  const snap = await db.collection("coupons").get();
+  const coupons : any[] = [];
+  snap.forEach((doc)=>{
+    coupons.push(doc.data())
+  })
+  return coupons;
+}
+
+export const addNewCoupon = async(data  : any)=>{
+  await initAdmin();
+  const db = getFirestore();
+  const res = await db.collection('coupons').doc(data.couponCode).set(data);
+  console.log(res)
+}
+
+export const deleteCoupon = async(id : string) =>{
+  await initAdmin();
+  const db = getFirestore();
+  const res = await db.collection('coupons').doc(id).delete()
+  console.log(res)
 }
 
 
