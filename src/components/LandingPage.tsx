@@ -1,7 +1,6 @@
 import React, { useRef } from 'react'
 import { APP_NAME, landing_page_text1 as text_1 } from '@/lib/constants'
 import Link from 'next/link';
-import { Image } from '@chakra-ui/react';
 import { TiMessage } from "react-icons/ti";
 import { FaInstagram, FaFacebookF, FaXTwitter, FaYoutube, FaTwitch, FaDiscord, FaPinterest, FaPinterestP, FaLinkedin } from "react-icons/fa6";
 export default function LandingPage() {

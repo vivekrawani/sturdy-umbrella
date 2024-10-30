@@ -37,6 +37,7 @@ const config: Config = {
         "middle" : "url(https://firebasestorage.googleapis.com/v0/b/johar-basket.appspot.com/o/images_for_website%2Fmiddle.jpg?alt=media&token=9ddafc98-4467-4d18-98c3-2e8cf3e47c47)",
         "right" : "url(https://firebasestorage.googleapis.com/v0/b/johar-basket.appspot.com/o/images_for_website%2Fright.jpg?alt=media&token=8d5b4f9d-ff2b-4bb8-80d1-22d4da7628e4)",
         "random-300x500" : "url(https://source.unsplash.com/random/300×500)",
+        "logo-2" : "url(/Logo-1.jpg)",
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",

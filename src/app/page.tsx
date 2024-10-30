@@ -9,10 +9,12 @@ export const metadata: Metadata = {
 import { Button, Image } from '@chakra-ui/react'
 import Link from 'next/link';
 import LandingPage from '@/components/LandingPage';
+import NewLandingPage from '@/components/NewLandingPage';
 export default function Home() {
   return (
     <>
-    <LandingPage/>
+    {/* <LandingPage/> */}
+    <NewLandingPage/>
     </>
   )
 }
