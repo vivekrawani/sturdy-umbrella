@@ -2,6 +2,7 @@
 import React, { useState, ChangeEvent } from 'react';
 import Menu from './Menu';
 import { FaSearch, FaUserAlt } from "react-icons/fa";
+import Link from 'next/link';
 
 
 const Header: React.FC = () => {
@@ -27,7 +28,13 @@ const Header: React.FC = () => {
         type="text"
         placeholder="Search anything"
       />
-      <FaUserAlt className="text-3xl ml-7" />
+    
+       <Link href='/login' className='rounded-2xl text-black font-semi-bold bg-johar-orange text-center pt-2'>
+       
+       <FaUserAlt className="text-3xl ml-7" />
+       SIGN UP</Link>
+                       
+      
 
       <div className="ml-7 text-2xl rounded-lg bg-[#ff4900] text-[white] px-5 py-2">
         User Name
