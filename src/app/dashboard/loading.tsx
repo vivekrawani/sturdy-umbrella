@@ -4,6 +4,5 @@ export default function loading() {
     <div className="w-full h-screen">
        <Loading/>
     </div>
-   
   )
 }
