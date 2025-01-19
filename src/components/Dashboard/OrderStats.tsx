@@ -18,6 +18,8 @@ const OrderStats = () => {
   const allStats = {
     Overall: {
       totalOrders: "1,234",
+      monthlyOrders: "450",
+      monthlyDelivered: "420",
       canceled: "56",
       delivered: "1,020",
       refunds: "24",
@@ -33,6 +35,8 @@ const OrderStats = () => {
     },
     Grocery: {
       totalOrders: "523",
+      monthlyOrders: "100",
+      monthlyDelivered: "420",
       canceled: "12",
       delivered: "490",
       refunds: "5",
@@ -48,6 +52,8 @@ const OrderStats = () => {
     },
     Stationary: {
       totalOrders: "210",
+      monthlyOrders: "86",
+      monthlyDelivered: "420",
       canceled: "4",
       delivered: "200",
       refunds: "2",
@@ -63,6 +69,8 @@ const OrderStats = () => {
     },
     Cosmetics: {
       totalOrders: "340",
+      monthlyOrders: "45",
+      monthlyDelivered: "420",
       canceled: "6",
       delivered: "320",
       refunds: "3",
@@ -78,6 +86,8 @@ const OrderStats = () => {
     },
     Pooja: {
       totalOrders: "161",
+      monthlyOrders: "800",
+      monthlyDelivered: "420",
       canceled: "2",
       delivered: "155",
       refunds: "1",
@@ -108,6 +118,8 @@ const OrderStats = () => {
 
   const statsInfo = [
     { title: "Total Orders", value: stats.totalOrders, icon: <FaShoppingCart className="text-blue-500" /> },
+    { title: "Monthly Orders", value: stats.monthlyOrders, icon: <FaShoppingCart className="text-orange-500" /> },
+    { title: "Monthly Delivery", value: stats.monthlyDelivered, icon: <FaTruck className="text-blue-400" /> },
     { title: "Canceled Orders", value: stats.canceled, icon: <FaTimesCircle className="text-gray-500" /> },
     { title: "Delivered Orders", value: stats.delivered, icon: <FaTruck className="text-yellow-500" /> },
     { title: "Pending Orders", value: stats.pendingOrders, icon: <FaHourglassHalf className="text-orange-500" /> },
