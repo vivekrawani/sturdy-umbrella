@@ -11,7 +11,6 @@ import Image from "next/image";
 import { gLogout } from "@/lib/features/auth/authSlice";
 import { useRouter } from 'next/navigation'
 
-
 const links = [
 	{
 		name: "Home",
@@ -55,8 +54,6 @@ export default function Navbar() {
 	const handleLinkClick = (name: string) => {
 		setCurrentTab(name);
 	}
-
-
 	const menuModal = (
 		<div className="navbar-menu relative z-50">
 			<div className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"></div>
@@ -81,7 +78,6 @@ export default function Navbar() {
 					}
 				</div>
 				<div className="mt-auto">
-
 					<div>
 						{
 							user ?
@@ -92,10 +88,7 @@ export default function Navbar() {
 											dispatch(gLogout())
 											router.push('/')
 										}}
-
 										className="bg-blue-400 text-white hover:bg-gray-100 py-2 px-6 text-sm hover:text-gray-900 font-bold  rounded-xl transition duration-200">Logout</button>
-
-
 								</div>
 								:
 								<Link className="hidden md:inline-block py-2 px-6 bg-blue-500 hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200"
@@ -114,11 +107,21 @@ export default function Navbar() {
 	}
 	return (
 		<div className=" sticky top-0 z-50 bg-black bg-opacity-70 ">
-
 			<nav className="relative px-4 py-2 flex justify-between items-center bg-transparent backdrop-blur-lg ">
-				<Link className="text-3xl font-bold leading-none pb-1 pl-1" href="/">
-					<Image src={'/jb.png'} width={150} height={150} alt='' className="rounded-lg" />
-				</Link>
+			<a href="/" className="text-3xl font-bold leading-none pb-1 pl-1">
+				<Image
+					src="/jb.png"
+					alt="Logo"
+					width={150}
+					height={150}
+					priority 
+					quality={75}
+					className="rounded-md" 
+				/>
+       		 </a>
+				{/* <Link className="text-3xl font-bold leading-none pb-1 pl-1" href="/">
+					<Image src={'/jb.png'} width={150} height={150} alt='' className="" />
+				</Link> */}
 				<div className="lg:hidden">
 					<button className="navbar-burger flex items-center text-blue-600 p-3"
 						onClick={(e) => {

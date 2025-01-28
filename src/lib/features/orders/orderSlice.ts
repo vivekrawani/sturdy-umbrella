@@ -29,24 +29,27 @@ const initialState: InitialState = {
   pastOrders: [],
 };
 
-const getOrders = createAsyncThunk("/api/orders", async (payload:any, _thunkAPI: any) => {
-  try {
-    
-    const token = payload;
-    // const data =await getOrdersAction("newOrders");
-    const data = (
-      await axios.get(`${api}/orders/newOrders`, {
+const getOrders = createAsyncThunk(
+  "/api/orders",
+  async (payload: any, { rejectWithValue }) => {
+    try {
+      const token = payload;
+      const response = await axios.get(`${api}/orders/newOrders`, {
         headers: {
           Authorization: token,
         },
-      })
-    ).data;
-    return data;
-  } catch (error: any) {
-    console.log("Errorsss", error);
-    _thunkAPI.rejectWithValue(error);
+        params: {
+          limit: 20, // Pagination example
+          sort: "orderTime:desc", // Request backend-sorted data
+        },
+      });
+      return response.data;
+    } catch (error: any) {
+      console.error("Error fetching orders:", error);
+      return rejectWithValue(error.response?.data?.message || "Unknown error");
+    }
   }
-});
+);
 
 const getPastOrders = createAsyncThunk(
   "/api/orders/past",

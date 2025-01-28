@@ -1,3 +1,5 @@
+//components/Products/UpdateCard.tsx
+
 "use client";
 import {Image} from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react"

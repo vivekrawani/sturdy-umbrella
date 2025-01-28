@@ -25,10 +25,12 @@ export default function OrderCard({ details }: { details: any }) {
     const isNew = (!isAccepted) && (!isDelivered);
     const isPast = isAccepted && isDelivered
     let orderStatus = isPending ? OrderAction.CONFIRM_ORDER : OrderAction.ACCEPT_ORDER;
-    const orderAcceptTimeF =  orderAcceptTime   ? format(orderAcceptTime, "PPp") : '';
+    const orderAcceptTimeF = orderAcceptTime 
+    ? (isNaN(new Date(orderAcceptTime).getTime()) ? '' : format(new Date(orderAcceptTime), "PPp"))
+    : '';
     const deliverTimeF = deliveryTime   ? format(deliveryTime, "PPp") : '';
 
-    const orderTimeF =  orderTime ? format( orderTime, "PPp") : '';
+    const orderTimeF = orderTime ? (isNaN(new Date(orderTime).getTime()) ? '' : format(new Date(orderTime), "PPp")) : '';
     const { isOpen, onOpen, onClose } = useDisclosure()
     const { isOpen: isOpenD, onOpen: onOpenD, onClose: onCloseD } = useDisclosure()
     return (

@@ -1,3 +1,5 @@
+//components/Orders/OrderDetailsCard.tsx
+
 import type { Product } from '@/lib/types'
 import { Image } from '@chakra-ui/react';
 type Props = {
@@ -12,7 +14,6 @@ const Card = ({ details }: Props) => {
             <div className='flex flex-col'>
                 <div className='text-black font-bold'>
                     {name}
-
                 </div>
                 <div className=' text-green-500'>
                     &#x20B9;{price} x {nos}

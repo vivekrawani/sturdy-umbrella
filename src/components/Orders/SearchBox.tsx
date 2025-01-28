@@ -2,9 +2,10 @@
 import { useAppSelector } from '@/lib/hooks'
 import React from 'react'
 import type { Product } from '@/lib/types';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { searchRegEx } from '@/lib/utils';
 import SmallProductCard from '../Products/SmallProductCard';
+import debounce from 'lodash/debounce';
 import {
   Modal,
   ModalOverlay,
@@ -14,26 +15,29 @@ import {
   ModalBody,
   ModalCloseButton,
 } from '@chakra-ui/react'
+import Products from '@/app/products/page';
 
 export default function SearchBox({ isOpen, onClose, onOpen }: { isOpen: boolean, onClose: () => void, onOpen: () => void }) {
   const sub = useAppSelector(state => state.productReducer.sub)
   const [inputVal, setInputVal] = useState<string>('');
-  const [filteredProduct, setFilteredProduct] = useState<Product[]>([]);
-  const handleChange = (e: any) => {
-    const query = e.target.value;
-    
-    setInputVal(query)
-    if (inputVal.length >= 2) {
-      const filteredProduct = searchRegEx(query, sub)
-      setFilteredProduct(filteredProduct)
-    }
-    if(!e.target.value){
-      setFilteredProduct([])
-    }
+  const [filteredProduct, setFilteredProduct] = useState<Product[]>([])
+
+const debouncedSearch = debounce((query: string) => {
+  if (query.length >= 1) {
+    const filteredProduct = searchRegEx(query, sub);
+    setFilteredProduct(filteredProduct);
+  } else {
+    setFilteredProduct([]);
   }
+}, 300); // Adjust the delay as needed
+
+const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const query = e.target.value;
+  setInputVal(query);
+  debouncedSearch(query);
+};
 
   return (
-
     <>
       <Modal isOpen={isOpen} onClose={onClose} size={'xl'} scrollBehavior='inside' >
         <ModalOverlay
