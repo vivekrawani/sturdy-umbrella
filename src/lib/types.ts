@@ -12,7 +12,8 @@ export type Product = {
   nos?:number;
   subCategory?:string;
   category?:string;
-};
+   details: Product | OrderDetails;
+  };
 
 export type OrderDetails = {
   address: string;

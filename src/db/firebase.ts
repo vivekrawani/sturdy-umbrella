@@ -475,10 +475,15 @@ export const searchByName = async (searchWord: string) => {
   const db = getFirestore();
   const collectionName = "grocery";
 
+  // const query = db
+  //   .collection(collectionName)
+  //   .where("name", ">=", searchWord) // >= to include partial matches
+  //   .where("name", "<", searchWord); // < to exclude exact matches and beyond
+
   const query = db
     .collection(collectionName)
-    .where("name", ">=", searchWord) // >= to include partial matches
-    .where("name", "<", searchWord); // < to exclude exact matches and beyond
+    .where("name", ">=", searchWord)
+    //.where("name", "<", searchWord + "\uf8ff"); 
 
   try {
     const snapshot = await query.get();

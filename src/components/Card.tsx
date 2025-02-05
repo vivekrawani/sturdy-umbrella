@@ -44,7 +44,7 @@ export default function Card({ details, category }: any) {
                     <div className="mt-3 flex items-center  gap-2">
                         <span className='text-sm font-bold'>In Stock</span>    <span className="text-sm">{inStock}</span>
                     </div>
-                    <p className="text-sm">{truncateString(description, 100)}</p>
+                    <p className="">{truncateString(description, 100)}</p>
                 </div>
             </Link>
         </div>

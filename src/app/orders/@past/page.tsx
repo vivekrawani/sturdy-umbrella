@@ -1,3 +1,6 @@
+//orders/@past/page.tsx
+
+
 import Orders from '@/components/Orders/Orders'
 import React from 'react'
 import { OrderType } from '@/lib/constants'

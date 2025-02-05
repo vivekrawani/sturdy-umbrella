@@ -1,3 +1,5 @@
+//orders/[orderId]/page.tsx
+
 import React from 'react'
 import OrderWithId from "@/components/Orders/OrderWithId"
 type Params = {
