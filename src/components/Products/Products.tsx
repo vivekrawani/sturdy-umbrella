@@ -40,6 +40,7 @@ export default function Products({ category }: { category: Category }) {
     dispatch(getSubcategories(category));
     return () => {
       clearTimeout(timeout);
+      console.log(category)
     }
   }, [category, dispatch])
 
@@ -53,10 +54,14 @@ export default function Products({ category }: { category: Category }) {
         return true;
       }
       if (s.category === subcategory) {
+        //console.log(sub)
+        console.log(subcategory)
         return true;
       }
     })
     setFiltered(res);
+    console.log(sub);
+    console.log(subcategory);
 
   }, [subcategory, sub])
   return (

@@ -1,3 +1,4 @@
+//app/api/subcategory/[[route.ts]]
 import { NextRequest, NextResponse } from "next/server";
 import {fetchSubcategories} from "@/db/firebase";
 type Context = {

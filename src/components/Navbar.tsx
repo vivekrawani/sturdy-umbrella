@@ -54,6 +54,9 @@ export default function Navbar() {
 	const handleLinkClick = (name: string) => {
 		setCurrentTab(name);
 	}
+
+	
+
 	const menuModal = (
 		<div className="navbar-menu relative z-50">
 			<div className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"></div>

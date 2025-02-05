@@ -482,7 +482,7 @@ export const searchByName = async (searchWord: string) => {
 
   const query = db
     .collection(collectionName)
-    .where("name", ">=", searchWord)
+    .where("name", ">=", searchWord)  
     //.where("name", "<", searchWord + "\uf8ff"); 
 
   try {
