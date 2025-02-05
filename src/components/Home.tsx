@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image"
 import item7 from "../assets/item7.jpg"
+import Link from "next/link";
 
 // Type Definitions
 interface SquareProps {
@@ -36,9 +37,13 @@ const Home: React.FC = () => {
           Johar Basket, you can shop with confidence, knowing that your
           satisfaction is our top priority.
         </p>
-        <button className="bg-[#ff4900] text-white text-2xl font-medium py-2 px-4 rounded transition-all hover:bg-[#ff6d33] active:scale-95">
+
+        <Link href={`https://play.google.com/store/apps/details?id=com.johar.basketpvt&pcampaignid=web_share`}>
+          <button className="bg-[#ff4900] text-white text-2xl font-medium py-2 px-4 rounded transition-all hover:bg-[#ff6d33] active:scale-95">
           Order Now
-        </button>
+          </button>
+        </Link>
+        
       </div>
     </section>
   );
