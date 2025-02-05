@@ -56,7 +56,7 @@ const Tabmenu: React.FC = () => {
                     <button onClick={onOpen} className='bg-white px-6 py-2 rounded-lg'>
                         <FcSearch className='text-3xl' />
                     </button>
-                    <SearchBox onClose={onClose} isOpen={isOpen} />
+                    <SearchBox onClose={onClose} isOpen={isOpen} onOpen={onOpen} />
                 </div>
             )}
         </div>

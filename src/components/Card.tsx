@@ -24,13 +24,11 @@ export default function Card({ details, category }: any) {
                 {condition && <div className=' relative left-32 top-10 rotate-45 bg-black h-5 flex '>
                     <div className='relative left-16 text-xl'>
                         <FcHighPriority />
-
                     </div>
                 </div>}
 
                 <div className='min-h-22 max-h-22 min-w-22 max-w-22 flex flex-row justify-center items-center p-1'>
                     <Image src={details.imageUrl} alt={details.name} boxSize={20} fit={'scale-down'} />
-
                 </div>
                 <div className="p-4">
                     <h2 className="mt-2 mb-2  font-bold">{name}</h2>
