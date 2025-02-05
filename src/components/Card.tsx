@@ -1,4 +1,4 @@
-
+//components/Card.tsx
 import { Image } from '@chakra-ui/react';
 import Link from 'next/link'
 import React from 'react'
