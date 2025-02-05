@@ -1,3 +1,5 @@
+//app/api/products/[[...slug]]/route.ts
+
 import {
   addProduct,
   getAllDocsFrom,
