@@ -21,6 +21,7 @@ const config: Config = {
         Poppins: ["Poppins", "sans-serif"],
         Atkinson: ["Atkinson Hyperlegible", "sans-serif"],
         Exo: ["Exo 2", "sans-serif"],
+        Montserrat: ["Montserrat", "sans-serif"],
       },
       colors: {
         "red-bull": "#F62F63",

@@ -13,7 +13,7 @@ const Header: React.FC = () => {
   const [visible, setVisible] = useState<boolean>(false);
 
   return (
-    <div className="h-20 w-full flex items-center justify-between fixed inset-0 shadow-lg backdrop-filter backdrop-blur-lg lg:px-10 z-50 bg-white">
+    <div className="h-20 w-full flex items-center justify-between fixed inset-0 backdrop-filter backdrop-blur-lg lg:px-32 z-50 bg-white ">
       {/* Logo and link to home page */}
       <Link className="h-full flex items-center" href="/">
         <Image src={logo1} className="w-56 hidden lg:block" alt="Company Logo" />
@@ -21,29 +21,28 @@ const Header: React.FC = () => {
       </Link>
 
       {/* Desktop Navigation */}
-      <div className="gap-10 flex items-center justify-between h-full font-Inconsolata font-light text-black">
+      <div className="gap-10 flex items-center justify-between h-full font-Montserrat text-black">
         <Link href="/about" className="hidden lg:block">
-          <p className="h-full flex items-center transition-all ease-in-out text-xl hover:text-orange-400">About Us</p>
+          <p className="h-full flex items-center transition-all ease-in-out text-lg hover:text-orange-400">About Us</p>
         </Link>
         <Link href="/Contact-Us" className="hidden lg:block">
-          <p className="h-full flex items-center transition-all ease-in-out text-xl hover:text-orange-400">Contact Us</p>
+          <p className="h-full flex items-center transition-all ease-in-out text-lg hover:text-orange-400">Contact Us</p>
         </Link>
         <Link href="/johar-basket-for-partner" className="hidden lg:block">
-          <p className="h-full flex items-center transition-all ease-in-out text-xl hover:text-orange-400">Johar Basket for Partner</p>
+          <p className="h-full flex items-center transition-all ease-in-out text-lg hover:text-orange-400">johar basket for partner</p>
         </Link>
         <Link href="/bussiness-with-johar-basket" className="hidden lg:block">
-          <p className="h-full flex items-center transition-all ease-in-out text-xl hover:text-orange-400">Business with Johar Basket</p>
+          <p className="h-full flex items-center transition-all ease-in-out text-lg hover:text-orange-400">Business with johar basket</p>
         </Link>
       </div>
 
       {/* App Download Button */}
       <div className="h-full flex items-center">
         <Link href="https://play.google.com/store/apps/details?id=com.johar.basketpvt&pcampaignid=web_share" 
-          className="px-10 py-4 bg-orange-500 hover:bg-orange-400 transition-all ease-in-out hover:border-orange-600 hover:border-solid hover:border-[1px] text-white rounded-sm shadow-sm mr-16 text-nowrap hidden lg:block">
+          className="px-10 py-4 bg-orange-500 hover:bg-orange-400 transition-all ease-in-out hover:border-orange-600 hover:border-solid hover:border-[1px] text-white rounded-sm shadow-sm text-nowrap hidden lg:block -mr-16">
           Download App
         </Link>
       </div>
-
       {/* Hamburger Menu */}
       <div className="lg:hidden">
         <button onClick={() => setVisible(!visible)} className="text-3xl -mr-10 z-100">
@@ -59,7 +58,7 @@ const Header: React.FC = () => {
             // animate={{ y: "0%", opacity: 1 }}
             // exit={{ y: "-100%", opacity: 0 }}
             // transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="fixed top-20 left-0 w-full flex flex-col items-center text-white rounded-b-2xl rounded-t-none"
+            className="fixed top-20 left-0 w-full flex flex-col items-center bg-gray-800 text-white rounded-b-2xl rounded-t-none font-Montserrat "
           >
             <Link href="/about" onClick={() => setVisible(false)} className=" bg-gray-800 w-full text-center py-1">
               <p className="text-md font-light hover:text-orange-400 mt-2">About Us</p>
