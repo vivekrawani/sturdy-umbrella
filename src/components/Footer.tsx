@@ -1,6 +1,7 @@
 import React from "react";
 import Image from 'next/image';
 import Link from "next/link";
+import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin } from "react-icons/fa";
 
 // Importing assets
 import logo from "../assets/logwnobg.png";
@@ -23,11 +24,27 @@ const Footer: React.FC = () => {
           <p className="h-full flex items-center transition-all ease-in-out text-md hover:text-orange-400">Business with johar basket</p>
         </Link>
       </div>
+
+      <div className="flex items-center right-0 left-0 justify-center gap-5 mt-10">
+          {/* <Link href={`https://www.facebook.com/joharbasket`} className="text-black text-md font-bold p-1">
+            <FaFacebook className="hover:text-orange-500 text-gray-900" />
+          </Link> */}
+          <Link href={`https://www.instagram.com/joharbasket?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==`} className="text-black text-lg font-bold p-1">
+            <FaInstagram className="hover:text-orange-500 text-gray-900" />
+          </Link>
+          {/* <Link href={`https://www.facebook.com/joharbasket`} className="text-black text-md font-bold p-1">
+            <FaTwitter className="hover:text-orange-500 text-gray-900" />
+          </Link> */}
+          <Link href={`https://www.linkedin.com/company/johar-basket-private-limited/posts/?feedView=all`} className="text-black text-lg font-bold p-1">
+            <FaLinkedin className="hover:text-orange-500 text-gray-900" />
+          </Link>
+
+        </div>
         
       <hr className="mx-32 text-black border-black border-1 my-10" />
 
       {/* Footer Text */}
-      <div className="flex justify-center flex-row gap-20 pb-5">
+      <div className="flex justify-center flex-col lg:flex-row gap-5 lg:gap-20 pb-5">
         <div className="text-center text-black text-[16px] ">
           © 2025 JoharBasket. All rights reserved.
         </div>
