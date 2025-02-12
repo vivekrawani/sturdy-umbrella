@@ -1,123 +1,85 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoCloseCircleSharp } from "react-icons/io5";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import logo1 from "../../public/LogoOtr.png";
 import logo2 from "../../public/brandmark.png";
-
-type FlipLinkProps = {
-  children: string;
-  href: string;
-};
 
 const Header: React.FC = () => {
   const [visible, setVisible] = useState<boolean>(false);
 
   return (
     <div className="h-20 w-full flex items-center justify-between fixed inset-0 shadow-lg backdrop-filter backdrop-blur-lg lg:px-10 z-50 bg-white">
-      {/* Logo */}
-      <div className="h-full flex items-center">
+      {/* Logo and link to home page */}
+      <Link className="h-full flex items-center" href="/">
         <Image src={logo1} className="w-56 hidden lg:block" alt="Company Logo" />
         <Image src={logo2} className="w-16 mx-5 lg:hidden" alt="Mobile Brand Logo" />
+      </Link>
+
+      {/* Desktop Navigation */}
+      <div className="gap-10 flex items-center justify-between h-full font-Inconsolata font-light text-black">
+        <Link href="/about" className="hidden lg:block">
+          <p className="h-full flex items-center transition-all ease-in-out text-xl hover:text-orange-400">About Us</p>
+        </Link>
+        <Link href="/Contact-Us" className="hidden lg:block">
+          <p className="h-full flex items-center transition-all ease-in-out text-xl hover:text-orange-400">Contact Us</p>
+        </Link>
+        <Link href="/johar-basket-for-partner" className="hidden lg:block">
+          <p className="h-full flex items-center transition-all ease-in-out text-xl hover:text-orange-400">Johar Basket for Partner</p>
+        </Link>
+        <Link href="/bussiness-with-johar-basket" className="hidden lg:block">
+          <p className="h-full flex items-center transition-all ease-in-out text-xl hover:text-orange-400">Business with Johar Basket</p>
+        </Link>
       </div>
 
-      {/* Hamburger Menu Icon */}
-      <GiHamburgerMenu
-        className="text-orange-600 text-3xl cursor-pointer mr-10"
-        onClick={() => setVisible(true)}
-      />
+      {/* App Download Button */}
+      <div className="h-full flex items-center">
+        <Link href="https://play.google.com/store/apps/details?id=com.johar.basketpvt&pcampaignid=web_share" 
+          className="px-10 py-4 bg-orange-500 hover:bg-orange-400 transition-all ease-in-out hover:border-orange-600 hover:border-solid hover:border-[1px] text-white rounded-sm shadow-sm mr-16 text-nowrap hidden lg:block">
+          Download App
+        </Link>
+      </div>
 
-      {/* Mobile Menu */}
-      <AnimatePresence>
+      {/* Hamburger Menu */}
+      <div className="lg:hidden">
+        <button onClick={() => setVisible(!visible)} className="text-3xl -mr-10 z-100">
+          {visible ? <IoCloseCircleSharp /> : <GiHamburgerMenu />}
+        </button>
+      </div>
+
+      {/* Mobile Navigation */}
+      <section className="transition-all ease-in-out duration-300">
         {visible && (
-          <motion.div
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="fixed top-0 right-0 w-full h-full bg-[#faf3e1] z-50 flex flex-col justify-center items-center"
+          <div
+            // initial={{ y: "-100%", opacity: 0 }}
+            // animate={{ y: "0%", opacity: 1 }}
+            // exit={{ y: "-100%", opacity: 0 }}
+            // transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="fixed top-20 left-0 w-full flex flex-col items-center text-white rounded-b-2xl rounded-t-none"
           >
-            {/* Close Button */}
-            <div className="absolute top-5 right-5 z-[100] p-2">
-              <button
-                onClick={() => setVisible(false)}
-                className="p-4 mr-10 bg-transparent flex items-center justify-center transform transition-transform duration-300 ease-in-out hover:scale-125"
-              >
-                <IoCloseCircleSharp className="text-[#ff4900] w-8 h-8 absolute lg:mr-10" />
-              </button>
-            </div>
-
-            {/* Menu Links */}
-            <div className="flex flex-col items-center w-full bg-gray-100 space-y-8 mt-[550px] text-[#ff4900] text-center py-96">
-              <FlipLink href="/">Home</FlipLink>
-              <FlipLink href="/features">Groceries</FlipLink>
-              <FlipLink href="/blog">Stationeries</FlipLink>
-              <FlipLink href="/offers">Offers %</FlipLink>
-              <button className="bg-[#ff4900] text-[#faf3e1] font-bold px-6 py-2 rounded-full text-2xl transform transition-transform duration-300 ease-in-out hover:scale-105">
-                Contact Us
-              </button>
-            </div>
-          </motion.div>
+            <Link href="/about" onClick={() => setVisible(false)} className=" bg-gray-800 w-full text-center py-1">
+              <p className="text-md font-light hover:text-orange-400 mt-2">About Us</p>
+            </Link>
+            <Link href="/Contact-Us" onClick={() => setVisible(false)} className=" bg-gray-800 w-full text-center py-1">
+              <p className="text-md font-light hover:text-orange-400">Contact Us</p >
+            </Link>
+            <Link href="/johar-basket-for-partner" onClick={() => setVisible(false)} className=" bg-gray-800 w-full text-center py-1">
+              <p className="text-md font-light hover:text-orange-400">Johar Basket for Partner</p>
+            </Link>
+            <Link href="/bussiness-with-johar-basket" onClick={() => setVisible(false)} className=" bg-gray-800 w-full text-center">
+              <p className="text-md font-light hover:text-orange-400 mb-2">Business with Johar Basket</p>
+            </Link>
+            <Link href="https://play.google.com/store/apps/details?id=com.johar.basketpvt&pcampaignid=web_share" onClick={() => setVisible(false)} className="bg-orange-500 p-2 rounded-lg hover:bg-transparent w-full text-center rounded-t-none">
+              <p className="text-md font-light hover:text-orange-400">Download App</p>
+            </Link>
+          </div>
         )}
-      </AnimatePresence>
+      </section>
     </div>
-  );
-};
-
-const DURATION = 0.25;
-const STAGGER = 0.025;
-
-const FlipLink: React.FC<FlipLinkProps> = ({ children, href }) => {
-  return (
-    <motion.a
-      initial="initial"
-      whileHover="hovered"
-      href={href}
-      className="relative block overflow-hidden whitespace-nowrap text-4xl font-black uppercase sm:text-7xl md:text-8xl lg:text-9xl"
-      style={{ lineHeight: 0.75 }}
-    >
-      <div>
-        {children.split("").map((l, i) => (
-          <motion.span
-            variants={{
-              initial: { y: 0 },
-              hovered: { y: "-100%" },
-            }}
-            transition={{
-              duration: DURATION,
-              ease: "easeInOut",
-              delay: STAGGER * i,
-            }}
-            className="inline-block"
-            key={i}
-          >
-            {l}
-          </motion.span>
-        ))}
-      </div>
-      <div className="absolute inset-0">
-        {children.split("").map((l, i) => (
-          <motion.span
-            variants={{
-              initial: { y: "100%" },
-              hovered: { y: 0 },
-            }}
-            transition={{
-              duration: DURATION,
-              ease: "easeInOut",
-              delay: STAGGER * i,
-            }}
-            className="inline-block"
-            key={i}
-          >
-            {l}
-          </motion.span>
-        ))}
-      </div>
-    </motion.a>
   );
 };
 
