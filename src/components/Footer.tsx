@@ -10,18 +10,18 @@ const Footer: React.FC = () => {
   return (
     <div className="flex flex-col justify-between bg-gray-100 z-50 mt-20 ">
 
-      <div className=" gap-7 flex items-center justify-between h-full font-Montserrat text-black px-[480px] mt-16">
+      <div className="flex justify-center flex-col lg:flex-row gap-5 lg:gap-10 font-Montserrat text-black px-[480px] mt-16">
         <Link href="/about" className="hidden lg:block">
-          <p className="h-full flex items-center transition-all ease-in-out text-md hover:text-orange-400">About Us</p>
+          <p className="h-full flex items-center transition-all ease-in-out text-md hover:text-orange-400 text-nowrap">About Us</p>
         </Link>
         <Link href="/Contact-Us" className="hidden lg:block">
-          <p className="h-full flex items-center transition-all ease-in-out text-md hover:text-orange-400">Contact Us</p>
+          <p className="h-full flex items-center transition-all ease-in-out text-md hover:text-orange-400 text-nowrap">Contact Us</p>
         </Link>
         <Link href="/johar-basket-for-partner" className="hidden lg:block">
-          <p className="h-full flex items-center transition-all ease-in-out text-md hover:text-orange-400">johar basket for partner</p>
+          <p className="h-full flex items-center transition-all ease-in-out text-md hover:text-orange-400 text-nowrap">johar basket for partner</p>
         </Link>
         <Link href="/bussiness-with-johar-basket" className="hidden lg:block">
-          <p className="h-full flex items-center transition-all ease-in-out text-md hover:text-orange-400">Business with johar basket</p>
+          <p className="h-full flex items-center transition-all ease-in-out text-md hover:text-orange-400 text-nowrap">Business with johar basket</p>
         </Link>
       </div>
 
@@ -45,13 +45,13 @@ const Footer: React.FC = () => {
 
       {/* Footer Text */}
       <div className="flex justify-center flex-col lg:flex-row gap-5 lg:gap-20 pb-5">
-        <div className="text-center text-black text-[16px] ">
+        <div className="text-center text-black text-[16px] text-nowrap">
           © 2025 JoharBasket. All rights reserved.
         </div>
-        <div className="text-center text-black text-[16px]  hover:text-orange-400 cursor-pointer transition-all ease-in-out">
+        <div className="text-center text-black text-[16px] text-nowrap hover:text-orange-400 cursor-pointer transition-all ease-in-out">
           Terms and conditions
         </div>
-        <div className="text-center text-black text-[16px]  hover:text-orange-400 cursor-pointer transition-all ease-in-out">
+        <div className="text-center text-black text-[16px] text-nowrap hover:text-orange-400 cursor-pointer transition-all ease-in-out">
           Privacy Policy
         </div>
       </div>
@@ -59,7 +59,7 @@ const Footer: React.FC = () => {
 
       {/* Footer Login Link */}
       <div className="flex">
-        <Link href={`joharbasket.com`} className="font-Inconsolata text-black text-4xl font-bold opacity-20 p-5 left-0">
+        <Link href={`joharbasket.com`} className="font-Inconsolata text-black text-4xl font-bold opacity-20 p-5 left-0 text-nowrap">
           Johar Basket
         </Link>
       </div>
