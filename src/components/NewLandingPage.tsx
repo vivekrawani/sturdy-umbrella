@@ -8,7 +8,7 @@ export default function NewLandingPage() {
    <>
     <Header/>
       <Home/>
-      <div className="col-span-2 w-full mt-8">
+      <div className="col-span-2 w-full mt-8 mb-20">
         <Policies />
       </div>
       <div className="col-span-2 w-full mt-8">
