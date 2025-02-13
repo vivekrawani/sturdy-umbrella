@@ -41,7 +41,7 @@ const Footer: React.FC = () => {
 
         </div>
         
-      <hr className="mx-32 text-black border-black border-1 my-10" />
+      <hr className=" mx-5 lg:mx-32 text-black border-black border-1 my-10" />
 
       {/* Footer Text */}
       <div className="flex justify-center flex-col lg:flex-row gap-5 lg:gap-20 pb-5">

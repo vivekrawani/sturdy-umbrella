@@ -50,7 +50,7 @@ const Header: React.FC = () => {
         </Link>
         <Link href="/johar-basket-for-partner" className="hidden lg:block">
           <p className={`h-full flex items-center transition-all ease-in-out text-lg hover:text-gray-700 ${
-              pathname === "/bussiness-with-johar-basket" ? "text-orange-400 underline hover:text-orange-400" : "text-black"
+              pathname === "/johar-basket-for-partner" ? "text-orange-400 underline hover:text-orange-400" : "text-black"
             }`}>
             johar basket for partner
           </p>
