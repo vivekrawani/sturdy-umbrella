@@ -2,16 +2,20 @@ import React from 'react'
 import { Mail, Phone, MapPin } from "lucide-react";
 
 
+
 const page = () => {
   return (
     <div className='font-Atkinson'>
       {/* Delivery Partner Section */}
       <section className="bg-black text-white py-16 px-6 w-full flex flex-col md:flex-row items-start justify-between mt-20">
         {/* Left Section - Heading */}
-        <div className="md:w-1/2 pt-10">
+        <div className="md:w-1/2 pt-10 flex flex-col items-center">
           <h2 className=" text-3xl lg:text-4xl font-bold leading-tight text-center">
             Join Our Delivery Partner <br /> Program
           </h2>
+          <button className='bg-orange-500 px-8 py-2 text-2xl hover:bg-white hover:text-orange-500 hover:border-solid hover:border-orange-500 transition mt-6'>
+            Download the Delivery <br /> Partner App
+          </button>
         </div>
 
         {/* Right Section - Description */}
@@ -42,7 +46,7 @@ const page = () => {
       {/* Contact Section */}
       <section className="w-full flex flex-col items-center text-center py-16 px-2 lg:px-6 mt-20">
         <h4 className="text-black uppercase tracking-widest text-lg">GET IN TOUCH</h4>
-        <h2 className="text-3xl font-bold mt-2">We're Here to Help</h2>
+        <h2 className="text-3xl font-bold mt-2">We&apos;re Here to Help</h2>
         <p className="text-gray-800 text-lg max-w-2xl mt-2">
           For any inquiries or feedback, reach out to us anytime. Your satisfaction is our priority!
         </p>

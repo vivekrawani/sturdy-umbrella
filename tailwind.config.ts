@@ -22,6 +22,8 @@ const config: Config = {
         Atkinson: ["Atkinson Hyperlegible", "sans-serif"],
         Exo: ["Exo 2", "sans-serif"],
         Montserrat: ["Montserrat", "sans-serif"],
+        Akaya : ["Akaya Kanadaka", "cusrsive"],
+        Leckerli :["Leckerli One", "curisve"],
       },
       colors: {
         "red-bull": "#F62F63",

@@ -34,23 +34,23 @@ const Header: React.FC = () => {
       <div className="gap-10 flex items-center justify-between h-full font-Montserrat text-black">
         <Link href="/about" className="hidden lg:block">
           <p
-            className={`h-full flex items-center transition-all ease-in-out text-lg hover:text-gray-700 ${
-              pathname === "/about" ? "text-orange-400 underline hover:text-orange-400" : "text-black"
+            className={`h-full flex items-center transition-all ease-in-out text-lg hover:text-orange-500 ${
+              pathname === "/about" ? "text-orange-400 underline" : "text-black"
             }`}
           >
             About Us
           </p>
         </Link>
         <Link href="/Contact-Us" className="hidden lg:block">
-          <p className={`h-full flex items-center transition-all ease-in-out text-lg hover:text-gray-700 ${
-              pathname === "/Contact-Us" ? "text-orange-400 underline hover:text-orange-400" : "text-black"
+          <p className={`h-full flex items-center transition-all ease-in-out text-lg hover:text-orange-500 ${
+              pathname === "/Contact-Us" ? "text-orange-400 underline" : "text-black"
             }`}>
             Contact Us
           </p>
         </Link>
         <Link href="/johar-basket-for-partner" className="hidden lg:block">
-          <p className={`h-full flex items-center transition-all ease-in-out text-lg hover:text-gray-700 ${
-              pathname === "/johar-basket-for-partner" ? "text-orange-400 underline hover:text-orange-400" : "text-black"
+          <p className={`h-full flex items-center transition-all ease-in-out text-lg hover:text-orange-500 ${
+              pathname === "/johar-basket-for-partner" ? "text-orange-400 underline " : "text-black"
             }`}>
             johar basket for partner
           </p>
@@ -67,8 +67,8 @@ const Header: React.FC = () => {
       {/* App Download Button */}
       <div className="h-full flex items-center">
         <Link
-          href="https://play.google.com/store/apps/details?id=com.johar.basketpvt&pcampaignid=web_share"
-          className="px-10 py-4 bg-orange-500 hover:bg-white transition-all ease-in-out hover:border-orange-500 hover:text-orange-500 duration-500 hover:border-solid hover:border-[1px] text-white rounded-sm shadow-sm text-nowrap hidden lg:block -mr-16"
+          href="/download"
+          className="px-10 py-4 bg-orange-500 hover:bg-white transition-all ease-in-out hover:border-orange-500 hover:text-orange-500 duration-500 hover:border-solid hover:border-[1px] text-white rounded-md shadow-sm text-nowrap hidden lg:block -mr-16"
         >
           Download App
         </Link>
@@ -130,7 +130,7 @@ const Header: React.FC = () => {
               </p>
             </Link>
             <Link
-              href="https://play.google.com/store/apps/details?id=com.johar.basketpvt&pcampaignid=web_share"
+              href="/download"
               onClick={() => setVisible(false)}
               className="bg-orange-500 p-2 rounded-lg hover:bg-transparent w-full text-center rounded-t-none"
             >

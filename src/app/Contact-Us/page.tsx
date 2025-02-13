@@ -8,7 +8,7 @@ const page = () => {
       <h4 className="text-black uppercase tracking-widest text-lg">
         GET IN TOUCH
       </h4>
-      <h2 className="text-3xl font-bold mt-2">We're Here to Help</h2>
+      <h2 className="text-3xl font-bold mt-2">We&apos;re Here to Help</h2>
       <p className="text-gray-800 text-lg max-w-2xl mt-2">
         For any inquiries or feedback, reach out to us anytime. Your satisfaction is our priority!
       </p>

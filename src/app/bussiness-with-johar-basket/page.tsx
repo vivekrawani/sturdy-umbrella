@@ -4,6 +4,7 @@ import bnImg1 from "../../../public/bussiness1.webp"
 import bnImg2 from "../../../public/bussiness2.webp"
 import bnImg3 from "../../../public/bussiness3.webp"
 import bnImg4 from "../../../public/bussiness4.webp"
+import { Mail, MapPin } from "lucide-react";
 
 
 const page = () => {
@@ -62,6 +63,39 @@ const page = () => {
           </div>
         ))}
       </div>
+
+      <section className="py-16 px-8 text-center">
+      <h3 className="text-lg font-semibold text-black uppercase tracking-wide">Get in Touch</h3>
+      <h2 className="text-4xl font-bold mt-2">Partnership Inquiries</h2>
+      <p className="text-lg text-gray-600 mt-4">
+        We are excited to explore partnership opportunities with you. Reach out to us today!
+      </p>
+
+      {/* Contact Info */}
+      <div className="mt-10 flex flex-col md:flex-row justify-center items-center gap-16">
+        {/* Email Section */}
+        <div className="text-center">
+          <Mail className="text-teal-600 mx-auto" size={36} />
+          <h3 className="text-2xl font-semibold mt-4">Email Us</h3>
+          <p className="text-gray-600 mt-2 max-w-sm">
+            For partnership inquiries, please contact us at{" "}
+            <a href="mailto:partnerships@joharbasket.com" className="text-orange-500 font-medium">
+              partnerships@joharbasket.com
+            </a>. We look forward to collaborating with you!
+          </p>
+        </div>
+
+        {/* Location Section */}
+        <div className="text-center">
+          <MapPin className="text-teal-600 mx-auto" size={36} />
+          <h3 className="text-2xl font-semibold mt-4">Visit Us</h3>
+          <p className="text-gray-600 mt-2 max-w-sm">
+            You can also visit our office located at **123 Main Street, Ramgarh, Jharkhand**. We welcome your visit!
+          </p>
+        </div>
+      </div>
+    </section>
+
     </section>
   );
 }
