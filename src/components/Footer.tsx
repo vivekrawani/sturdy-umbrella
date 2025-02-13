@@ -8,7 +8,7 @@ import logo from "../assets/logwnobg.png";
 
 const Footer: React.FC = () => {
   return (
-    <div className="flex flex-col justify-between bg-gray-100 z-50 mt-20 ">
+    <div className="flex flex-col justify-between bg-gray-100 z-50 mt-20 w-full ">
 
       <div className="flex justify-center flex-col lg:flex-row gap-5 lg:gap-10 font-Montserrat text-black px-[480px] mt-16">
         <Link href="/about" className="hidden lg:block">

@@ -8,44 +8,77 @@ import Image from "next/image";
 import Link from "next/link";
 import logo1 from "../../public/LogoOtr.png";
 import logo2 from "../../public/brandmark.png";
+import { usePathname } from "next/navigation";
 
 const Header: React.FC = () => {
   const [visible, setVisible] = useState<boolean>(false);
+  const pathname = usePathname();
 
   return (
     <div className="h-20 w-full flex items-center justify-between fixed inset-0 backdrop-filter backdrop-blur-lg lg:px-32 z-50 bg-white ">
       {/* Logo and link to home page */}
       <Link className="h-full flex items-center" href="/">
-        <Image src={logo1} className="w-56 hidden lg:block" alt="Company Logo" />
-        <Image src={logo2} className="w-16 mx-5 lg:hidden" alt="Mobile Brand Logo" />
+        <Image
+          src={logo1}
+          className="w-56 hidden lg:block"
+          alt="Company Logo"
+        />
+        <Image
+          src={logo2}
+          className="w-16 mx-5 lg:hidden"
+          alt="Mobile Brand Logo"
+        />
       </Link>
 
       {/* Desktop Navigation */}
       <div className="gap-10 flex items-center justify-between h-full font-Montserrat text-black">
         <Link href="/about" className="hidden lg:block">
-          <p className="h-full flex items-center transition-all ease-in-out text-lg hover:text-orange-400">About Us</p>
+          <p
+            className={`h-full flex items-center transition-all ease-in-out text-lg hover:text-gray-700 ${
+              pathname === "/about" ? "text-orange-400 underline hover:text-orange-400" : "text-black"
+            }`}
+          >
+            About Us
+          </p>
         </Link>
         <Link href="/Contact-Us" className="hidden lg:block">
-          <p className="h-full flex items-center transition-all ease-in-out text-lg hover:text-orange-400">Contact Us</p>
+          <p className={`h-full flex items-center transition-all ease-in-out text-lg hover:text-gray-700 ${
+              pathname === "/Contact-Us" ? "text-orange-400 underline hover:text-orange-400" : "text-black"
+            }`}>
+            Contact Us
+          </p>
         </Link>
         <Link href="/johar-basket-for-partner" className="hidden lg:block">
-          <p className="h-full flex items-center transition-all ease-in-out text-lg hover:text-orange-400">johar basket for partner</p>
+          <p className={`h-full flex items-center transition-all ease-in-out text-lg hover:text-gray-700 ${
+              pathname === "/bussiness-with-johar-basket" ? "text-orange-400 underline hover:text-orange-400" : "text-black"
+            }`}>
+            johar basket for partner
+          </p>
         </Link>
         <Link href="/bussiness-with-johar-basket" className="hidden lg:block">
-          <p className="h-full flex items-center transition-all ease-in-out text-lg hover:text-orange-400">Business with johar basket</p>
+          <p className={`h-full flex items-center transition-all ease-in-out text-lg hover:text-gray-700 ${
+              pathname === "/bussiness-with-johar-basket" ? "text-orange-400 underline hover:text-orange-400" : "text-black"
+            }`}>
+            Business with johar basket
+          </p>
         </Link>
       </div>
 
       {/* App Download Button */}
       <div className="h-full flex items-center">
-        <Link href="https://play.google.com/store/apps/details?id=com.johar.basketpvt&pcampaignid=web_share" 
-          className="px-10 py-4 bg-orange-500 hover:bg-orange-400 transition-all ease-in-out hover:border-orange-600 hover:border-solid hover:border-[1px] text-white rounded-sm shadow-sm text-nowrap hidden lg:block -mr-16">
+        <Link
+          href="https://play.google.com/store/apps/details?id=com.johar.basketpvt&pcampaignid=web_share"
+          className="px-10 py-4 bg-orange-500 hover:bg-white transition-all ease-in-out hover:border-orange-500 hover:text-orange-500 duration-500 hover:border-solid hover:border-[1px] text-white rounded-sm shadow-sm text-nowrap hidden lg:block -mr-16"
+        >
           Download App
         </Link>
       </div>
       {/* Hamburger Menu */}
       <div className="lg:hidden">
-        <button onClick={() => setVisible(!visible)} className="text-3xl -mr-10 z-100">
+        <button
+          onClick={() => setVisible(!visible)}
+          className="text-3xl -mr-10 z-100"
+        >
           {visible ? <IoCloseCircleSharp /> : <GiHamburgerMenu />}
         </button>
       </div>
@@ -60,20 +93,50 @@ const Header: React.FC = () => {
             // transition={{ duration: 0.4, ease: "easeInOut" }}
             className="fixed top-20 left-0 w-full flex flex-col items-center bg-gray-800 text-white rounded-b-2xl rounded-t-none font-Montserrat "
           >
-            <Link href="/about" onClick={() => setVisible(false)} className=" bg-gray-800 w-full text-center py-1">
-              <p className="text-md font-light hover:text-orange-400 mt-2">About Us</p>
+            <Link
+              href="/about"
+              onClick={() => setVisible(false)}
+              className=" bg-gray-800 w-full text-center py-1"
+            >
+              <p className="text-md font-light hover:text-orange-400 mt-2">
+                About Us
+              </p>
             </Link>
-            <Link href="/Contact-Us" onClick={() => setVisible(false)} className=" bg-gray-800 w-full text-center py-1">
-              <p className="text-md font-light hover:text-orange-400">Contact Us</p >
+            <Link
+              href="/Contact-Us"
+              onClick={() => setVisible(false)}
+              className=" bg-gray-800 w-full text-center py-1"
+            >
+              <p className="text-md font-light hover:text-orange-400">
+                Contact Us
+              </p>
             </Link>
-            <Link href="/johar-basket-for-partner" onClick={() => setVisible(false)} className=" bg-gray-800 w-full text-center py-1">
-              <p className="text-md font-light hover:text-orange-400">Johar Basket for Partner</p>
+            <Link
+              href="/johar-basket-for-partner"
+              onClick={() => setVisible(false)}
+              className=" bg-gray-800 w-full text-center py-1"
+            >
+              <p className="text-md font-light hover:text-orange-400">
+                Johar Basket for Partner
+              </p>
             </Link>
-            <Link href="/bussiness-with-johar-basket" onClick={() => setVisible(false)} className=" bg-gray-800 w-full text-center">
-              <p className="text-md font-light hover:text-orange-400 mb-2">Business with Johar Basket</p>
+            <Link
+              href="/bussiness-with-johar-basket"
+              onClick={() => setVisible(false)}
+              className=" bg-gray-800 w-full text-center"
+            >
+              <p className="text-md font-light hover:text-orange-400 mb-2">
+                Business with Johar Basket
+              </p>
             </Link>
-            <Link href="https://play.google.com/store/apps/details?id=com.johar.basketpvt&pcampaignid=web_share" onClick={() => setVisible(false)} className="bg-orange-500 p-2 rounded-lg hover:bg-transparent w-full text-center rounded-t-none">
-              <p className="text-md font-light hover:text-orange-400">Download App</p>
+            <Link
+              href="https://play.google.com/store/apps/details?id=com.johar.basketpvt&pcampaignid=web_share"
+              onClick={() => setVisible(false)}
+              className="bg-orange-500 p-2 rounded-lg hover:bg-transparent w-full text-center rounded-t-none"
+            >
+              <p className="text-md font-light hover:text-orange-400">
+                Download App
+              </p>
             </Link>
           </div>
         )}
