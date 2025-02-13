@@ -40,7 +40,7 @@ const page = () => {
     <section className="w-full py-16 px-4 lg:px-12 bg-white mt-10">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:mx-32">
         {cards.map((card, index) => (
-          <div key={index} className="flex flex-col items-center text-center hover:underline">
+          <div key={index} className="flex flex-col items-center text-center ">
             <div className="relative w-full h-[420px] overflow-hidden shadow-lg">
               <Image
                 src={card.image}
