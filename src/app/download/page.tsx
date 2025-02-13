@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Download, Apple, Smartphone, X } from "lucide-react";
+import { TbBrandApple } from "react-icons/tb";
 import downloadBn1 from "../../../public/downloadBn1.webp"
 
 const Page = () => {
@@ -22,7 +23,7 @@ const Page = () => {
         <a
           href="https://play.google.com/store/apps/details?id=com.johar.basketpvt&pcampaignid=web_share"
           download
-          className="flex items-center gap-3 bg-orange-500 text-white px-6 py-3 hover:bg-white hover:text-orange-500 hover:border-2 hover:border-orange-500 transition-all ease-in-out duration-500"
+          className="flex items-center gap-3 bg-orange-500 text-white px-6 py-3 hover:bg-white hover:text-orange-500 border-2 border-orange-500 transition-all ease-in-out duration-500 "
         >
           <Smartphone size={24} />
           <span>Download for Android</span>
@@ -31,9 +32,9 @@ const Page = () => {
         {/* iOS Download - Triggers Modal */}
         <button
           onClick={() => setShowModal(true)}
-          className="flex items-center gap-3 bg-black text-white px-6 py-3 hover:bg-gray-800 transition"
+          className="flex items-center gap-3 bg-black text-white px-6 py-3 hover:bg-white hover:text-black border-black border-2 transition duration-500"
         >
-          <Apple size={24} />
+          <TbBrandApple size={24} />
           <span>Download for iOS</span>
         </button>
       </div>
