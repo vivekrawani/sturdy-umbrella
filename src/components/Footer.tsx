@@ -1,6 +1,7 @@
 import React from "react";
 import Image from 'next/image';
 import Link from "next/link";
+import { BsTwitterX } from "react-icons/bs";
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin } from "react-icons/fa";
 
 // Importing assets
@@ -32,9 +33,9 @@ const Footer: React.FC = () => {
           <Link href={`https://www.instagram.com/joharbasket?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==`} className="text-black text-lg font-bold p-1">
             <FaInstagram className="hover:text-orange-500 text-gray-900" />
           </Link>
-          {/* <Link href={`https://www.facebook.com/joharbasket`} className="text-black text-md font-bold p-1">
-            <FaTwitter className="hover:text-orange-500 text-gray-900" />
-          </Link> */}
+          <Link href={`https://x.com/joharbasket`} className="text-black text-md font-bold p-1">
+            <BsTwitterX className="hover:text-orange-500 text-gray-900" />
+          </Link>
           <Link href={`https://www.linkedin.com/company/johar-basket-private-limited/posts/?feedView=all`} className="text-black text-lg font-bold p-1">
             <FaLinkedin className="hover:text-orange-500 text-gray-900" />
           </Link>
@@ -59,7 +60,7 @@ const Footer: React.FC = () => {
 
       {/* Footer Login Link */}
       <div className="flex">
-        <Link href={`joharbasket.com`} className="font-Inconsolata text-black text-4xl font-bold opacity-20 p-5 left-0 text-nowrap">
+        <Link href={`joharbasket.com`} className="font-Inconsolata text-black text-2xl font-bold opacity-20 p-5 left-0 text-nowrap">
           Johar Basket
         </Link>
       </div>

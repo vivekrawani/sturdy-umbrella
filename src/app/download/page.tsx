@@ -22,7 +22,7 @@ const Page = () => {
         {/* Android Download */}
         <a
           href="https://play.google.com/store/apps/details?id=com.johar.basketpvt&pcampaignid=web_share"
-          download
+          target="_blank"
           className="flex items-center gap-3 bg-orange-500 text-white px-6 py-3 hover:bg-white hover:text-orange-500 border-2 border-orange-500 transition-all ease-in-out duration-500 "
         >
           <Smartphone size={24} />
@@ -41,7 +41,7 @@ const Page = () => {
 
       {/* iOS Coming Soon Modal */}
       {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-filter backdrop-blur-sm z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm text-center">
             <button className="absolute top-2 right-2 text-gray-600 hover:text-gray-900" onClick={() => setShowModal(false)}>
               <X size={24} />

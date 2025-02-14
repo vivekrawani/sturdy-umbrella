@@ -68,7 +68,7 @@ const Header: React.FC = () => {
       <div className="h-full flex items-center">
         <Link
           href="/download"
-          className="px-10 py-4 bg-orange-500 hover:bg-white transition-all ease-in-out hover:border-orange-500 hover:text-orange-500 duration-500 hover:border-solid hover:border-[1px] text-white rounded-md shadow-sm text-nowrap hidden lg:block -mr-16"
+          className="px-10 py-4 bg-orange-500 hover:bg-white transition-all ease-in-out hover:border-orange-500 hover:text-orange-500 duration-500 border-solid border-[1px] text-white rounded-md shadow-sm text-nowrap hidden lg:block -mr-16"
         >
           Download App
         </Link>

@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import deliveryImg from "../../../public/wp-delivery-map.jpg"
 import Link from 'next/link'
+import TeamSection from '@/components/teamMembers'
 
 
 const page = () => {
@@ -44,6 +45,10 @@ const page = () => {
         />
       </div>
 
+      {/* Our Team section */}
+      <TeamSection />
+
+      {/* Join Us Section */}
       <div className='mt-20'>
         <h1 className='text-4xl font-bold text-black font-Montserrat'>
           Join Us
