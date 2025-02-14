@@ -58,7 +58,7 @@ const page = () => {
         Connect with our team to learn more about our mission.
         </p>
 
-        <Link href={'/contact-us'} className='text-orange-500 font-light bg-white border border-orange-500 px-4 py-2 rounded-sm hover:bg-orange-500 hover:text-white transition-all ease-in-out duration-500 hover:shadow-sm'>
+        <Link href={'/Contact-us'} className='text-orange-500 font-light bg-white border border-orange-500 px-4 py-2 rounded-sm hover:bg-orange-500 hover:text-white transition-all ease-in-out duration-500 hover:shadow-sm'>
           Learn More
         </Link>
       </div>
