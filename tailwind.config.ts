@@ -17,6 +17,13 @@ const config: Config = {
       },
       fontFamily: {
         Abril: ["Abril Fatface", "serif"],
+        Inconsolata: ["Inconsolata", "monospace"],
+        Poppins: ["Poppins", "sans-serif"],
+        Atkinson: ["Atkinson Hyperlegible", "sans-serif"],
+        Exo: ["Exo 2", "sans-serif"],
+        Montserrat: ["Montserrat", "sans-serif"],
+        Akaya : ["Akaya Kanadaka", "cusrsive"],
+        Leckerli :["Leckerli One", "curisve"],
       },
       colors: {
         "red-bull": "#F62F63",

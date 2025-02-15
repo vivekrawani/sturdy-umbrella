@@ -1,129 +1,183 @@
 "use client";
-import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
-import Image from "next/image"
-import item7 from "../assets/item7.jpg"
-
-// Type Definitions
-interface SquareProps {
-  src: string;
-}
-
-interface ImageData {
-  id: number;
-  src: string;
-}
+import Image from "next/image";
+import { Check, Users, User, Download, Search, ShoppingCart, Truck, Mail, Phone, MapPin } from "lucide-react";
+import HeroImg from "../../public/ut_design.png";
+import PersonPlaceholder from "../../public/person-placeholder.png"
 
 const Home: React.FC = () => {
   return (
-    <section className="w-full py-8 mt-20 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-      {/* Left Section */}
-      <div className="px-2">
-        <ShuffleGrid />
+    <div className="mt-10 lg:mt-0">
+      {/* Hero Section */}
+      <div className="flex h-screen flex-col lg:flex-row">
+        {/* Left Section - Image */}
+        <div className="w-full lg:w-2/3 relative h-[500px] lg:h-auto">
+          <Image
+            src={HeroImg}
+            alt="Johar Basket App"
+            layout="fill"
+            objectFit="cover"
+          />
+        </div>
+
+        {/* Right Section - Content */}
+        <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 md:px-16 bg-gradient-to-r from-pink-400 to-red-500 text-white">
+          <h1 className="text-3xl md:text-6xl font-bold mb-4 lg:mr-16">
+            Experience <br /> <span className="underline font-extrabold">Lightning-Fast</span> Delivery
+            <br />
+            with Johar Basket
+          </h1>
+          <p className="text-base md:text-lg mb-6">
+            Discover the convenience of ordering groceries, cosmetics, stationery, and Pooja items with Johar Basket. Enjoy a seamless shopping experience with delivery in just 15 minutes, right to your doorstep in Ramgarh, Jharkhand.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center gap-4">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="px-4 py-2 rounded-lg text-black w-full sm:w-64 focus:outline-none"
+            />
+            <button className="bg-orange-500 px-6 py-2 rounded-lg font-semibold hover:bg-orange-600 transition">
+              Sign up
+            </button>
+          </div>
+
+          <p className="text-sm mt-2 opacity-80 text-center sm:text-left">
+            By signing up, you agree to our{" "}
+            <a href="#" className="underline text-black">Terms and Conditions</a> and{" "}
+            <a href="#" className="underline text-black">Privacy Policy</a>.
+          </p>
+        </div>
       </div>
 
-      {/* Right Section */}
-      <div className="mx-10 lg:mx-14">
-        <span className="block mb-4 text-md lg:text-2xl text-slate-700 -top-14">
-          Groceries Made Simple, Just for You.
-        </span>
-        <h3 className="text-6xl font-semibold">Johar Basket</h3>
-        <p className="text-lg text-slate-700 my-6">
-          Welcome to Johar Basket, where we make grocery shopping simple,
-          convenient, and affordable. Our carefully curated selection of
-          products ensures that you always have access to the freshest and
-          finest items, handpicked and delivered right to your doorstep. With
-          Johar Basket, you can shop with confidence, knowing that your
-          satisfaction is our top priority.
+      {/* About Johar Basket Section */}
+      <section className="py-16 px-8 text-center">
+        <h2 className="text-5xl font-bold mb-4 font-Inconsolata">About Johar Basket</h2>
+        <p className=" text-gray-600 mb-10 text-xl">Discover our mission to deliver essentials swiftly and conveniently to your doorstep.</p>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="flex flex-col items-center">
+            <Check size={32} className="text-green-500 mb-2" />
+            <h3 className="text-xl font-semibold">Our Mission</h3>
+            <p className="text-gray-600">
+            At Johar Basket, we strive to provide a seamless and speedy delivery experience for essential products, enhancing the lives of our customers in Ramgarh. Your convenience is our priority.            </p>
+          </div>
+          <div className="flex flex-col items-center">
+            <Users size={32} className="text-green-500 mb-2" />
+            <h3 className="text-xl font-semibold">Our Values</h3>
+            <p className="text-gray-600">
+            We are committed to customer-centricity, innovation, community engagement, and speed. These values guide our operations and ensure we meet your needs effectively.            </p>
+          </div>
+          <div className="flex flex-col items-center">
+            <User size={32} className="text-green-500 mb-2" />
+            <h3 className="text-xl font-semibold">Meet Our Team</h3>
+            <p className="text-gray-600">
+            Our dedicated team is here to serve you. Siddharth Nayak, our Founder and Aman Kumar, our Founder & CEO leads with a vision for innovation. Anushka Pathak, our CMO, drives our marketing efforts, while Arun Sahu, our Operations Manager, ensures timely deliveries.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section className="py-16 px-8 bg-gray-100 text-center">
+        <h2 className="text-3xl font-bold mb-6">How It Works</h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
+          <div className="flex flex-col items-center">
+            <Download size={32} className="text-green-500 mb-2" />
+            <h3 className="text-xl font-semibold">Download the App</h3>
+            <p className="text-gray-600">Start by downloading the Johar Basket app. It’s quick and easy!</p>
+          </div>
+          <div className="flex flex-col items-center">
+            <Search size={32} className="text-green-500 mb-2" />
+            <h3 className="text-xl font-semibold">Browse Products</h3>
+            <p className="text-gray-600">Explore groceries, cosmetics, stationery, and more.</p>
+          </div>
+          <div className="flex flex-col items-center">
+            <ShoppingCart size={32} className="text-green-500 mb-2" />
+            <h3 className="text-xl font-semibold">Place Your Order</h3>
+            <p className="text-gray-600">Add items to your cart and proceed to checkout.</p>
+          </div>
+          <div className="flex flex-col items-center">
+            <Truck size={32} className="text-green-500 mb-2" />
+            <h3 className="text-xl font-semibold">Fast Delivery</h3>
+            <p className="text-gray-600">Get delivery within 15 minutes in Ramgarh, Jharkhand.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Customer Testimonials Section */}
+      <section className="py-16 text-center">
+        <h2 className="text-3xl font-bold mb-4">Customer Testimonials</h2>
+        <p className="text-lg text-gray-600 mb-10">
+          Hear from our satisfied customers about their experiences with Johar Basket.
         </p>
-        <button className="bg-[#ff4900] text-white text-2xl font-medium py-2 px-4 rounded transition-all hover:bg-[#ff6d33] active:scale-95">
-          Order Now
-        </button>
-      </div>
-    </section>
-  );
-};
 
-// Square Component: Renders individual grid items
-const Square: React.FC<SquareProps> = ({ src }) => (
-  <motion.div
-    layout
-    transition={{ duration: 1.5, type: "spring" }}
-    className="w-full h-full"
-    style={{
-      backgroundImage: `url(${src})`,
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-    }}
-  >
-    <Image
-      src={src}
-      alt="Product preview"
-      className="invisible w-0 h-0"
-      width={0}
-      height={0} // Hide for accessibility but include alt for SEO
-    />
-  </motion.div>
-);
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="flex flex-col items-center">
+            <h3 className="text-xl font-Akaya italic">Happy Customer</h3>
+            <p className="text-gray-600 mt-2">
+              “I love how quickly I can get my groceries delivered! The app is so easy to use, and I always receive my items fresh and on time.”
+            </p>
+            <Image src={PersonPlaceholder} alt="Customer 1" width={80} height={80} className="rounded-full mt-10" />
+            <p className="font-semibold mt-2">Rahul Sharma</p>
+            <p className="text-sm text-gray-500">Customer, Johar Basket</p>
+          </div>
 
-// Shuffle Function: Randomizes array order
-const shuffle = <T,>(array: T[]): T[] => {
-  let currentIndex = array.length,
-    randomIndex;
+          <div className="flex flex-col items-center">
+            <h3 className="text-xl  italic font-Leckerli">Satisfied User</h3>
+            <p className="text-gray-600 mt-2">
+              “Johar Basket has changed the way I shop for essentials. I can order everything I need in just a few taps!”
+            </p>
+            <Image src={PersonPlaceholder} alt="Customer 2" width={80} height={80} className="rounded-full mt-10" />
+            <p className="font-semibold mt-2">Priya Verma</p>
+            <p className="text-sm text-gray-500">Customer, Johar Basket</p>
+          </div>
 
-  while (currentIndex !== 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
+          <div className="flex flex-col items-center">
+            <h3 className="text-xl italic font-Akaya">Loyal Shopper</h3>
+            <p className="text-gray-600 mt-2">
+              “The delivery is always prompt, and the variety of products is impressive. Highly recommend!”
+            </p>
+            <Image src={PersonPlaceholder} alt="Customer 3" width={80} height={80} className="rounded-full mt-10" />
+            <p className="font-semibold mt-2">Sunil Kumar</p>
+            <p className="text-sm text-gray-500">Customer, Johar Basket</p>
+          </div>
+        </div>
+      </section>
 
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex],
-      array[currentIndex],
-    ];
-  }
+      <section className="py-16 px-8 bg-gray-100 text-center">
+        <h2 className="text-3xl font-bold mb-4">We&apos;re Here to Help</h2>
+        <p className="text-lg text-gray-600 mb-6">
+          For any inquiries or feedback, reach out to us anytime!
+        </p>
 
-  return array;
-};
+        <div className="flex flex-col md:flex-row items-center justify-center gap-6 mb-6">
+          <div className="flex items-center gap-2">
+            <Mail className="text-green-500" size={20} />
+            <span>support@joharbasket.com</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Phone className="text-green-500" size={20} />
+            <span>+91 98765 43210</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <MapPin className="text-green-500" size={20} />
+            <span>India, Ramgarh, Main Road, Ramgarh, 829122</span>
+          </div>
+        </div>
 
-// Image Data for Squares
-const squareData: ImageData[] = [
-  { id: 2, src: "https://images.unsplash.com/photo-1597354984706-fac992d9306f?q=80&w=1888&auto=format&fit=crop" },
-  { id: 3, src: "https://images.unsplash.com/photo-1633536706502-8072f956614a?q=80&w=1935&auto=format&fit=crop" },
-  { id: 4, src: "https://plus.unsplash.com/premium_photo-1673793535072-148e7ef7bd41?q=80&w=1887&auto=format&fit=crop" },
-  { id: 5, src: "https://c7.alamy.com/comp/DG70KM/tube-of-colgate-toothpaste-isolated-on-white-background-DG70KM.jpg" },
-  { id: 6, src: "https://c7.alamy.com/comp/2EAFC7C/fair-and-lovely-face-wash-cream-beauty-concept-2EAFC7C.jpg" },
-  { id: 7, src: "https://live.staticflickr.com/7238/7259669024_7f8d41aa99_k.jpg" },
-  { id: 8, src: "https://plus.unsplash.com/premium_photo-1671436824833-91c0741e89c9" },
-  { id: 9, src: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d" },
-  { id: 10, src: "https://c7.alamy.com/comp/HXYTGP/snack-chip-selection-at-grocery-store-HXYTGP.jpg" },
-  { id: 11, src: "https://c7.alamy.com/comp/CPGAA0/grocery-items-in-supermarket-CPGAA0.jpg" },
-  { id: 13, src: "https://c7.alamy.com/comp/M4N5WR/variety-types-of-indian-snacks-selling-in-the-shop-M4N5WR.jpg" },
-  { id: 16, src: "https://plus.unsplash.com/premium_photo-1682090260563-191f8160ca48" },
-];
+        {/* Embedded Google Maps */}
+        <div className="w-full max-w-6xl mx-auto">
+          <iframe
+            className="w-full h-[450px] rounded-lg shadow-lg"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3683.712091356149!2d85.5148773752286!3d23.636678678739654!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f4e3cdb08e4a4d%3A0x24e78f1b6bba98f8!2sRanchi%20-%20Ramgarh%20Rd%2C%20Jharkhand!5e0!3m2!1sen!2sin!4v1707849301234!5m2!1sen!2sin"
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+      </section>
 
-
-// Grid Component: Shuffles and displays squares
-const ShuffleGrid: React.FC = () => {
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const [squares, setSquares] = useState<ImageData[]>([]);
-
-  // Shuffle squares every 3 seconds
-  const shuffleSquares = () => {
-    setSquares(shuffle([...squareData]));
-    timeoutRef.current = setTimeout(shuffleSquares, 3000);
-  };
-
-  useEffect(() => {
-    shuffleSquares(); // Initial shuffle
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current); // Cleanup
-    };
-  }, []);
-
-  return (
-    <div className="grid grid-cols-4 grid-rows-4 h-[600px] gap-1">
-      {squares.map((sq) => (
-        <Square key={sq.id} src={sq.src} />
-      ))}
     </div>
   );
 };
