@@ -41,13 +41,7 @@ const Header: React.FC = () => {
             About Us
           </p>
         </Link>
-        <Link href="/Contact-Us" className="hidden lg:block">
-          <p className={`h-full flex items-center transition-all ease-in-out text-lg hover:text-orange-500 ${
-              pathname === "/Contact-Us" ? "text-orange-400 underline" : "text-black"
-            }`}>
-            Contact Us
-          </p>
-        </Link>
+        
         <Link href="/johar-basket-for-partner" className="hidden lg:block">
           <p className={`h-full flex items-center transition-all ease-in-out text-lg hover:text-orange-500 ${
               pathname === "/johar-basket-for-partner" ? "text-orange-400 underline " : "text-black"
@@ -60,6 +54,13 @@ const Header: React.FC = () => {
               pathname === "/bussiness-with-johar-basket" ? "text-orange-400 underline hover:text-orange-400" : "text-black"
             }`}>
             Business with johar basket
+          </p>
+        </Link>
+        <Link href="/Contact-Us" className="hidden lg:block">
+          <p className={`h-full flex items-center transition-all ease-in-out text-lg hover:text-orange-500 ${
+              pathname === "/Contact-Us" ? "text-orange-400 underline" : "text-black"
+            }`}>
+            Contact Us
           </p>
         </Link>
       </div>
@@ -102,15 +103,7 @@ const Header: React.FC = () => {
                 About Us
               </p>
             </Link>
-            <Link
-              href="/Contact-Us"
-              onClick={() => setVisible(false)}
-              className=" bg-gray-800 w-full text-center py-1"
-            >
-              <p className="text-md font-light hover:text-orange-400">
-                Contact Us
-              </p>
-            </Link>
+            
             <Link
               href="/johar-basket-for-partner"
               onClick={() => setVisible(false)}
@@ -127,6 +120,15 @@ const Header: React.FC = () => {
             >
               <p className="text-md font-light hover:text-orange-400 mb-2">
                 Business with Johar Basket
+              </p>
+            </Link>
+            <Link
+              href="/Contact-Us"
+              onClick={() => setVisible(false)}
+              className=" bg-gray-800 w-full text-center py-1"
+            >
+              <p className="text-md font-light hover:text-orange-400">
+                Contact Us
               </p>
             </Link>
             <Link
