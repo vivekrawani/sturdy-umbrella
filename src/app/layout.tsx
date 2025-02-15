@@ -4,7 +4,7 @@ import StoreProvider from "./StroreProvider";
 import { Metadata } from 'next';
  
 export const metadata: Metadata = {
-  title: 'Johar Basket',
+  title: 'Quick as a Click | Johar Basket',
   description: 'Buy groceries, cosmetics, stationaries.',
 };
 export default function RootLayout({
@@ -18,8 +18,7 @@ export default function RootLayout({
         <StoreProvider>
           <Navbar />
           {children}
-        </StoreProvider>
-       
+        </StoreProvider>       
       </body>
     </html>
   );

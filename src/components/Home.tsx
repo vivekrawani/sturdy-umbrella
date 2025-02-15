@@ -43,8 +43,8 @@ const Home: React.FC = () => {
 
           <p className="text-sm mt-2 opacity-80 text-center sm:text-left">
             By signing up, you agree to our{" "}
-            <a href="#" className="underline text-black">Terms and Conditions</a> and{" "}
-            <a href="#" className="underline text-black">Privacy Policy</a>.
+            <a href="/Terms-and-conditions" className="underline text-black">Terms and Conditions</a> and{" "}
+            <a href="/Privacy-policy" className="underline text-black">Privacy Policy</a>.
           </p>
         </div>
       </div>

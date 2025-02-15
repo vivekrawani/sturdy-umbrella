@@ -38,7 +38,7 @@ const Team = () => {
           description:
             "Rachit Goyal is the backbone of Johar Basket’s app development, ensuring a seamless and user-friendly experience for customers.",
           twitter: "",
-          linkedin: "",
+          linkedin: "https://www.linkedin.com/in/rachit-goyal-640b89247",
         },
         {
           name: "Hridyansh Awasthi",
