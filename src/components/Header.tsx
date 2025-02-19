@@ -48,7 +48,7 @@ const Header: React.FC = () => {
             }`}>
             johar basket for partner
           </p>
-        </Link>
+        </Link>git 
         <Link href="/bussiness-with-johar-basket" className="hidden lg:block">
           <p className={`h-full flex items-center transition-all ease-in-out text-lg hover:text-orange-500 ${
               pathname === "/bussiness-with-johar-basket" ? "text-orange-400 underline hover:text-orange-400" : "text-black"

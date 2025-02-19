@@ -14,7 +14,7 @@ const Team = () => {
           description:
             "Siddharth Nayak is the driving force behind Johar Basket. He focuses on procuring high-quality products at the best prices, efficiently managing inventory, and overseeing overall operations to ensure smooth business growth. His strategic vision and leadership help in expanding the company while maintaining excellent service for customers.",
           twitter: "",
-          linkedin: "https://www.linkedin.com/in/siddharth-nayak-190895332/",
+          linkedin: "https://www.linkedin.com/in/siddharth-nayak-190895332/", 
         },
         {
           name: "Aman Kumar",
