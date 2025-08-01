@@ -31,7 +31,7 @@ const page = () => {
           <Phone className="text-teal-700 w-10 h-10" />
           <h3 className="font-bold text-lg mt-3">Call Us</h3>
           <p className="text-gray-800 mt-1">Need immediate assistance? Call us at</p>
-          <p className="font-bold text-black">+91 99291 56240</p>
+          <p className="font-bold text-black">+919258917455</p>
         </div>
 
         {/* Visit */}
